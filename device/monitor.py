@@ -7,5 +7,5 @@ sensor = board.pins['A0']
 sensor.mode = 'ANALOG'
 
 while True:
-    print sensor.value()
-    time.sleep()
+    print sensor.value
+    time.sleep(1)
