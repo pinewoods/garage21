@@ -1,9 +1,12 @@
 import sqlite3
 
 from flask import Flask
+from flask import request
+from flask import Response
 from flask import jsonify
 
 app = Flask(__name__)
+app.debug = True
 
 class DataBaseWrapper():
     def __init__(self, db_file='db.sqlite3'):
@@ -16,21 +19,32 @@ class DataBaseWrapper():
     #c.execute()
     #conn.commit()
 
-mydb = DataBaseWrapper()
 
 @app.route("/", methods=["GET"])
 def get_reading():
-    query = 'SELECT * FROM sensor_data_sensorreading;'
-    mydb.cursor.execute(query % reading)
+    mydb = DataBaseWrapper()
+    query = 'SELECT * FROM sensor_data;'
+    mydb.cursor.execute(query)
     list_readings = mydb.cursor.fetchall()
-    return jsonify(list_readings)
+    dict_response = [
+            {'timestamp': r[2],
+             'reading': r[1]
+            }  for r in list_readings]
+
+    resp = Response(response=str(dict_response),
+                    status=200,
+                    mimetype="application/json")
+    return resp
 
 @app.route("/", methods=["POST"])
 def post_reading():
-    reading = request.form['reading']
-    query = 'INSERT INTO sensor_data_sensorreading (reading) VALUE (%s)'
+    mydb = DataBaseWrapper()
+    # Post Request Example: http://127.0.0.1:5000/?reading=1234
+    reading = request.args.get('reading')
+    query = 'INSERT INTO sensor_data (reading) VALUES (%s);'
     mydb.cursor.execute(query % reading)
+    mydb.connection.commit()
     return '{"status": "ok"}'
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
