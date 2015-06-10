@@ -6,6 +6,7 @@ from flask import Response
 from flask import jsonify
 
 app = Flask(__name__)
+app.static_url_path=''
 app.debug = True
 
 class DataBaseWrapper():
@@ -19,8 +20,11 @@ class DataBaseWrapper():
     #c.execute()
     #conn.commit()
 
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
 
-@app.route("/", methods=["GET"])
+@app.route("/api", methods=["GET"])
 def get_reading():
     mydb = DataBaseWrapper()
     query = 'SELECT * FROM sensor_data;'
@@ -36,7 +40,7 @@ def get_reading():
                     mimetype="application/json")
     return resp
 
-@app.route("/", methods=["POST"])
+@app.route("/api", methods=["POST"])
 def post_reading():
     mydb = DataBaseWrapper()
     # Post Request Example: http://127.0.0.1:5000/?reading=1234
