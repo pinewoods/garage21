@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import sqlite3
 
 from flask import Flask
@@ -27,11 +29,10 @@ class DataBaseWrapper():
 
 @app.route('/')
 def root():
-    with open('index.html', 'r') as fp:
-        resp = Response(response=fp.read(),
-                    status=200)
+    with open('index.html', 'r', encoding='utf-8') as fp:
+        html = response=fp.read()
+    resp = Response(html, status=200)
     return resp
-
 
 @app.route('/api', methods=['GET'])
 def get_reading():
