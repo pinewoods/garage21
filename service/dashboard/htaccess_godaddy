@@ -1,4 +1,3 @@
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$
-/home/scholarisadmin/public_html/ws/garage21/service/dashboard/garage21_godaddy.cgi/$1 [L]
+RewriteRule ^(.*)$ /home/scholarisadmin/public_html/ws/garage21/service/dashboard/garage21_godaddy.cgi/$1 [L]

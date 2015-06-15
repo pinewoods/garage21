@@ -20,7 +20,7 @@ trigPin.write(1)
 time.sleep(0.00001)
 trigPin.write(0)
 
-while echoPin.Read() == 0:
+while echoPin.read() == 0:
     time.sleep(0)
 
     pulseOn = time.time()
