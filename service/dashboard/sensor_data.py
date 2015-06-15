@@ -20,11 +20,20 @@ class DataBaseWrapper():
     #c.execute()
     #conn.commit()
 
+#@app.route('/')
+#def root():
+#    print('foobar')
+#    return app.send_static_file('index.html')
+
 @app.route('/')
 def root():
-    return app.send_static_file('index.html')
+    with open('index.html', 'r') as fp:
+        resp = Response(response=fp.read(),
+                    status=200)
+    return resp
 
-@app.route("/api", methods=["GET"])
+
+@app.route('/api', methods=['GET'])
 def get_reading():
     mydb = DataBaseWrapper()
     query = 'SELECT * FROM sensor_data;'
@@ -37,10 +46,10 @@ def get_reading():
 
     resp = Response(response=str(dict_response),
                     status=200,
-                    mimetype="application/json")
+                    mimetype='application/json')
     return resp
 
-@app.route("/api", methods=["POST"])
+@app.route('/api', methods=['POST'])
 def post_reading():
     mydb = DataBaseWrapper()
     # Post Request Example: http://127.0.0.1:5000/?reading=1234
@@ -50,5 +59,5 @@ def post_reading():
     mydb.connection.commit()
     return '{"status": "ok"}'
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
