@@ -1,59 +1,71 @@
-var graph = new Array();
+  var graph = new Array();
 
+            $(function () {
+                $('#container').highcharts({
+                    chart: {
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: 'Quantidade de Água disponível ao longo do Tempo'
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            'Click and drag in the plot area to zoom in' :
+                            'Pinch the chart to zoom in'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        minRange: 14 * 24 * 3600000 // fourteen days
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Nível da Caixa'
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        area: {
+                            fillColor: {
+                                linearGradient: {
+                                    x1: 0,
+                                    y1: 0,
+                                    x2: 0,
+                                    y2: 1
+                                },
+                                stops: [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]
+                            },
+                            marker: {
+                                radius: 2
+                            },
+                            lineWidth: 1,
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            },
+                            threshold: null
+                        }
+                    },
+                    series: [{
+                        type: 'area',
+                        name: "Nível D'agua",
+                        pointInterval: 24 * 3600 * 1000,
+                        pointStart: Date.UTC(2015, 0, 1),
+                        data: []
+                    }]
+                });
 
-$(function () {
-    $('#container').highcharts({
-        chart: {
-            type: 'spline'
-        },
-        title: {
-            text: 'Disponibilidade de Água'
-        },
-        subtitle: {
-            text: 'Quantidade disponível ao longo do Tempo'
-        },
-        xAxis: {
-            type: 'datetime',
-            dateTimeLabelFormats: { // don't display the dummy year
-                month: '%e. %b',
-                year: '%b'
-            },
-            title: {
-                text: 'Período'
-            }
-        },
-        yAxis: {
-            title: {
-                text: 'Nível do Reservatório'
-            },
-            min: 0
-        },
-        tooltip: {
-            headerFormat: '<b>{series.name}</b><br>',
-            pointFormat: '{point.x:%e. %b}: {point.y:.2f} m'
-        },
+                $.getJSON("http://ws.pinewoods.com.br/api", function(data){ 
 
-        plotOptions: {
-            spline: {
-                marker: {
-                    enabled: true
-                }
-            }
-        },
+                    $.each(data, function(i, item){
+                            graph.push(item.reading);
+                    });
+                    $('#container').highcharts().series[0].setData(graph);
+                });
 
-        series: [{
-            name: 'Volume',
-            // Define the data points. All series have a dummy year
-            // of 1970/71 in order to be compared on the same x axis. Note
-            // that in JavaScript, months start at 0 for January, 1 for February etc.
-            data: []
-        }]
-    });
-    $.getJSON("http://ws.pinewoods.com.br/api", function(data){ 
-        $.each(data, function(i, item){
-                graph.push([item.timestamp,item.reading]);
-        });
-        $('#container').highcharts().series[0].setData(graph);
-    });
-
-});
+            });
