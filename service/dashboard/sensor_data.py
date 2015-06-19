@@ -45,7 +45,7 @@ def get_reading():
              "reading": r[1]
             }  for r in list_readings]
 
-    resp = Response(response=str(dict_response),
+    resp = Response(response=str(dict_response).replace("'",'"'),
                     status=200,
                     mimetype='application/json')
     return resp
