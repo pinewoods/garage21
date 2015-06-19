@@ -41,8 +41,8 @@ def get_reading():
     mydb.cursor.execute(query)
     list_readings = mydb.cursor.fetchall()
     dict_response = [
-            {'timestamp': r[2],
-             'reading': r[1]
+            {"timestamp": r[2],
+             "reading": r[1]
             }  for r in list_readings]
 
     resp = Response(response=str(dict_response),
