@@ -28,6 +28,7 @@
                         dateTimeLabelFormats: { // don't display the dummy year
                             month: '%e. %b',
                             year: '%b'
+
                         },
                         title: {
                             text: 'Período'
@@ -62,7 +63,7 @@
                 });
                 $.getJSON("http://ws.pinewoods.com.br/api", function(data){ 
                     $.each(data, function(i, item){
-                            graph.push([item.timestamp,item.reading]);
+                            graph.push([Date.parse(item.timestamp),item.reading]);
                     });
                     $('#container').highcharts().series[0].setData(graph);
                 });
