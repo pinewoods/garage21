@@ -1,5 +1,7 @@
 import time
 import requests
+
+import mraa
 import pyupm_i2clcd as lcd
 
 pin = mraa.Aio(0)
@@ -24,7 +26,7 @@ while True:
     print sensor
 
     myLcd.setCursor(1, 0)
-    nivel = 'Nivel: %d' % int((1.0/reading-0.42))
+    nivel = 'Nivel: %.2f' % (1.0/reading-0.42))
     myLcd.write(nivel)
     print nivel
 
