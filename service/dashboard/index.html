@@ -25,12 +25,10 @@
                     },
                     xAxis: {
                         type: 'datetime',
-                        minRange:15000,
-                        /*dateTimeLabelFormats: { // don't display the dummy year
+                        dateTimeLabelFormats: { // don't display the dummy year
                             month: '%e. %b',
                             year: '%b'
-
-                        },*/
+                        },
                         title: {
                             text: 'Período'
                         }
@@ -56,22 +54,17 @@
 
                     series: [{
                         name: 'Volume',
-                        pointStart: Date.UTC(new Date().getYear(), new Date().getMonth(),1),
-                        // Define the data points. All series have a dummy year
-                        // of 1970/71 in order to be compared on the same x axis. Note
-                        // that in JavaScript, months start at 0 for January, 1 for February etc.
-                        data:[]
-                        
+                        data: []
                     }]
                 });
                 $.getJSON("http://ws.pinewoods.com.br/api", function(data){ 
                     $.each(data, function(i, item){
-                            graph.push([Date.parse(item.timestamp),item.reading]);
+                            graph.push([item.timestamp,item.reading]);
                     });
                     $('#container').highcharts().series[0].setData(graph);
                 });
 
-            });            
+            });        
         </script>
 </head>
     <body>
