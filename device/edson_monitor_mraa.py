@@ -1,4 +1,6 @@
 import time
+import math
+
 import requests
 
 import mraa
@@ -26,7 +28,10 @@ while True:
     print sensor
 
     myLcd.setCursor(1, 0)
-    nivel = 'Nivel: %.2f' % (1.0/reading+0.42)
+    distance = 87.09576644*math.exp(-0.004870217643*reading)
+    tank = 26.0
+    level = (tank-distance)/tank
+    nivel = 'Nivel: %.2f %%' % level*100.0
     myLcd.write(nivel)
     print nivel
 
