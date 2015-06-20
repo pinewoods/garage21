@@ -69,6 +69,7 @@
                                 data.getUTCDate());
                             graph.push([data,item.reading]);
                     });
+                    $('#container').highcharts().series[0].update({ pointStart: graph[0][0] });
                     $('#container').highcharts().series[0].setData(graph);
                 }); 
         });
