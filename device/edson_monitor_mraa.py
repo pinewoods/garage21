@@ -26,8 +26,8 @@ while True:
     print sensor
 
     myLcd.setCursor(1, 0)
-    nivel = 'Nivel: %.2f' % (1.0/reading-0.42))
+    nivel = 'Nivel: %.2f' % (1.0/reading+0.42)
     myLcd.write(nivel)
     print nivel
 
-    time.sleep(15)
+    time.sleep(10)
