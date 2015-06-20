@@ -13,7 +13,7 @@ while True:
     reading = 0
     try:
         reading = pin.read()
-        requests.post(url %)
+        requests.post(url % reading)
         #requests.post(url % 666)  # Debug
     except Exception as e:
         print e
