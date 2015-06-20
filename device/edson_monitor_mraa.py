@@ -35,6 +35,7 @@ while True:
     #distance = 87.09576644*math.exp(-0.004870217643*reading)
     level = ratio(reading)
     myLcd.write('                ') # clean
+    myLcd.setCursor(1, 0)
     nivel = 'Nivel: %.2f %%' % (level)
     myLcd.write(nivel)
     print nivel
