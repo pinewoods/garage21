@@ -63,10 +63,10 @@
 
                 $.getJSON("http://ws.pinewoods.com.br/api", function(data){ 
                     $.each(data, function(i, item){
-                            var data = Date.parse(item.timestamp);
+                            var data = new Date(item.timestamp);
                             var dataUTC = Date.UTC(data.getUTCFullYear(),
-                                data.getMonth(),
-                                data.getDay());
+                                data.getMonth()+1,
+                                data.getUTCDate());
                             graph.push([data,item.reading]);
                     });
                     $('#container').highcharts().series[0].setData(graph);
