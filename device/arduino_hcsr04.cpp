@@ -16,8 +16,8 @@ int writeFile (char* string){
 #define trigPin 8 // Trigger Pin
 #define LEDPin 13 // Onboard LED
 
-#define UPDATE_RATE 15000
-#define DEBUG
+#define UPDATE_RATE 250
+//#define DEBUG
 
 void blink(long duration){
     digitalWrite(LEDPin, LOW);
@@ -53,15 +53,15 @@ void loop() {
 
     // Echo
     long duration = pulseIn(echoPin, HIGH);
-    blink(duration)
+    blink(duration);
 
     // Output
     char ascii_buffer[8] = "";
-    sprintf(ascii_buffer, "%d", sensor);
+    sprintf(ascii_buffer, "%d", duration);
     
     #ifdef DEBUG
         Serial.println(duration);
-        delay(250);
+        delay(UPDATE_RATE);
     #else
         unsigned long currentMillis = millis();
         if(currentMillis - previousMillis > UPDATE_RATE) {
