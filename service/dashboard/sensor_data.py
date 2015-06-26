@@ -54,7 +54,7 @@ def get_reading():
 def post_reading():
     mydb = DataBaseWrapper()
     # Post Request Example: http://127.0.0.1:5000/?reading=1234
-    reading = request.args.get('reading')
+    reading = request.form.get('reading')
     query = 'INSERT INTO sensor_data (reading) VALUES (%s);'
     mydb.cursor.execute(query % reading)
     mydb.connection.commit()
