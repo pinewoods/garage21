@@ -4,7 +4,7 @@ import urllib2
 
 while True:
     with open('/tmp/arduino.txt','r') as fp:
-        value = int(fp.read().strip())
+        value = int(fp.read().strip('\0'))
         print value
     try:
         url = 'http://ws.pinewoods.com.br/api'
