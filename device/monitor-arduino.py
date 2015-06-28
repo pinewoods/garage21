@@ -25,7 +25,6 @@ while True:
             fp.write('last:%s\nstatus: %s\n' % (str(st), str(r)))
     except Exception as e:
         with open('/tmp/monitor.txt','w') as fp:
-            r = response.getcode()
             st = datetime.datetime.fromtimestamp(
                 time.time()).strftime(
                 '%Y-%m-%d %H:%M:%S')
