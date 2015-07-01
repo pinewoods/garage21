@@ -11,7 +11,7 @@
         <script type="text/javascript">
             var graph = new Array();
 
-            $(function () {  
+            $(function () {
                 $('#container').highcharts({
                     chart: {
                         type: 'spline'
@@ -43,7 +43,6 @@
                         headerFormat: '<b>{series.name}</b><br>',
                         pointFormat: '{point.x:%e-%b}: {point.y} %'
                     },
-                    
                     plotOptions: {
                         spline: {
                             marker: {
@@ -51,15 +50,14 @@
                             }
                         }
                     },
-                    
                     series: [{
                         name: 'Volume',
                         data: []
                     }]
-                   
                 });
 
-                $.getJSON("http://ws.pinewoods.com.br/api", function(data){ 
+                // $.getJSON("http://ws.pinewoods.com.br/api", function(data){ 
+                $.getJSON("localhost:5000/api/day", function(data){
                     $.each(data, function(i, item){
                             var data = new Date(item.timestamp);
                             var dataUTC = Date.UTC(data.getUTCFullYear(),
@@ -69,7 +67,7 @@
                     });
                     $('#container').highcharts().options.plotOptions.column.pointStart = graph[0][0];
                     $('#container').highcharts().series[0].setData(graph);
-                }); 
+                });
         });
         </script>
 </head>
