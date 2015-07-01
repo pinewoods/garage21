@@ -57,7 +57,7 @@
                 });
 
                 // $.getJSON("http://ws.pinewoods.com.br/api", function(data){ 
-                $.getJSON("localhost:5000/api/day", function(data){
+                $.getJSON("http://localhost:5000/api/day", function(data){
                     $.each(data, function(i, item){
                             var data = new Date(item.timestamp);
                             var dataUTC = Date.UTC(data.getUTCFullYear(),
