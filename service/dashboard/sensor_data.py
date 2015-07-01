@@ -34,15 +34,56 @@ def root():
     resp = Response(html, status=200)
     return resp
 
-@app.route('/api', methods=['GET'])
-def get_reading():
+# constant sound speed: us per cm
+k = 29.104
+
+# total height in centimeters
+total_height = 50.
+
+# air gap level when the tank is full in centimeters
+full_airgap = 50. - 29.
+
+water_level = lambda h: ((total_height - float(h)) /
+        (total_height - full_airgap))
+
+
+#@app.route('/api', methods=['GET'])
+#def get_reading():
+#    mydb = DataBaseWrapper()
+#    query = 'SELECT * FROM sensor_data;'
+#    mydb.cursor.execute(query)
+#    list_readings = mydb.cursor.fetchall()
+#    dict_response = [
+#            {"timestamp": r[2],
+#             "reading": r[1],
+#             "water_level": water_level(r[1])
+#            }  for r in list_readings]
+#
+#    resp = Response(response=str(dict_response).replace("'",'"'),
+#                    status=200,
+#                    mimetype='application/json')
+#    return resp
+
+@app.route('/api/<interval>', methods=['GET'])
+def get_reading_month(interval='day'):
+
     mydb = DataBaseWrapper()
-    query = 'SELECT * FROM sensor_data;'
+    if interval == 'day':
+        query = "SELECT * FROM sensor_data WHERE time_point BETWEEN datetime('now', \
+                    '-1 days') AND datetime('now', 'localtime');"
+    if interval == 'week':
+        query = "SELECT * FROM sensor_data WHERE time_point BETWEEN datetime('now', \
+                    '-6 days') AND datetime('now', 'localtime');"
+    if interval == 'month':
+        query = "SELECT * FROM sensor_data WHERE time_point BETWEEN datetime('now', \
+                    '-30 days') AND datetime('now', 'localtime');"
+
     mydb.cursor.execute(query)
     list_readings = mydb.cursor.fetchall()
     dict_response = [
             {"timestamp": r[2],
-             "reading": r[1]
+             "reading": r[1],
+             "water_level": water_level(r[1])
             }  for r in list_readings]
 
     resp = Response(response=str(dict_response).replace("'",'"'),
