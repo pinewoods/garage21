@@ -41,7 +41,7 @@ k = 29.104
 total_height = 50.
 
 # air gap level when the tank is full in centimeters
-full_airgap = 50. - 29.
+full_airgap = 20.7
 
 water_level = lambda h: ((total_height - float(h/(k*2))) /
         (total_height - full_airgap))
