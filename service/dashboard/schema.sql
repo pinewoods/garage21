@@ -2,4 +2,12 @@ CREATE TABLE sensor_data (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     reading INTEGER,
     time_point TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+    tank_id INTEGER,
+    FOREIGN KEY(tank_id) REFERENCES water_tank(id)
+);
+
+CREATE TABLE water_tank (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    total_height FLOAT,
+    air_gap FLOAT
 );

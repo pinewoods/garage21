@@ -80,6 +80,7 @@ def get_reading_month(interval='day'):
 
     mydb.cursor.execute(query)
     list_readings = mydb.cursor.fetchall()
+
     dict_response = [
             {"timestamp": r[2],
              "reading": r[1],
