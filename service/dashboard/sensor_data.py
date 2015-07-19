@@ -93,7 +93,7 @@ def get_reading_month(interval='day'):
         list_readings = mydb.cursor.fetchall()[::4*10]
 
     dict_response = [
-            {"timestamp": r[2].replace('', T) + "+00:00",
+            {"timestamp": r[2].replace('', 'T') + "+00:00",
              "reading": r[1],
              "water_level": water_level(r[1])
             }  for r in list_readings]
