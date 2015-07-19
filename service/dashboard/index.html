@@ -77,7 +77,7 @@
                     }]
                 });
 
-                $.getJSON("http://ws.pinewoods.com.br/api", function(data){ 
+                $.getJSON("http://ws.pinewoods.com.br/api/month", function(data){ 
                 //$.getJSON("http://localhost:5000/api/month", function(data){
                     $.each(data, function(i, item){
                             var data = new Date(item.timestamp);
