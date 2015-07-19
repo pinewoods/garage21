@@ -14,20 +14,17 @@
             $(function () {
                 $('#container').highcharts({
                     chart: {
-                        type: 'spline'
+                        zoomType: 'x'
                     },
                     title: {
-                        text: 'Disponibilidade de Água'
+                        text: 'Água Disponível'
                     },
                     subtitle: {
-                        text: 'Quantidade disponível ao longo do Tempo'
+                        text: 'Histórico de disponibilidade de água'
                     },
                     xAxis: {
                         type: 'datetime',
-                        dateTimeLabelFormats: { 
-                            month: '%e - %b',
-                            year: '%b'
-                        },
+                        allowDecimals: false,
                         title: {
                             text: 'Período'
                         }
@@ -37,35 +34,58 @@
                             text: 'Nível do Reservatório'
                         },
                         min: 0,
-                        max:150
+                        max:125
                     },
                     tooltip: {
                         headerFormat: '<b>{series.name}</b><br>',
-                        pointFormat: '{point.x:%e-%b}: {point.y} %'
+                        pointFormat: 'Dia {point.x} {point.y:,.2f} %'
+                    },
+                    legend: {
+                                    enabled: false
                     },
                     plotOptions: {
-                        spline: {
-                            marker: {
-                                enabled: true
+                        area: {
+                                pointStart: 1,
+                                fillColor: {
+                                    linearGradient: {
+                                        x1: 0,
+                                        y1: 0,
+                                        x2: 0,
+                                        y2: 1
+                                    },
+                                    stops: [
+                                        [0, Highcharts.getOptions().colors[0]],
+                                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                    ]
+                                },
+                                marker: {
+                                    radius: 2
+                                },
+                                lineWidth: 1,
+                                states: {
+                                    hover: {
+                                        lineWidth: 1
+                                    }
+                                },
+                                threshold: null
                             }
-                        }
                     },
                     series: [{
+                        type: 'area',
                         name: 'Volume',
                         data: []
                     }]
                 });
 
                 // $.getJSON("http://ws.pinewoods.com.br/api", function(data){ 
-                $.getJSON("http://localhost:5000/api/day", function(data){
+                $.getJSON("http://localhost:5000/api/month", function(data){
                     $.each(data, function(i, item){
                             var data = new Date(item.timestamp);
                             var dataUTC = Date.UTC(data.getUTCFullYear(),
                                 data.getMonth()+1,
                                 data.getUTCDate());
-                            graph.push([data,item.reading]);
+                            graph.push([data,item.water_level*100]);
                     });
-                    $('#container').highcharts().options.plotOptions.column.pointStart = graph[0][0];
                     $('#container').highcharts().series[0].setData(graph);
                 });
         });
