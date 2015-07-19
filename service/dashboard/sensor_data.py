@@ -71,15 +71,20 @@ def get_reading_month(interval='day'):
     if interval == 'day':
         query = "SELECT * FROM sensor_data WHERE time_point BETWEEN datetime('now', \
                     '-1 days') AND datetime('now', 'localtime');"
+        mydb.cursor.execute(query)
+        list_readings = mydb.cursor.fetchall()
+
     if interval == 'week':
         query = "SELECT * FROM sensor_data WHERE time_point BETWEEN datetime('now', \
                     '-6 days') AND datetime('now', 'localtime');"
+        mydb.cursor.execute(query)
+        list_readings = mydb.cursor.fetchall()[::4]
+
     if interval == 'month':
         query = "SELECT * FROM sensor_data WHERE time_point BETWEEN datetime('now', \
                     '-30 days') AND datetime('now', 'localtime');"
-
-    mydb.cursor.execute(query)
-    list_readings = mydb.cursor.fetchall()
+        mydb.cursor.execute(query)
+        list_readings = mydb.cursor.fetchall()[::4*10]
 
     dict_response = [
             {"timestamp": r[2],
