@@ -36,10 +36,6 @@
                         min: 0,
                         max:125
                     },
-                    tooltip: {
-                        headerFormat: '<b>{series.name}</b><br>',
-                        pointFormat: 'Dia {point.x} {point.y:,.2f} %'
-                    },
                     legend: {
                                     enabled: false
                     },
@@ -82,9 +78,9 @@
                     $.each(data, function(i, item){
                             var data = new Date(item.timestamp);
                             var dataUTC = Date.UTC(data.getUTCFullYear(),
-                                data.getMonth()+1,
-                                data.getUTCDate());
-                            graph.push([data,item.water_level*100]);
+                                data.getMonth(),
+                                data.getDate());
+                            graph.push([dataUTC,item.water_level*100]);
                     });
                     $('#container').highcharts().series[0].setData(graph);
                 });
