@@ -68,6 +68,12 @@ water_level = lambda h: ((total_height - float(h/(k*2))) /
 def get_reading_month(interval='day'):
 
     mydb = DataBaseWrapper()
+
+    if interval == 'last':
+        query = "SELECT * FROM sensor_data ORDER BY id DESC LIMIT 1"
+        mydb.cursor.execute(query)
+        list_readings = mydb.cursor.fetchall()
+
     if interval == 'day':
         query = "SELECT * FROM sensor_data WHERE time_point BETWEEN datetime('now', \
                     '-1 days') AND datetime('now', 'localtime');"
