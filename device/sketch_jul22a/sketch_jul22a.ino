@@ -1,15 +1,10 @@
-/*
-   YF-S201 Hall Effect Water Flow Meter / Sensor
-   http://www.hobbytronics.co.uk/yf-s201-water-flow-meter
-   
-   Read Water Flow Meter and output reading in litres/hour
-
-*/
+//#define ARDUINO
+#define EDISON
 
 volatile int  flow_frequency;  // Measures flow meter pulses
 float  l_hour;            // Calculated litres/hour                      
 float  total=0;            // litres                      
-unsigned char flowmeter = 3;  // Flow Meter Pin number
+unsigned char flowmeter = 0;  // Flow Meter Pin number
 unsigned long currentTime;
 unsigned long cloopTime;
 
@@ -19,10 +14,11 @@ void flow ()                  // Interruot function
 } 
 
 void printDouble( double val, unsigned int precision){
-// prints val with number of decimal places determine by precision
-// NOTE: precision is 1 followed by the number of zeros for the desired number of decimial places
-// example: printDouble( 3.1415, 100); // prints 3.14 (two decimal places)
-
+    /*
+       prints val with number of decimal places determine by precision
+       NOTE: precision is 1 followed by the number of zeros for the desired number of decimial places
+       example: printDouble( 3.1415, 100); // prints 3.14 (two decimal places)
+    */
     Serial.print (int(val));  //prints the int part
     Serial.print("."); // print the decimal point
     unsigned int frac;
@@ -35,11 +31,20 @@ void printDouble( double val, unsigned int precision){
 
 void setup()
 { 
-   pinMode(flowmeter, INPUT);
    Serial.begin(9600); 
-   attachInterrupt(1, flow, RISING); // Setup Interrupt 
-                                     // see http://arduino.cc/en/Reference/attachInterrupt
-   sei();                            // Enable interrupts  
+
+   #ifdef EDISON
+       flowmeter = 12;
+       pinMode(12, INPUT);
+       attachInterrupt(12, flow, RISING); // Setup Interrupt
+   #else
+      flowmeter = 3;
+      pinMode(flowmeter, INPUT);
+       // see http://arduino.cc/en/Reference/attachInterrupt
+       attachInterrupt(1, flow, RISING);
+       sei();                             // Enable interrupts
+   #endif
+
    currentTime = millis();
    cloopTime = currentTime;
 } 
@@ -67,7 +72,6 @@ void loop ()
       Serial.print("Total:");
       printDouble(total, 10);
       Serial.println("Liters");
-   
    }
 }
 
