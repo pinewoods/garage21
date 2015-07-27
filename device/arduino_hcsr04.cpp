@@ -12,6 +12,7 @@ int writeFile (char* string){
         return EXIT_FAILURE;
     }
 }
+
 #define echoPin 7 // Echo Pin
 #define trigPin 8 // Trigger Pin
 #define LEDPin 13 // Onboard LED
@@ -28,10 +29,10 @@ void blink(long duration){
 }
 
 void trigger(){
-    digitalWrite(trigPin, LOW); 
-    delayMicroseconds(2); 
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
     digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10); 
+    delayMicroseconds(10);
     digitalWrite(trigPin, LOW);
 
 }
@@ -45,7 +46,7 @@ void setup() {
     pinMode(LEDPin, OUTPUT);
 }
 
-long previousMillis = 0; 
+long previousMillis = 0;
 
 void loop() {
     // Trigger
@@ -58,14 +59,14 @@ void loop() {
     // Output
     char ascii_buffer[8] = "";
     sprintf(ascii_buffer, "%d", duration);
-    
+
     #ifdef DEBUG
         Serial.println(duration);
         delay(UPDATE_RATE);
     #else
         unsigned long currentMillis = millis();
         if(currentMillis - previousMillis > UPDATE_RATE) {
-            previousMillis = currentMillis; 
+            previousMillis = currentMillis;
             writeFile(ascii_buffer); // Write on FS
         }
     #endif
