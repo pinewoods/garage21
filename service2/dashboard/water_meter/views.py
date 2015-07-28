@@ -19,6 +19,3 @@ class ListWaterTanks(APIView):
         """
         us = [user.username for user in User.objects.all()]
         return Response(usernames)
-
-    def index(request):
-        return HttpResponse("Hello, world.")

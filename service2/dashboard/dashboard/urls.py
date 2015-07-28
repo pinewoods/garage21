@@ -17,7 +17,8 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-	url(r'^$', include('water_meter.urls')),
+	url(r'^$', include('pine_site.urls')),
+	url(r'^api/', include('water_meter.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
 ]
