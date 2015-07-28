@@ -82,7 +82,7 @@ void loop() {
     */
     trigger();
     duration = pulseIn(echoPin, HIGH);
-    distance = ((float) duration / 29.104);
+    distance = ((float) duration / (29.104 * 2.0));
 
     delay(UPDATE_RATE);
 
