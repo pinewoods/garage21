@@ -14,3 +14,8 @@ class Reading(models.Model):
     water_tank = models.ForeignKey(WaterTank, unique=False)
     timestamp = models.DateTimeField(auto_now_add=True, editable=False)
     sensor_reading = models.IntegerField(blank=False, editable=False)
+
+class Flow(models.Model):
+    water_tank = models.ForeignKey(WaterTank, unique=False)
+    timestamp = models.DateTimeField(auto_now_add=True, editable=False)
+    sensor_reading = models.IntegerField(blank=False, editable=False)

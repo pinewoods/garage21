@@ -2,7 +2,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 
-from water_meter import WaterTank
 
 class ListWaterTanks(APIView):
     """
@@ -20,3 +19,6 @@ class ListWaterTanks(APIView):
         """
         us = [user.username for user in User.objects.all()]
         return Response(usernames)
+
+    def index(request):
+        return HttpResponse("Hello, world.")
