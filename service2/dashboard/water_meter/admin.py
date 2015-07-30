@@ -4,5 +4,5 @@ from django.contrib import admin
 from . import models
 
 admin.site.register(models.WaterTank)
+admin.site.register(models.SensorType)
 admin.site.register(models.Reading)
-admin.site.register(models.Flow)

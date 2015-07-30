@@ -1,0 +1,31 @@
+[
+{
+    "fields": {
+        "air_gap": 10.0,
+        "description": "Garoa's Water Tank",
+        "total_height": 50.0,
+        "user": 1,
+        "device_key": ""
+    },
+    "pk": 1,
+    "model": "water_meter.watertank"
+},
+{
+    "fields": {
+        "description": "Ultrasonic Sensor",
+        "unit": "cm",
+        "code": "HC-SR04"
+    },
+    "pk": 1,
+    "model": "water_meter.sensortype"
+},
+{
+    "fields": {
+        "description": "Water Flow Sensor ",
+        "unit": "liters",
+        "code": "YF-S201"
+    },
+    "pk": 2,
+    "model": "water_meter.sensortype"
+},
+]

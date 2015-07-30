@@ -1,21 +1,34 @@
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import authentication, permissions
+# from rest_framework import authentication, permissions
 
+from .models import  Reading
+from .models import  SensorType
+from .models import  WaterTank
 
-class ListWaterTanks(APIView):
-    """
-    View to list all users in the system.
+class ViewReadings(APIView):
+    #authentication_classes = (authentication.TokenAuthentication,)
+    #permission_classes = (permissions.IsAdminUser,)
 
-    * Requires token authentication.
-    * Only admin users are able to access this view.
-    """
-    authentication_classes = (authentication.TokenAuthentication,)
-    permission_classes = (permissions.IsAdminUser,)
-
-    def get(self, request, format=None):
+    def post(self, request, format=None):
         """
-        Return a list of all users.
+        Recives data from sensors.
         """
-        us = [user.username for user in User.objects.all()]
-        return Response(usernames)
+        wt = WaterTank.objects.get(pk=1)
+
+        level_reading = Reading(
+                sensor_reading=request.data['echo'],
+                sensor_type=SensorType.objects.get(pk=1),
+                water_tank=wt)
+
+        flow_reading = Reading(
+                sensor_reading=request.data['total_liters'],
+                sensor_type=SensorType.objects.get(pk=2),
+                water_tank=wt)
+
+        level_reading.save()
+        flow_reading.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
