@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'water_meter',
-    'pine_site'
+    'website'
 )
 
 MIDDLEWARE_CLASSES = (

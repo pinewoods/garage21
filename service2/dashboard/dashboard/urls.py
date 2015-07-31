@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth.views import login
 
 urlpatterns = [
-	url(r'^$', include('pine_site.urls')),
-	url(r'^api/', include('water_meter.urls')),
+    url(r'^$', include('website.urls')),
+    url(r'^accounts/login/', login, {'template_name': 'admin/login.html'}),
+    url(r'^api/', include('water_meter.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
 ]
