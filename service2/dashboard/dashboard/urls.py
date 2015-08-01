@@ -16,10 +16,14 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.views import login
+from django.contrib.auth.views import logout
 
 urlpatterns = [
     url(r'^$', include('website.urls')),
-    url(r'^accounts/login/', login, {'template_name': 'admin/login.html'}),
+    url(r'^accounts/login/', login,
+        {'template_name': 'admin/login.html'}, name='login'),
+    url(r'^accounts/logout/', logout,
+        {'next_page': '/accounts/login'}, name='logout'),
     url(r'^api/', include('water_meter.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
