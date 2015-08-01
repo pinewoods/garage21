@@ -1,11 +1,164 @@
+{% load staticfiles %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Pinewoods</title>
-        {% block head_block %}{% endblock head_block %}
-    </head>
-    <body>
-        {% block body_block %}{% endblock body_block %}
-    </body>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Pinewoods - Dashboard</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static "website/css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static "website/css/sb-admin.css" %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static "website/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+
+    {% block style-block %}
+    {% endblock style-block %}
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Pinewoods</a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+               {% block alerts-block %}
+               <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu alert-dropdown">
+                        <li class="divider"></li>
+                        <li><a href="#">Nenhum Alerta</a></li>
+                    </ul>
+                </li>
+               {% endblock alerts-block %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle"
+                        data-toggle="dropdown"><i class="fa fa-user"></i> Lucas Vido<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                         <li>
+                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            {% block sidebar-block %}
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            {% with active_menu="" %}
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li {% if active_menu == "dashboard" %} class="active" {% endif %}>
+                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    <li {% if active_menu == "goals" %} class="active" {% endif %}>
+                        <a href="goals.html"><i class="fa fa-fw fa-bar-chart-o"></i> Definir Metas</a>
+                    </li>
+                    <li {% if active_menu == "support" %} class="active" {% endif %}>
+                        <a href="support.html"><i class="fa fa-fw fa-wrench"></i> Suporte Técnico</a>
+                    </li>
+                    <li {% if active_menu == "supply" %} class="active" {% endif %}>
+                        <a href="supply.html"><i class="fa fa-fw fa-edit"></i> Fornecedores</a>
+                    </li>
+                    <li {% if active_menu == "historic" %} class="active" {% endif %}>
+                        <a href="historic.html"><i class="fa fa-fw fa-file"></i> Histórico</a>
+                    </li>
+                    <li {% if active_menu == "data" %} class="active" {% endif %}>
+                        <a href="data.html"><i class="fa fa-fw fa-table"></i> Dados</a>
+                    </li>
+                </ul>
+            </div>
+            {% endwith %}
+            <!--{% comment %}
+                To extend this template, and highlight the menu:
+
+                {% block sidebar-block %}
+                    {% with active_menu="dashboard" %}
+                        {{ block.super }}
+                    {% endwith %}
+                {% endblock sidebar-block %}
+
+            {% endcomment %}-->
+            <!-- /.navbar-collapse -->
+            {% endblock sidebar-block %}
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                {% block page-header-block %}
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Blank Page
+                            <small>Subheading</small>
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-file"></i> Blank Page
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                {% endblock page-header-block %}
+
+                {% block container-fluid-block %}
+                <!-- /.row -->
+                {% endblock container-fluid-block %}
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static "website/js/jquery.js" %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static "website/js/bootstrap.min.js" %}"></script>
+
+    {% block script-block %}
+    {% endblock script-block %}
+
+</body>
+
 </html>

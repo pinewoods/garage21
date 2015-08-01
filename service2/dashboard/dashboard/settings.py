@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '4soby131awem$2y-%m6c4d!2=d^a6xg5zzte7&umg!4o575v$-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -110,3 +110,9 @@ REST_FRAMEWORK = {
             ('rest_framework.permissions.IsAdminUser',),
     'PAGE_SIZE': 10
 }
+
+try:
+    from .local_settings import *
+except ImportError:
+    print("Fail to import local_settings")
+    pass
