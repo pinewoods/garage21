@@ -3,7 +3,7 @@ function water_goal_graph(meta, consumo){
 $(function () {
     $('#container').highcharts({
         title: {
-            text: 'Meta de Consumo de Água',
+            text: 'Meta de Consumo',
             x: -20 //center
         },
         subtitle: {
@@ -39,9 +39,11 @@ $(function () {
         },
         series: [{
             name: 'Meta',
-            data: [7.0, 6.9, 9.5, 14.5]
+            color: '#7CB5EC',
+            data: [7.0, 6.9, 9.5, 14.5],            
         }, {
             name: 'Consumido',
+            color: '#BA3C3D',
             data: [0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
         }]
     });
