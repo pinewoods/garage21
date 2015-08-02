@@ -8,8 +8,9 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 # from rest_framework import authentication, permissions
 
-from .models import  Reading
-from .models import  ReadingSerializer
+from .models import  YFS201Reading
+from .models import  HCSR04Reading
+from .models import  HCSR04ReadingSerializer
 from .models import  SensorType
 from .models import  WaterTank
 
@@ -23,12 +24,12 @@ class ViewReadings(APIView):
         """
         wt = WaterTank.objects.get(pk=1)
 
-        level_reading = Reading(
+        level_reading = HCSR04Reading(
                 sensor_reading=request.data['echo'],
                 sensor_type=SensorType.objects.get(pk=1),
                 water_tank=wt)
 
-        flow_reading = Reading(
+        flow_reading = YFS201Reading(
                 sensor_reading=request.data['total_liters'],
                 sensor_type=SensorType.objects.get(pk=2),
                 water_tank=wt)
@@ -42,7 +43,7 @@ class ViewReadings(APIView):
 class ViewCurrentTankLevel(RetrieveAPIView):
     st = SensorType.objects.get(code="HC-SR04")
     lookup_field = 'water_tank'
-    serializer_class = ReadingSerializer
+    serializer_class = HCSR04ReadingSerializer
 
     # Copied from Source ...
     def get_object(self):
@@ -70,7 +71,7 @@ class ViewCurrentTankLevel(RetrieveAPIView):
 
         # Modified... custom queryset
         try:
-            obj = Reading.objects.filter(
+            obj = HCSR04Reading.objects.filter(
                 sensor_type=self.st, **filter_kwargs
                 ).order_by('timestamp').last()
         except (TypeError, ValueError):
