@@ -18,4 +18,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.ViewReadings.as_view(), name='endpoint'),
+    url(r'^current-tank-level/(?P<water_tank>[0-9]+)/$',
+            views.ViewCurrentTankLevel.as_view(),
+            name='current-tank-level'),
 ]
