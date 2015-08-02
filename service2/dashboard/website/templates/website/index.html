@@ -1,6 +1,10 @@
 {% extends "website/base.html" %}
 {% load staticfiles %}
 
+{% block style-block %}
+     
+{% endblock style-block %}
+
 {% block body_block %}
     {% for tank in tanks %}
         <div id="div_tank_{{tank.pk}}">
@@ -36,6 +40,12 @@
 </div>
 {% endblock page-header-block %}
 
+{% block container-water-goal %}
+<div class="row">
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+</div>
+{% endblock container-water-goal %}
+
 {% block container-fluid-block %}
 
 <div class="row">
@@ -59,6 +69,22 @@
         config1.waveHeight = 0.05;
         config1.waveCount = 2.7;
         var gauge1 = loadLiquidFillGauge("fillgauge1", 50, config1);
+    </script>
+
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>   
+
+        <!-- water-goal.js -->
+    <script src="{% static "website/js/water-goal.js" %}"></script>
+
+    <script language="JavaScript">
+    meta = [];
+    consumo = [];
+    for (i = 0; i <= 31 ; i++) { 
+         meta[i] = 31 - i;
+         consumo[i] = meta[i] + 1;
+    }
+    water_goal_graph(meta, consumo);
     </script>
 
 {% endblock script-block %}

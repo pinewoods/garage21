@@ -7,13 +7,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Esta é uma aplicação para controle de consumo de água.">
+    <meta name="author" content="Pinewoods">
 
     <title>Pinewoods - Dashboard</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="{% static "website/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "website/css/bootstrap.css" %}" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="{% static "website/css/sb-admin.css" %}" rel="stylesheet">
@@ -135,8 +135,12 @@
                             </li>
                         </ol>
                     </div>
-                </div>
+                <5/div>
                 {% endblock page-header-block %}
+
+                {% block container-water-goal %}
+                <!-- /.row -->
+                {% endblock container-water-goal %}
 
                 {% block container-fluid-block %}
                 <!-- /.row -->
