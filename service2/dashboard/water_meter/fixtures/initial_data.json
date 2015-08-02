@@ -27,5 +27,5 @@
     },
     "pk": 2,
     "model": "water_meter.sensortype"
-},
+}
 ]
