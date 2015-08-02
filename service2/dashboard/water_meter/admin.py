@@ -5,4 +5,15 @@ from . import models
 
 admin.site.register(models.WaterTank)
 admin.site.register(models.SensorType)
-admin.site.register(models.Reading)
+
+class HCSR04ReadingAdmin(admin.ModelAdmin):
+    class Meta:
+        model = models.Reading
+
+admin.site.register(models.HCSR04Reading, HCSR04ReadingAdmin)
+
+class YFS201ReadingAdmin(admin.ModelAdmin):
+    class Meta:
+        model = models.Reading
+
+admin.site.register(models.YFS201Reading, YFS201ReadingAdmin)

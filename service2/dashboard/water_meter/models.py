@@ -16,32 +16,43 @@ class SensorType(models.Model):
     description = models.CharField(max_length=256, blank=True)
     unit = models.CharField(max_length=16, blank=False)
 
+    def __str__(self):
+        return self.code
+
 class SensorTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SensorType
         fields = ('code', 'unit')
 
 class Reading(models.Model):
+
+    class Meta:
+        abstract = True
+
     water_tank = models.ForeignKey(WaterTank, unique=False)
     sensor_type = models.ForeignKey(SensorType, unique=False, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True, editable=False)
-    sensor_reading = models.IntegerField(blank=False)
+    sensor_reading = models.FloatField(blank=False)
 
-    def __repr__(self):
-        return "[%s] %s: %s" % (
-                self.timestamp, self.sensor_type.code, self.sensor_reading)
+    def __str__(self):
+        return "[%s] %s %s" % (
+                self.timestamp, self.sensor_reading, self.sensor_type.unit)
 
+class YFS201Reading(Reading):
+    pass
+
+class HCSR04Reading(Reading):
     @property
     def level(self):
         n = self.water_tank.total_height - self.sensor_reading
         d = self.water_tank.total_height - self.water_tank.air_gap
         return 100.0 * (n/d)
 
-class ReadingSerializer(serializers.ModelSerializer):
+class HCSR04ReadingSerializer(serializers.ModelSerializer):
     water_tank = serializers.PrimaryKeyRelatedField(read_only=True)
     sensor_type = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
-        model = Reading
+        model = HCSR04Reading
         fields = ('water_tank', 'sensor_type',
                   'timestamp', 'level')
