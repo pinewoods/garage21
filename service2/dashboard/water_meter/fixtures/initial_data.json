@@ -1,10 +1,28 @@
 [
 {
     "fields": {
+        "groups": [],
+        "user_permissions": [],
+        "last_login": "2015-08-02T18:56:53.908Z",
+        "username": "admin",
+        "password": "pbkdf2_sha256$20000$G3obTmE04gW9$dvg3WuIR3zOGeE4lXHV4fy+DOaAVGpecmQrHW8z24kM=",
+        "is_superuser": true,
+        "is_active": true,
+        "last_name": "",
+        "date_joined": "2015-08-02T18:55:30.332Z",
+        "email": "admin@pinewoods.com.br",
+        "first_name": "",
+        "is_staff": true
+    },
+    "pk": 1,
+    "model": "auth.user"
+},
+{
+    "fields": {
+        "user": 1,
+        "total_height": 50.0,
         "air_gap": 10.0,
         "description": "Garoa's Water Tank",
-        "total_height": 50.0,
-        "user": 1,
         "device_key": ""
     },
     "pk": 1,
@@ -27,5 +45,65 @@
     },
     "pk": 2,
     "model": "water_meter.sensortype"
+},
+{
+    "fields": {
+        "water_tank": 1,
+        "sensor_reading": 119,
+        "sensor_type": 2,
+        "timestamp": "2015-08-02T19:00:23.269Z"
+    },
+    "pk": 1,
+    "model": "water_meter.yfs201reading"
+},
+{
+    "fields": {
+        "water_tank": 1,
+        "sensor_reading": 129,
+        "sensor_type": 2,
+        "timestamp": "2015-08-02T19:00:38.060Z"
+    },
+    "pk": 2,
+    "model": "water_meter.yfs201reading"
+},
+{
+    "fields": {
+        "water_tank": 1,
+        "sensor_reading": 139,
+        "sensor_type": 2,
+        "timestamp": "2015-08-02T19:00:51.035Z"
+    },
+    "pk": 3,
+    "model": "water_meter.yfs201reading"
+},
+{
+    "fields": {
+        "water_tank": 1,
+        "sensor_reading": 9,
+        "sensor_type": 1,
+        "timestamp": "2015-08-02T19:00:23.106Z"
+    },
+    "pk": 1,
+    "model": "water_meter.hcsr04reading"
+},
+{
+    "fields": {
+        "water_tank": 1,
+        "sensor_reading": 19,
+        "sensor_type": 1,
+        "timestamp": "2015-08-02T19:00:37.915Z"
+    },
+    "pk": 2,
+    "model": "water_meter.hcsr04reading"
+},
+{
+    "fields": {
+        "water_tank": 1,
+        "sensor_reading": 29,
+        "sensor_type": 1,
+        "timestamp": "2015-08-02T19:00:50.838Z"
+    },
+    "pk": 3,
+    "model": "water_meter.hcsr04reading"
 }
 ]
