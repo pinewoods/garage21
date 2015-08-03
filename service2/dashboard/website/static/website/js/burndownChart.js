@@ -2,14 +2,20 @@ function water_goal_graph(meta, consumo){
 
 $(function () {
     $('#container').highcharts({
-        title: {
-            text: 'Meta de Consumo',
-            x: -20 //center
+        exporting: {
+                     enabled: false
         },
+        title: {
+            text: '',
+            //text: 'Meta de Consumo',
+            //x: -20 //center
+        },
+        /*
         subtitle: {
             text: 'Consolidado Mensal',
             x: -20
         },
+        */
         xAxis: {
             categories: ['1', '2', '3', '4', '5',
                 '6','7', '8', '9', '10', '11', '12',
@@ -32,15 +38,21 @@ $(function () {
             valueSuffix: ' L'
         },
         legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
+            //layout: 'vertical',
+            enabled: true,
+            floating: true,
+            verticalAlign: 'bottom',
+            align: 'left',
+            y:-20,
+            x: 45
+        },
+        credits: {
+            enabled: false
         },
         series: [{
             name: 'Meta',
             color: '#7CB5EC',
-            data: [7.0, 6.9, 9.5, 14.5],            
+            data: [7.0, 6.9, 9.5, 14.5],
         }, {
             name: 'Consumido',
             color: '#BA3C3D',
@@ -50,7 +62,7 @@ $(function () {
         var data = new Date(new Date().getFullYear(),new Date().getMonth() + 1, 1);
         data.setDate(0);
         days = data.getDate();
-        
+
         $('#container').highcharts().series[0].setData(meta);
         $('#container').highcharts().series[1].setData(consumo);
         $('#container').highcharts().xAxis[0].setExtremes(0,days);

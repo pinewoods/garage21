@@ -2,7 +2,6 @@
 {% load staticfiles %}
 
 {% block style-block %}
-     
 {% endblock style-block %}
 
 {% block body_block %}
@@ -40,17 +39,30 @@
 </div>
 {% endblock page-header-block %}
 
-{% block container-water-goal %}
-<div class="row">
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-</div>
-{% endblock container-water-goal %}
-
 {% block container-fluid-block %}
 
 <div class="row">
-    <!-- Water Level Graphics -->
-    <svg id="fillgauge1" width="97%" height="250" onclick="gauge1.update(NewValue());"></svg>
+    <div class="col-lg-4">
+        <!-- Water Level Graphics -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Nível da Caixa</h3>
+            </div>
+            <div class="panel-body">
+                <svg id="fillgauge1" width="97%" height="300"></svg>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Metas de Consumo</h3>
+            </div>
+            <div class="panel-body">
+                <div id="container" style="min-width: 310px; height: 300px; margin: 0 auto"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock container-fluid-block %}
@@ -68,21 +80,30 @@
         config1.waveAnimateTime = 3500;
         config1.waveHeight = 0.05;
         config1.waveCount = 2.7;
-        var gauge1 = loadLiquidFillGauge("fillgauge1", 50, config1);
+        level = Math.floor(Math.random() * 100);
+        var gauge1 = loadLiquidFillGauge("fillgauge1", level, config1);
     </script>
 
     <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>   
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
-        <!-- water-goal.js -->
-    <script src="{% static "website/js/water-goal.js" %}"></script>
+    <!-- burndownChart.js -->
+    <script src="{% static "website/js/burndownChart.js" %}"></script>
 
     <script language="JavaScript">
+    function getRandom(min, max) {
+        return Math.random() * (max - min + 1) + min;
+    }
+
     meta = [];
     consumo = [];
-    for (i = 0; i <= 31 ; i++) { 
-         meta[i] = 31 - i;
-         consumo[i] = meta[i] + 1;
+    for (i = 0; i <= 31 ; i++) {
+        meta[i] = 31 - i;
+        if(i==0){
+            consumo[i] = meta[i] - getRandom(-2, 2);
+        }else{
+            consumo[i] = consumo[i-1] - getRandom(-1, 1);
+        }
     }
     water_goal_graph(meta, consumo);
     </script>
