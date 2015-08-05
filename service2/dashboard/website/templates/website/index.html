@@ -75,14 +75,34 @@
     <!-- liquidFillGauge http://bl.ocks.org/brattonc/5e5ce9beee483220e2f6 -->
     <script src="{% static "website/js/liquidFillGauge.js" %}"></script>
 
+    {% for tank in tanks %}
+    <!-- Ajax request for {{ tank.description }}-->
     <script language="JavaScript">
-        var config1 = liquidFillGaugeDefaultSettings();
-        config1.waveAnimateTime = 3500;
-        config1.waveHeight = 0.05;
-        config1.waveCount = 2.7;
-        level = Math.floor(Math.random() * 100);
-        var gauge1 = loadLiquidFillGauge("fillgauge1", level, config1);
+
+        function plot_gauge(data){
+            var config = liquidFillGaugeDefaultSettings();
+            config.waveAnimateTime = 3500;
+            config.waveHeight = 0.05;
+            config.waveCount = 2.7;
+
+            // level = Math.floor(Math.random() * 100); // Debug
+            level = Math.floor(data.level);
+
+            // TODO: Mult-tank plot support
+            var gauge1 = loadLiquidFillGauge("fillgauge1", level, config);
+        }
+
+        url_tank_level = "{% url 'current-tank-level' water_tank=tank.pk %}"
+
+        $.ajax({
+            dataType: "json",
+            url: url_tank_level,
+            cache: false,
+            success: plot_gauge
+        });
+
     </script>
+    {% endfor %}
 
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
