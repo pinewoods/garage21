@@ -50,7 +50,6 @@
     "fields": {
         "water_tank": 1,
         "sensor_reading": 119,
-        "sensor_type": 2,
         "timestamp": "2015-08-02T19:00:23.269Z"
     },
     "pk": 1,
@@ -60,7 +59,6 @@
     "fields": {
         "water_tank": 1,
         "sensor_reading": 129,
-        "sensor_type": 2,
         "timestamp": "2015-08-02T19:00:38.060Z"
     },
     "pk": 2,
@@ -70,7 +68,6 @@
     "fields": {
         "water_tank": 1,
         "sensor_reading": 139,
-        "sensor_type": 2,
         "timestamp": "2015-08-02T19:00:51.035Z"
     },
     "pk": 3,
@@ -80,7 +77,6 @@
     "fields": {
         "water_tank": 1,
         "sensor_reading": 9,
-        "sensor_type": 1,
         "timestamp": "2015-08-02T19:00:23.106Z"
     },
     "pk": 1,
@@ -90,7 +86,6 @@
     "fields": {
         "water_tank": 1,
         "sensor_reading": 19,
-        "sensor_type": 1,
         "timestamp": "2015-08-02T19:00:37.915Z"
     },
     "pk": 2,
@@ -100,7 +95,6 @@
     "fields": {
         "water_tank": 1,
         "sensor_reading": 29,
-        "sensor_type": 1,
         "timestamp": "2015-08-02T19:00:50.838Z"
     },
     "pk": 3,

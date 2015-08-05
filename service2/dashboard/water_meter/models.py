@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+
 from django.contrib.auth.models import User
 
 from rest_framework import serializers
@@ -22,7 +24,7 @@ class SensorType(models.Model):
 class SensorTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SensorType
-        fields = ('code', 'unit')
+        fields = ('code', 'unit', 'description')
 
 class Reading(models.Model):
 
@@ -30,18 +32,25 @@ class Reading(models.Model):
         abstract = True
 
     water_tank = models.ForeignKey(WaterTank, unique=False)
-    sensor_type = models.ForeignKey(SensorType, unique=False, blank=False)
-    timestamp = models.DateTimeField(auto_now_add=True, editable=False)
+    timestamp = models.DateTimeField(
+                default=timezone.now, editable=False)
     sensor_reading = models.FloatField(blank=False)
 
     def __str__(self):
-        return "[%s] %s %s" % (
-                self.timestamp, self.sensor_reading, self.sensor_type.unit)
+        return "[%s] %s" % (self.timestamp, self.sensor_reading)
 
 class YFS201Reading(Reading):
-    pass
+
+    @property
+    def sensor_type(self):
+        return 'YF-S201'
 
 class HCSR04Reading(Reading):
+
+    @property
+    def sensor_type(self):
+        return 'HC-SR04'
+
     @property
     def level(self):
         n = self.water_tank.total_height - self.sensor_reading

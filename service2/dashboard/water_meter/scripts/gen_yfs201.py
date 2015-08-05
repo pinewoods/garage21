@@ -15,7 +15,6 @@ from water_meter.models import YFS201Reading
 def run():
 
     tank = WaterTank.objects.get(pk=1)
-    sensor = SensorType.objects.get(code='YF-S201')
     flow_counter = 100.0
 
     now = timezone.now()
@@ -32,15 +31,14 @@ def run():
     # Kill them all
     YFS201Reading.objects.all().delete()
 
+    objects = []
     while timestamp < now:
         obj = YFS201Reading(water_tank=tank,
-                            sensor_type=sensor,
-                            sensor_reading=flow_counter)
-        obj.save()
+                            sensor_reading=flow_counter,
+                            timestamp = timestamp)
 
-        # overwrite timestamp
-        obj.timestamp = timestamp
-        obj.save()
-
+        objects.append(obj)
         timestamp += fifteen_minuts
-        flow_counter += abs(random.gauss(0, 1))
+        flow_counter += abs(random.lognormvariate(0, 1))
+
+    YFS201Reading.objects.bulk_create(objects)

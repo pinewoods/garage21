@@ -26,12 +26,10 @@ class ViewReadings(APIView):
 
         level_reading = HCSR04Reading(
                 sensor_reading=request.data['echo'],
-                sensor_type=SensorType.objects.get(pk=1),
                 water_tank=wt)
 
         flow_reading = YFS201Reading(
                 sensor_reading=request.data['total_liters'],
-                sensor_type=SensorType.objects.get(pk=2),
                 water_tank=wt)
 
         level_reading.save()
@@ -41,7 +39,6 @@ class ViewReadings(APIView):
 
 
 class ViewCurrentTankLevel(RetrieveAPIView):
-    st = SensorType.objects.get(code="HC-SR04")
     lookup_field = 'water_tank'
     serializer_class = HCSR04ReadingSerializer
 
@@ -72,8 +69,8 @@ class ViewCurrentTankLevel(RetrieveAPIView):
         # Modified... custom queryset
         try:
             obj = HCSR04Reading.objects.filter(
-                sensor_type=self.st, **filter_kwargs
-                ).order_by('timestamp').last()
+                **filter_kwargs).order_by('timestamp').last()
+
         except (TypeError, ValueError):
             raise Http404
 
