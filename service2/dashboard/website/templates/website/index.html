@@ -75,6 +75,13 @@
     <!-- liquidFillGauge http://bl.ocks.org/brattonc/5e5ce9beee483220e2f6 -->
     <script src="{% static "website/js/liquidFillGauge.js" %}"></script>
 
+    <!-- highcharts.js TODO: download file -->
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+    <!-- burndownChart.js -->
+    <script src="{% static "website/js/burndownChart.js" %}"></script>
+
     {% for tank in tanks %}
     <!-- Ajax request for {{ tank.description }}-->
     <script language="JavaScript">
@@ -102,30 +109,36 @@
         });
 
     </script>
-    {% endfor %}
 
-    <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>
-
-    <!-- burndownChart.js -->
-    <script src="{% static "website/js/burndownChart.js" %}"></script>
-
+    <!-- Ajax request for {{ tank.description }}-->
     <script language="JavaScript">
-    function getRandom(min, max) {
-        return Math.random() * (max - min + 1) + min;
+
+    function plot_burndown(data) {
+        step = data.goal / data.days_count;
+        goal_array = [Math.floor(data.goal - step)];
+        consumed_array = [Math.floor(data.goal - data.consumption[0])];
+
+        for(i=0; i < data.days_count; i++)
+            goal_array.push(Math.floor(goal_array[i] - step));
+
+        for(i=0; i < data.consumption.length; i++){
+            consumed_array.push(Math.floor(
+                consumed_array[i] - data.consumption[i]));
+        }
+        water_goal_graph(goal_array, consumed_array);
     }
 
-    meta = [];
-    consumo = [];
-    for (i = 0; i <= 31 ; i++) {
-        meta[i] = 31 - i;
-        if(i==0){
-            consumo[i] = meta[i] - getRandom(-2, 2);
-        }else{
-            consumo[i] = consumo[i-1] - getRandom(-1, 1);
-        }
-    }
-    water_goal_graph(meta, consumo);
+    {% now "Y" as year_ %}{% now "m" as month_ %}
+    url_tank_level = "{% url 'monthly-goals' water_tank=tank.pk year=year_ month=month_ %}"
+
+    $.ajax({
+        dataType: "json",
+        url: url_tank_level,
+        cache: false,
+        success: plot_burndown
+    });
+
     </script>
+    {% endfor %}
 
 {% endblock script-block %}
