@@ -1,3 +1,10 @@
+import datetime
+import calendar
+import collections
+from bisect import bisect_left
+
+import pytz
+
 from django.db.models.query import QuerySet
 from django.http import Http404
 
@@ -5,6 +12,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.generics import get_object_or_404
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 # from rest_framework import authentication, permissions
 
@@ -13,6 +21,51 @@ from .models import  HCSR04Reading
 from .models import  HCSR04ReadingSerializer
 from .models import  SensorType
 from .models import  WaterTank
+
+
+def each_last_reading(readings, first_day, last_day):
+    """
+        Returns the last reading of each day in range.
+
+        * This functions uses the bisection algorithm,
+        so `readings` must be sorted!
+        * Each object in `readings` must support __lt__
+        * Only on Python 3.6 bisect will support key=
+    """
+    list(readings).sort(key=lambda x: x.timestamp)
+    current_day = first_day
+    one_day = datetime.timedelta(days=1)
+
+    days_set = collections.OrderedDict()
+    while last_day > current_day:
+        # Get the first value before current_day
+        index = bisect_left(readings, current_day)
+        if index:
+            print(index, len(readings))
+            days_set[index-1] = readings[index-1]
+        current_day += one_day
+
+    return days_set.values()
+
+def MonthBoundary(year, month):
+    """
+        Returns the first and the last datatime.datetime
+        from a given month.
+    """
+    y, m = int(year), int(month)
+    days = calendar.monthrange(y, m)
+
+    first = datetime.date(year=y, month=m, day=1)
+    last = datetime.date(year=y, month=m, day=days[-1])
+
+    ti = datetime.datetime.combine(first, datetime.time.min)
+    tf = datetime.datetime.combine(last, datetime.time.max)
+
+    month_boundaries = collections.namedtuple('MonthBoundary',
+            ['first', 'last'])
+
+    return month_boundaries(pytz.utc.localize(ti),
+                            pytz.utc.localize(tf))
 
 class ViewReadings(APIView):
     #authentication_classes = (authentication.TokenAuthentication,)
@@ -78,3 +131,30 @@ class ViewCurrentTankLevel(RetrieveAPIView):
         self.check_object_permissions(self.request, obj)
 
         return obj
+
+
+class ViewMonthlyGoals(APIView):
+
+    renderer_classes = (JSONRenderer, )
+
+    def get(self, request, water_tank, year, month):
+        """
+            Return data for the monthly goals burndown chart.
+        """
+        goal = 6000. # TODO
+        mb = MonthBoundary(year, month)
+        wt = WaterTank.objects.get(pk=water_tank)
+
+        readings = YFS201Reading.objects.filter(water_tank=wt,
+                timestamp__range=(mb.first, mb.last)).order_by('timestamp')
+
+        r = each_last_reading(readings, mb.first, mb.last)
+        consumption = [c.read() - readings[0].read() for c in r]
+
+        response = {
+                "goal": goal,
+                "days_count": mb.last.day,
+                "consumption": consumption,
+         }
+
+        return Response(response)

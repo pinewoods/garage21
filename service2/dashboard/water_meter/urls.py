@@ -18,7 +18,10 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.ViewReadings.as_view(), name='endpoint'),
-    url(r'^current-tank-level/(?P<water_tank>[0-9]+)/$',
+    url(r'^tank/(?P<water_tank>[0-9]+)/current-level/$',
             views.ViewCurrentTankLevel.as_view(),
-            name='current-tank-level'),
+            name='current-level'),
+    url(r'^tank/(?P<water_tank>[0-9]+)/monthly-goals/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/$',
+            views.ViewMonthlyGoals.as_view(),
+            name='monthly-goals'),
 ]

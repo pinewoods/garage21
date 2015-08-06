@@ -1,6 +1,7 @@
+import datetime
+
 from django.db import models
 from django.utils import timezone
-
 from django.contrib.auth.models import User
 
 from rest_framework import serializers
@@ -35,9 +36,17 @@ class Reading(models.Model):
     timestamp = models.DateTimeField(
                 default=timezone.now, editable=False)
     sensor_reading = models.FloatField(blank=False)
+    read = lambda self: self.sensor_reading # shortcut
 
     def __str__(self):
         return "[%s] %s" % (self.timestamp, self.sensor_reading)
+
+    def __lt__(self, other):
+        print(self, other)
+        if isinstance(other, datetime.datetime):
+            return self.timestamp < other
+        else:
+            return self.timestamp < other.timestamp
 
 class YFS201Reading(Reading):
 

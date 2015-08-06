@@ -92,7 +92,7 @@
             var gauge1 = loadLiquidFillGauge("fillgauge1", level, config);
         }
 
-        url_tank_level = "{% url 'current-tank-level' water_tank=tank.pk %}"
+        url_tank_level = "{% url 'current-level' water_tank=tank.pk %}"
 
         $.ajax({
             dataType: "json",
