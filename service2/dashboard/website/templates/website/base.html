@@ -80,10 +80,10 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li {% if active_menu == "dashboard" %} class="active" {% endif %}>
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <a href="{% url 'dashboard' %}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li {% if active_menu == "goals" %} class="active" {% endif %}>
-                        <a href="goals.html"><i class="fa fa-fw fa-bar-chart-o"></i> Definir Metas</a>
+                    <a href="{% url 'goals' %}"><i class="fa fa-fw fa-bar-chart-o"></i> Definir Metas</a>
                     </li>
                     <li {% if active_menu == "support" %} class="active" {% endif %}>
                         <a href="support.html"><i class="fa fa-fw fa-wrench"></i> Suporte Técnico</a>

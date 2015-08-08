@@ -17,3 +17,17 @@ def index(request):
     return render(request,
                   'website/index.html',
                   context=context)
+
+@login_required
+def goals(request):
+    user = request.user
+    tanks = WaterTank.objects.filter(user=user)
+
+    context = {
+        'user': user,
+        'tanks': tanks,
+    }
+
+    return render(request,
+                  'website/goals.html',
+                  context=context)
