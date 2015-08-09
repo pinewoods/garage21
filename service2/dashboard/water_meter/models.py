@@ -42,7 +42,6 @@ class Reading(models.Model):
         return "[%s] %s" % (self.timestamp, self.sensor_reading)
 
     def __lt__(self, other):
-        print(self, other)
         if isinstance(other, datetime.datetime):
             return self.timestamp < other
         else:

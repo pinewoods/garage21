@@ -41,7 +41,6 @@ def each_last_reading(readings, first_day, last_day):
         # Get the first value before current_day
         index = bisect_left(readings, current_day)
         if index:
-            print(index, len(readings))
             days_set[index-1] = readings[index-1]
         current_day += one_day
 
