@@ -1,0 +1,179 @@
+{% extends "website/base.html" %}
+{% load staticfiles %}
+
+{% block style-block %}
+<!-- datepicker id="bsdp-css" -->
+<link href="{% static "website/css/bootstrap-datepicker3.min.css" %}" rel="stylesheet">
+{% endblock style-block %}
+
+{% block body_block %}
+    {% for tank in tanks %}
+        <div id="div_tank_{{tank.pk}}">
+            {{tank}}
+        <div>
+    {% endfor %}
+{% endblock %}
+
+
+{% block sidebar-block %}
+    {% with active_menu="goals" %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock sidebar-block %}
+
+{% block page-header-block %}
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Definir Metas
+            <small>Pinewoods</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i>  <a href="index.html">Pinewoods</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-file"></i> Definir Metas
+            </li>
+        </ol>
+    </div>
+</div>
+{% endblock page-header-block %}
+
+{% block container-fluid-block %}
+
+<div class="row">
+
+    <!-- Define Goals-->
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-cogs"></i> Definir Meta</h3>
+            </div>
+            <div class="panel-body">
+                <!-- <form class="form-horizontal"> -->
+                <form>
+                    <div class="form-group" id="datepicker-container">
+                        <label for="goal_input">Selecione o mês:</label>
+                        <div></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="goal_input">Meta do periodo:</label>
+                        <input id="goal_input" class="form-control" placeholder="Valor em Litros">
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox">Definir Meta como Padrão</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox">Enviar email ao final do prazo</label>
+                    </div>
+                    <button type="submit" class="btn btn-default">Definir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Goals History -->
+    <div class="col-lg-8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-folder"></i> Histórico de Metas</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Column heading</th>
+                            <th>Column heading</th>
+                            <th>Column heading</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="active">
+                            <th scope="row">1</th>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                        </tr>
+                        <tr class="success">
+                            <th scope="row">3</th>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                        </tr>
+                        <tr class="info">
+                            <th scope="row">5</th>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6</th>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                        </tr>
+                        <tr class="warning">
+                            <th scope="row">7</th>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8</th>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                        </tr>
+                        <tr class="danger">
+                            <th scope="row">9</th>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock container-fluid-block %}
+
+{% block script-block %}
+
+    <!-- Datepicker -->
+    <script src="{% static "website/js/bootstrap-datepicker.min.js" %}"></script>
+
+    <script language="JavaScript">
+        // http://eternicode.github.io/bootstrap-datepicker/
+        $('#datepicker-container div').datepicker({
+            format: "dd/mm/yy",
+            //clearBtn: true,
+            language: "pt-BR",
+            orientation: "bottom auto",
+            autoclose: true,
+            todayHighlight: true,
+            format: "mm-yyyy",
+            viewMode: "months",
+            minViewMode: "months"
+        }).on('changeMonth', function(ev){
+            console.log('TODO');
+        });;
+    </script>
+
+{% endblock script-block %}
