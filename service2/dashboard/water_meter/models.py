@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 from rest_framework import serializers
 
+
 class WaterTank(models.Model):
     device_key = models.CharField(
             max_length=32, blank=True, unique=True, editable=False)
@@ -13,6 +14,7 @@ class WaterTank(models.Model):
     total_height = models.FloatField(blank=False)
     air_gap = models.FloatField(blank=False)
     description = models.CharField(max_length=140, blank=True)
+
 
 class SensorType(models.Model):
     code = models.CharField(max_length=64, blank=True, unique=True)
@@ -22,13 +24,14 @@ class SensorType(models.Model):
     def __str__(self):
         return self.code
 
+
 class SensorTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SensorType
         fields = ('code', 'unit', 'description')
 
-class Reading(models.Model):
 
+class Reading(models.Model):
     class Meta:
         abstract = True
 
@@ -47,14 +50,14 @@ class Reading(models.Model):
         else:
             return self.timestamp < other.timestamp
 
-class YFS201Reading(Reading):
 
+class YFS201Reading(Reading):
     @property
     def sensor_type(self):
         return 'YF-S201'
 
-class HCSR04Reading(Reading):
 
+class HCSR04Reading(Reading):
     @property
     def sensor_type(self):
         return 'HC-SR04'
@@ -65,6 +68,7 @@ class HCSR04Reading(Reading):
         d = self.water_tank.total_height - self.water_tank.air_gap
         return 100.0 * (n/d)
 
+
 class HCSR04ReadingSerializer(serializers.ModelSerializer):
     water_tank = serializers.PrimaryKeyRelatedField(read_only=True)
     sensor_type = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -73,3 +77,24 @@ class HCSR04ReadingSerializer(serializers.ModelSerializer):
         model = HCSR04Reading
         fields = ('water_tank', 'sensor_type',
                   'timestamp', 'level')
+
+
+class ConsumpitionGoal(models.Model):
+    water_tank = models.ForeignKey(WaterTank, unique=False)
+    begin_date = models.DateField()
+    end_date = models.DateField()
+    goal = models.FloatField(blank=False)
+    real_consume = models.FloatField(editable=False)
+    est_consume = models.FloatField(editable=False)
+
+    def __str__(self):
+        return "[%s] %s" % (self.timestamp, self.consumpition)
+
+
+class ConsumpitionGoalSerializer(serializers.ModelSerializer):
+    water_tank = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = ConsumpitionGoal
+        fields = ('water_tank', 'begin_date', 'end_date',
+                  'goal', 'real_consume', 'est_consume')

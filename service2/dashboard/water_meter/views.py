@@ -9,6 +9,7 @@ from django.db.models.query import QuerySet
 from django.http import Http404
 
 from rest_framework import status
+from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.generics import get_object_or_404
@@ -21,6 +22,8 @@ from .models import  HCSR04Reading
 from .models import  HCSR04ReadingSerializer
 from .models import  SensorType
 from .models import  WaterTank
+from .models import  ConsumpitionGoal
+from .models import  ConsumpitionGoalSerializer
 
 
 def each_last_reading(readings, first_day, last_day):
@@ -157,3 +160,8 @@ class ViewMonthlyGoals(APIView):
          }
 
         return Response(response)
+
+
+class GoalsViewSet(viewsets.ModelViewSet):
+    queryset = ConsumpitionGoal.objects.all().order_by('-begin_date')
+    serializer_class = ConsumpitionGoalSerializer
