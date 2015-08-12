@@ -5,6 +5,7 @@ from . import models
 
 admin.site.register(models.WaterTank)
 admin.site.register(models.SensorType)
+admin.site.register(models.ConsumpitionGoal)
 
 class HCSR04ReadingAdmin(admin.ModelAdmin):
     class Meta:

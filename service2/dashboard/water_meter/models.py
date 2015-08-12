@@ -88,7 +88,7 @@ class ConsumpitionGoal(models.Model):
     est_consume = models.FloatField(editable=False)
 
     def __str__(self):
-        return "[%s] %s" % (self.timestamp, self.consumpition)
+        return "[%s] %s" % (self.end_date, self.goal)
 
 
 class ConsumpitionGoalSerializer(serializers.ModelSerializer):
