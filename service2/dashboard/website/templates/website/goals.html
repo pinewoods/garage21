@@ -63,13 +63,14 @@
                     </div>
                     <div class="form-group">
                         <label for="goal_input">Meta do periodo:</label>
-                        <input id="goal_input" name="goal" class="form-control" placeholder="Valor em Litros">
+                        <input id="goal_input" name="goal" class="form-control"
+                        placeholder="Valor em Metros cúbicos (m³)">
                     </div>
                     <div class="checkbox">
                         <label><input type="checkbox" name="is_default">Definir Meta como Padrão</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" name="send_alert">Enviar email ao final do prazo</label>
+                        <label><input type="checkbox" name="send_alert">Enviar aviso ao final do prazo</label>
                     </div>
                     <button type="submit" class="btn btn-default">Definir</button>
                 </form>
@@ -84,72 +85,24 @@
                 <h3 class="panel-title"><i class="fa fa-folder"></i> Histórico de Metas</h3>
             </div>
             <div class="panel-body">
+                <!-- Table -->
                 <table class="table">
                     <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Column heading</th>
-                            <th>Column heading</th>
-                            <th>Column heading</th>
+                        <tr class="info">
+                            <th>Data</th>
+                            <th>Meta</th>
+                            <th>Pinewoods</th>
+                            <th>SABESP</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="active">
-                            <th scope="row">1</th>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                        </tr>
-                        <tr class="success">
-                            <th scope="row">3</th>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                        </tr>
-                        <tr class="info">
-                            <th scope="row">5</th>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">6</th>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                        </tr>
-                        <tr class="warning">
-                            <th scope="row">7</th>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">8</th>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                        </tr>
-                        <tr class="danger">
-                            <th scope="row">9</th>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                        </tr>
+                    <tbody id="records_tboby">
                     </tbody>
                 </table>
+                <!-- Paginator -->
+                <ul id="ul_paginator" class="pagination">
+                </ul>
+
+
             </div>
         </div>
     </div>
@@ -181,6 +134,59 @@
             $("#datepicker_month_input").attr('value', currMonth);
             $("#datepicker_year_input").attr('value', currYear);
         });;
+    </script>
+
+    <script language="JavaScript">
+        //TODO Ajax links
+        function built_paginator(data){
+            // Creates the <<
+            $("#ul_paginator").append('<li><a href="#">&laquo</a></li>');
+
+            n_pages = Math.ceil(data.count / data.results.length);
+            for(i=1; i<=n_pages; i++){
+                //li_elem = '<li><a href="#" class="active">'+i+'</a></li>';
+                li_elem = '<li><a href="#">'+i+'</a></li>';
+                $("#ul_paginator").append(li_elem);
+            }
+            // Creates the >>
+            $("#ul_paginator").append('<li><a href="#">&raquo</a></li>');
+        };
+
+        //TODO rounding
+        function built_table(data){
+            $.each(data.results, function(i, item) {
+
+                // Colors the table
+                tr_obj = '<tr>';
+                if((item.goal*0.9) > item.real_consume){
+                    tr_obj = '<tr class="success">';
+                }
+                if(item.real_consume > (item.goal*1.1)){
+                    tr_obj = '<tr class="warning">';
+                }
+                if(item.real_consume > (item.goal*1.2)){
+                    tr_obj = '<tr class="danger">';
+                }
+
+                // Fill data
+                $(tr_obj).append(
+                    $('<th scope="row">').text(item.end_date),
+                    $('<td>').text(item.goal),
+                    $('<td>').text(item.est_consume),
+                    $('<td>').text(item.real_consume)
+                ).appendTo('#records_tboby')
+            });
+        };
+
+        function built_goals_panel(data){
+            console.log(data); // DEBUG
+            built_paginator(data);
+            built_table(data);
+        }
+
+        $(document).ready(function(){
+            var data = $.getJSON("{% url 'goals-list' %}", built_goals_panel)
+        });
     </script>
 
 {% endblock script-block %}

@@ -19,7 +19,9 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'goals', views.GoalsViewSet)
+router.register(r'goals', views.GoalsViewSet, 'goals')
+# name='goals-list'
+# name='goals-detail'
 
 urlpatterns = [
     url(r'^$', views.ViewReadings.as_view(), name='endpoint'),
