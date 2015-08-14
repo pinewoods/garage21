@@ -53,20 +53,23 @@
             </div>
             <div class="panel-body">
                 <!-- <form class="form-horizontal"> -->
-                <form>
+                <form action="" method="POST">
+                    {% csrf_token %}
                     <div class="form-group" id="datepicker-container">
-                        <label for="goal_input">Selecione o mês:</label>
-                        <div></div>
+                        <label for="datepicker_div">Selecione o mês:</label>
+                        <div id="datepicker_div"></div>
+                        <input id="datepicker_year_input" name="year" type="hidden">
+                        <input id="datepicker_month_input" name="month" type="hidden">
                     </div>
                     <div class="form-group">
                         <label for="goal_input">Meta do periodo:</label>
-                        <input id="goal_input" class="form-control" placeholder="Valor em Litros">
+                        <input id="goal_input" name="goal" class="form-control" placeholder="Valor em Litros">
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox">Definir Meta como Padrão</label>
+                        <label><input type="checkbox" name="is_default">Definir Meta como Padrão</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox">Enviar email ao final do prazo</label>
+                        <label><input type="checkbox" name="send_alert">Enviar email ao final do prazo</label>
                     </div>
                     <button type="submit" class="btn btn-default">Definir</button>
                 </form>
@@ -172,7 +175,11 @@
             viewMode: "months",
             minViewMode: "months"
         }).on('changeMonth', function(ev){
-            console.log('TODO');
+            console.log(ev); // DEBUG
+            var currMonth = new Date(ev.date).getMonth()+1;
+            var currYear = String(ev.date).split(" ")[3];
+            $("#datepicker_month_input").attr('value', currMonth);
+            $("#datepicker_year_input").attr('value', currYear);
         });;
     </script>
 
