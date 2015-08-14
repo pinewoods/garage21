@@ -86,16 +86,21 @@
                     <a href="{% url 'goals' %}"><i class="fa fa-fw fa-bar-chart-o"></i> Definir Metas</a>
                     </li>
                     <li {% if active_menu == "support" %} class="active" {% endif %}>
-                        <a href="support.html"><i class="fa fa-fw fa-wrench"></i> Suporte Técnico</a>
+                        <a href="alerts.html"><i class="fa fa-fw fa-bell"></i> Alertas</a>
                     </li>
+                    <!---
                     <li {% if active_menu == "supply" %} class="active" {% endif %}>
                         <a href="supply.html"><i class="fa fa-fw fa-edit"></i> Fornecedores</a>
                     </li>
+                    -->
                     <li {% if active_menu == "historic" %} class="active" {% endif %}>
-                        <a href="historic.html"><i class="fa fa-fw fa-file"></i> Histórico</a>
+                        <a href="historic.html"><i class="fa fa-fw fa-file"></i> Histórico SABESP</a>
                     </li>
                     <li {% if active_menu == "data" %} class="active" {% endif %}>
-                        <a href="data.html"><i class="fa fa-fw fa-table"></i> Dados</a>
+                        <a href="data.html"><i class="fa fa-fw fa-table"></i> Exportar Dados</a>
+                    </li>
+                    <li {% if active_menu == "support" %} class="active" {% endif %}>
+                        <a href="support.html"><i class="fa fa-fw fa-wrench"></i> Suporte Técnico</a>
                     </li>
                 </ul>
             </div>
