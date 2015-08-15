@@ -137,23 +137,50 @@
     </script>
 
     <script language="JavaScript">
-        //TODO Ajax links
-        function built_paginator(data){
-            // Creates the <<
-            $("#ul_paginator").append('<li><a href="#">&laquo</a></li>');
+        // Marks the active page on paginator
+        var activePage = 1;
 
-            n_pages = Math.ceil(data.count / data.results.length);
+        function built_paginator(data, page){
+            // Reset inner HTML
+            $('#ul_paginator').empty();
+            // Creates the <<
+            if(data.previous){
+                $("#ul_paginator").append(
+                '<li class="previous"><a href="'+data.previous+'">&larr;</a></li>');
+            }else{
+                $("#ul_paginator").append(
+                '<li class="previous disabled"><a href="#">&larr;</a></li>');
+            }
+
+            //n_pages = Math.ceil(data.count / data.results.length);
+            //Number of results.length == 1 sometimes
+            n_pages = Math.ceil(data.count / 10);
+            base_url = "{% url 'goals-list' %}?page="
+            console.log(activePage);
             for(i=1; i<=n_pages; i++){
-                //li_elem = '<li><a href="#" class="active">'+i+'</a></li>';
-                li_elem = '<li><a href="#">'+i+'</a></li>';
+                console.log(activePage, i, activePage==i);
+                if(activePage==i){
+                    li_elem = '<li class="active"><a href="'+base_url+i+'">'+i+'</a></li>';
+                }else{
+                    li_elem = '<li><a href="'+base_url+i+'">'+i+'</a></li>';
+                }
                 $("#ul_paginator").append(li_elem);
             }
+
             // Creates the >>
-            $("#ul_paginator").append('<li><a href="#">&raquo</a></li>');
+            if(data.next){
+                $("#ul_paginator").append(
+                '<li class="next"><a href="'+data.next+'">&rarr;</a></li>');
+            }else{
+                $("#ul_paginator").append(
+                '<li class="next disabled"><a href="#">&rarr;</a></li>');
+            }
         };
 
-        //TODO rounding
+        //TODO Rounding
         function built_table(data){
+            // Reset inner HTML
+            $('#records_tboby').empty();
             $.each(data.results, function(i, item) {
 
                 // Colors the table
@@ -179,14 +206,25 @@
         };
 
         function built_goals_panel(data){
-            console.log(data); // DEBUG
-            built_paginator(data);
+            //console.log(data); // DEBUG
             built_table(data);
+            built_paginator(data);
+
+            // Capture the Paginator Click
+            $("#ul_paginator li").click(function(ev) {
+                //console.log(ev); // DEBUG
+                ev.preventDefault();
+                if(ev.target.href.search("page")){
+                    activePage = ev.target.href.split("=")[1];
+                }
+                var data = $.getJSON(ev.target.href, built_goals_panel);
+            });
         }
 
         $(document).ready(function(){
             var data = $.getJSON("{% url 'goals-list' %}", built_goals_panel)
         });
+
     </script>
 
 {% endblock script-block %}
