@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'django_extensions',
     'rest_framework',
     'water_meter',
-    'website'
+    'website',
+    'sabesp',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -1,6 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+
+class ConsumerType(models.Model):
+    code = models.CharField(max_length=10, blank=False)
+    description = models.CharField(max_length=256, blank=True)
+
+
 class SabespProfile(models.Model):
     user = models.ForeignKey(User, unique=False)
     rgi = models.FloatField(blank=False)
@@ -9,24 +15,24 @@ class SabespProfile(models.Model):
     supply_unit = models.CharField(max_length=140, blank=True)
     consumption_goal = models.FloatField(blank=False)
 
+
 class HidrometroSabesp(models.Model):
     sensor_id = models.CharField(max_length=64, blank=False, unique=True)
     sabesp_profile = models.ForeignKey(SabespProfile, unique=False)
 
-class ConsumerType(models.Model):
-    code = models.CharField(max_length=10, blank=False)
-    description = models.CharField(max_length=256, blank=True)
 
 class FeePrices(models.Model):
     consumer_type = models.ForeignKey(ConsumerType, unique=False)
     price_m3 = models.FloatField(max_length=64, blank=False, unique=False)
     band = models.FloatField(max_length=64, blank=False, unique=False)
 
+
 class Taxes(models.Model):
-	code = models.CharField(max_length=64, blank=False, unique=True)
+    code = models.CharField(max_length=64, blank=False, unique=True)
     consumer_type = models.ForeignKey(ConsumerType, unique=False)
     rate = models.FloatField(max_length=64, blank=False, unique=False)
     description = models.CharField(max_length=256, blank=True)
+
 
 class SabespReading(models.Model):
     sabesp_profile = models.ForeignKey(SabespProfile, unique=False)
