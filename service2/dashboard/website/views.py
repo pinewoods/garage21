@@ -42,6 +42,7 @@ def historic(request):
     context = {
         'user': user,
         'readings': readings,
+        'profile' : profile,
     }
 
     return render(request,

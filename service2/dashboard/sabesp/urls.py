@@ -13,19 +13,16 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+
 from django.conf.urls import include, url
-from django.contrib import admin
-from django.contrib.auth.views import login
-from django.contrib.auth.views import logout
+from rest_framework import routers
+from . import views
+
+router = routers.DefaultRouter()
+router.register(r'readings', views.SabespReadingViewSet, 'readings')
+# name='readings-list'
+# name='readings-detail'
 
 urlpatterns = [
-    url(r'^sabesp/', include('sabesp.urls')),
-    url(r'', include('website.urls')),
-    url(r'^accounts/login/', login,
-        {'template_name': 'admin/login.html'}, name='login'),
-    url(r'^accounts/logout/', logout,
-        {'next_page': '/accounts/login'}, name='logout'),
-    url(r'^api/', include('water_meter.urls')),
-    url(r'^admin/', include(admin.site.urls)),
-
+    url(r'^', include(router.urls)),
 ]

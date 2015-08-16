@@ -2,6 +2,7 @@ from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 
+from rest_framework import serializers
 
 class ConsumerType(models.Model):
     code = models.CharField(max_length=10, blank=False)
@@ -13,7 +14,7 @@ class SabespProfile(models.Model):
     rgi = models.FloatField(blank=False)
     customer_id = models.FloatField(blank=False)
     consumer_type = models.ForeignKey(ConsumerType, unique=False)
-    # TODO: WTF is supply_unit ??
+    # This is from which dam this water supply comes from 
     supply_unit = models.CharField(max_length=140, blank=True)
     consumption_goal = models.FloatField(blank=False)
 
@@ -48,3 +49,14 @@ class SabespReading(models.Model):
     sensor_id = models.ForeignKey(HidrometroSabesp, unique=False)
     reading_m3 = models.FloatField(max_length=64, blank=False, unique=False)
     reading_competence = models.DateField()
+
+
+
+class SabespReadingSerializer(serializers.ModelSerializer):
+    sensor_id = serializers.PrimaryKeyRelatedField(
+            queryset=HidrometroSabesp.objects.all())
+
+    class Meta:
+        model = SabespReading
+        fields = ('sabesp_profile', 'sensor_id', 'reading_m3',
+                  'reading_competence')
