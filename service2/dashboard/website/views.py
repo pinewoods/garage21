@@ -3,7 +3,10 @@ from django.contrib.auth.decorators import login_required
 
 from water_meter.models import WaterTank
 from water_meter.models import Reading
-from sabesp.models import *
+
+from sabesp.models import SabespProfile
+from sabesp.models import SabespReading
+from sabesp.models import SabespProfileForm
 
 @login_required
 def index(request):
@@ -50,16 +53,24 @@ def historic(request):
 
 @login_required
 def settings(request):
-    user = request.user
-    profile = SabespProfile.objects.filter(user=user)
-    tanks = WaterTank.objects.filter(user=user)
+    if request.method == 'GET':
+        user = request.user
+        profiles = SabespProfile.objects.filter(user=user)
+        tanks = WaterTank.objects.filter(user=user)
 
-    context = {
-        'user': user,
-        'profile': profile,
-        'tanks': tanks,
-    }
+        print(profiles)
+        profile_forms = [SabespProfileForm(instance=i) for i in profiles]
 
-    return render(request,
-                  'website/settings.html',
-                  context=context)
+        context = {
+            'user': user,
+            'profile_forms': profile_forms,
+            'tanks': tanks,
+        }
+
+        return render(request,
+                      'website/settings.html',
+                      context=context)
+
+    if request.method == 'POST':
+        from IPython import embed; embed()
+
