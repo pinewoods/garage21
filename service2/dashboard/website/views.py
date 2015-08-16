@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 from water_meter.models import WaterTank
 from water_meter.models import Reading
+from sabesp.models import *
 
 @login_required
 def index(request):
@@ -30,4 +31,19 @@ def goals(request):
 
     return render(request,
                   'website/goals.html',
+                  context=context)
+
+@login_required
+def historic(request):
+    user = request.user
+    profile = SabespProfile.objects.filter(user=user)
+    readings = SabespReading.objects.filter(sabesp_profile=profile)
+
+    context = {
+        'user': user,
+        'readings': readings,
+    }
+
+    return render(request,
+                  'website/historic.html',
                   context=context)

@@ -103,7 +103,7 @@
                     </li>
                     -->
                     <li {% if active_menu == "historic" %} class="active" {% endif %}>
-                        <a href="historic.html"><i class="fa fa-fw fa-file"></i> Histórico SABESP</a>
+                        <a href="{% url 'historic' %}"><i class="fa fa-fw fa-file"></i> Histórico Sabesp</a>
                     </li>
                     <li {% if active_menu == "data" %} class="active" {% endif %}>
                         <a href="data.html"><i class="fa fa-fw fa-table"></i> Exportar Dados</a>
