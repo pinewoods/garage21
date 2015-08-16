@@ -123,51 +123,29 @@
         });;
     </script>
 
+    <script src="{% static "website/js/goals_table.js" %}"></script>
+
     <script language="JavaScript">
-        //TODO Ajax links
-        function built_paginator(data){
-            // Creates the <<
-            $("#ul_paginator").append('<li><a href="#">&laquo</a></li>');
-
-            n_pages = Math.ceil(data.count / data.results.length);
-            for(i=1; i<=n_pages; i++){
-                //li_elem = '<li><a href="#" class="active">'+i+'</a></li>';
-                li_elem = '<li><a href="#">'+i+'</a></li>';
-                $("#ul_paginator").append(li_elem);
-            }
-            // Creates the >>
-            $("#ul_paginator").append('<li><a href="#">&raquo</a></li>');
-        };
-
-        //TODO rounding
-        function built_table(data){
-            $.each(data.results, function(i, item) {
-
-                // Colors the table
-                tr_obj = '<tr>';
-                if((item.reading_m3*0.9) > item.reading_m3){
-                    tr_obj = '<tr class="success">';
-                }
-                if(item.reading_m3 > (item.reading_m3*1.1)){
-                    tr_obj = '<tr class="warning">';
-                }
-                if(item.reading_m3 > (item.reading_m3*1.2)){
-                    tr_obj = '<tr class="danger">';
-                }
-
-                // Fill data
-                $(tr_obj).append(
-                    $('<th scope="row">').text(item.reading_competence),
-                    $('<td>').text(item.reading_m3),
-                    $('<td>').text(item.reading_m3)
-                ).appendTo('#records_tboby')
-            });
-        };
+       
+      // Marks the active page on paginator
+        var activePage = 1;
+        // Paginator link
+        var base_url = "{% url 'readings-list' %}?page="
 
         function built_readings_panel(data){
-            console.log(data); // DEBUG
+            //console.log(data); // DEBUG
             built_paginator(data);
-            built_table(data);
+            built_table_sabesp(data);
+
+            // Capture the Paginator Click
+            $("#ul_paginator li").click(function(ev) {
+                //console.log(ev); // DEBUG
+                ev.preventDefault();
+                if(ev.target.href.search("page")){
+                    activePage = ev.target.href.split("=")[1];
+                }
+                var data = $.getJSON(ev.target.href, built_readings_panel);
+            });
         }
 
         $(document).ready(function(){
