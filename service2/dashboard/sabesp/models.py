@@ -21,13 +21,13 @@ class HidrometroSabesp(models.Model):
     sabesp_profile = models.ForeignKey(SabespProfile, unique=False)
 
 
-class FeePrices(models.Model):
+class FeePrice(models.Model):
     consumer_type = models.ForeignKey(ConsumerType, unique=False)
     price_m3 = models.FloatField(max_length=64, blank=False, unique=False)
     band = models.FloatField(max_length=64, blank=False, unique=False)
 
 
-class Taxes(models.Model):
+class Taxe(models.Model):
     code = models.CharField(max_length=64, blank=False, unique=True)
     consumer_type = models.ForeignKey(ConsumerType, unique=False)
     rate = models.FloatField(max_length=64, blank=False, unique=False)
