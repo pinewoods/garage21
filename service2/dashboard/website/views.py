@@ -47,3 +47,19 @@ def historic(request):
     return render(request,
                   'website/historic.html',
                   context=context)
+
+@login_required
+def settings(request):
+    user = request.user
+    profile = SabespProfile.objects.filter(user=user)
+    tanks = WaterTank.objects.filter(user=user)
+
+    context = {
+        'user': user,
+        'profile': profile,
+        'tanks': tanks,
+    }
+
+    return render(request,
+                  'website/settings.html',
+                  context=context)
