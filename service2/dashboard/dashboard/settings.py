@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'water_meter',
     'website',
     'sabesp',
+    'bootstrapform',
 )
 
 MIDDLEWARE_CLASSES = (
