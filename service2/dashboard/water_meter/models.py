@@ -15,6 +15,9 @@ class WaterTank(models.Model):
     air_gap = models.FloatField(blank=False)
     description = models.CharField(max_length=140, blank=True)
 
+    def __str__(self):
+        return "[%s] %s" % (self.user.username, self.description)
+
 
 class SensorType(models.Model):
     code = models.CharField(max_length=64, blank=True, unique=True)
@@ -84,15 +87,16 @@ class ConsumpitionGoal(models.Model):
     begin_date = models.DateField()
     end_date = models.DateField()
     goal = models.FloatField(blank=False)
-    real_consume = models.FloatField(editable=False)
-    est_consume = models.FloatField(editable=False)
+    real_consume = models.FloatField(editable=False, null=True)
+    est_consume = models.FloatField(editable=False, null=True)
 
     def __str__(self):
         return "[%s] %s" % (self.end_date, self.goal)
 
 
 class ConsumpitionGoalSerializer(serializers.ModelSerializer):
-    water_tank = serializers.PrimaryKeyRelatedField(read_only=True)
+    water_tank = serializers.PrimaryKeyRelatedField(
+            queryset=WaterTank.objects.all())
 
     class Meta:
         model = ConsumpitionGoal

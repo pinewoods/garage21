@@ -6,15 +6,6 @@
 <link href="{% static "website/css/bootstrap-datepicker3.min.css" %}" rel="stylesheet">
 {% endblock style-block %}
 
-{% block body_block %}
-    {% for tank in tanks %}
-        <div id="div_tank_{{tank.pk}}">
-            {{tank}}
-        <div>
-    {% endfor %}
-{% endblock %}
-
-
 {% block sidebar-block %}
     {% with active_menu="goals" %}
         {{ block.super }}
@@ -23,7 +14,7 @@
 
 {% block page-header-block %}
 <!-- Page Heading -->
-<div class="row">
+<div id="div_breadcrumb" class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
             Definir Metas
@@ -42,9 +33,12 @@
 {% endblock page-header-block %}
 
 {% block container-fluid-block %}
+<div id="div_alert">
+    <!-- dismissable alerts -->
+</div>
 
-<div class="row">
-
+{% for tank in tanks %}
+<div class="row" id="div_tank_{{tank.pk}}">
     <!-- Define Goals-->
     <div class="col-lg-4">
         <div class="panel panel-primary">
@@ -53,8 +47,13 @@
             </div>
             <div class="panel-body">
                 <!-- <form class="form-horizontal"> -->
-                <form action="" method="POST">
+                <form id="goals_form" action="{% url 'goals-list' %}" method="POST">
                     {% csrf_token %}
+                    <div class="form-group">
+                        <label for="water_tank_span">Caixa D'Agua:</label>
+                        <span id="water_tank_span" class="uneditable-input">{{ tank.description }}</span>
+                        <input name="water_tank" type="hidden" value="{{tank}}">
+                    </div>
                     <div class="form-group" id="datepicker-container">
                         <label for="datepicker_div">Selecione o mês:</label>
                         <div id="datepicker_div"></div>
@@ -63,8 +62,7 @@
                     </div>
                     <div class="form-group">
                         <label for="goal_input">Meta do periodo:</label>
-                        <input id="goal_input" name="goal" class="form-control"
-                        placeholder="Valor em Metros cúbicos (m³)">
+                        <input id="goal_input" name="goal" class="form-control" placeholder="Valor em Metros cúbicos (m³)">
                     </div>
                     <div class="checkbox">
                         <label><input type="checkbox" name="is_default">Definir Meta como Padrão</label>
@@ -107,7 +105,7 @@
         </div>
     </div>
 </div>
-
+{% endfor %}
 {% endblock container-fluid-block %}
 
 {% block script-block %}
@@ -162,10 +160,52 @@
             });
         }
 
+        var success_msg = '<div class="row">' +
+            '<div class="col-lg-12">' +
+                 '<div class="alert alert-success alert-dismissable">' +
+                     '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                     '<i class="fa fa-info-circle"></i> <strong> Meta cadastrada com sucesso.</strong> Verifique o Histórico de Metas para mais detalhes.'+
+                 '</div>' +
+             '</div>' +
+         '</div>';
+
+        var error_msg = '<div class="row">' +
+             '<div class="col-lg-12">' +
+                 '<div class="alert alert-danger alert-dismissable">' +
+                     '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                     '<i class="fa fa-info-circle"></i> <strong> Erro ao cadastrar a Meta</strong> Entre em contato com o Suporte Técnico.' +
+                 '</div>' +
+             '</div>' +
+         '</div>';
+
+        function redirect_action_via_ajax(){
+            $("#goals_form").submit(function(ev){
+                ev.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: $(this).attr("action"),
+                    dataType: "json",
+                    // TODO Get the request right
+                    data: $("#goals_form").serialize(),
+                    sucess: function(data){
+                        console.log(data);
+                        $('#div_alert').empty();
+                        $("#div_alert").append(success_msg);
+                    },
+                    error: function(data){
+                        console.log(data);
+                        $('#div_alert').empty();
+                        $("#div_alert").append(error_msg);
+                    },
+                });
+            });
+        }
+
         $(document).ready(function(){
             var data = $.getJSON("{% url 'goals-list' %}", built_goals_panel)
         });
 
-    </script>
+        $(document).ready(redirect_action_via_ajax);
 
+    </script>
 {% endblock script-block %}

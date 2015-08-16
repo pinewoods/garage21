@@ -21,6 +21,13 @@
     <!-- Custom Fonts -->
     <link href="{% static "website/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
 
+    <!-- Custom Fix -->
+    <style media="screen" type="text/css">
+        .row {
+            margin-bottom: 0;
+        }
+    </style>
+
     {% block style-block %}
     {% endblock style-block %}
 
@@ -51,15 +58,16 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-               {% block alerts-block %}
-               <li class="dropdown">
+                {% block alerts-block %}
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
                     <ul class="dropdown-menu alert-dropdown">
                         <li class="divider"></li>
                         <li><a href="#">Nenhum Alerta</a></li>
                     </ul>
                 </li>
-               {% endblock alerts-block %}
+                {% endblock alerts-block %}
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle"
                         data-toggle="dropdown"><i class="fa fa-user"></i> {{ user.username }} <b class="caret"></b></a>
@@ -74,6 +82,7 @@
                     </ul>
                 </li>
             </ul>
+
             {% with active_menu="" %}
             {% block sidebar-block %}
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
@@ -120,12 +129,10 @@
         </nav>
 
         <div id="page-wrapper">
-
             <div class="container-fluid">
-
                 {% block page-header-block %}
                 <!-- Page Heading -->
-                <div class="row">
+                <div id="div_breadcrum" class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
                             Blank Page
@@ -140,18 +147,15 @@
                             </li>
                         </ol>
                     </div>
-                <5/div>
+                </div>
                 {% endblock page-header-block %}
-
                 {% block container-fluid-block %}
-                <!-- /.row -->
+                <!-- container-fluid-block -->
                 {% endblock container-fluid-block %}
             </div>
             <!-- /.container-fluid -->
-
         </div>
         <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
 
