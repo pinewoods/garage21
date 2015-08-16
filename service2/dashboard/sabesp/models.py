@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 
 
@@ -12,8 +13,16 @@ class SabespProfile(models.Model):
     rgi = models.FloatField(blank=False)
     customer_id = models.FloatField(blank=False)
     consumer_type = models.ForeignKey(ConsumerType, unique=False)
+    # TODO: WTF is supply_unit ??
     supply_unit = models.CharField(max_length=140, blank=True)
     consumption_goal = models.FloatField(blank=False)
+
+
+class SabespProfileForm(ModelForm):
+    class Meta:
+        model = SabespProfile
+        fields = ['rgi', 'customer_id', 'consumer_type',
+                'supply_unit', 'consumption_goal']
 
 
 class HidrometroSabesp(models.Model):
