@@ -1,12 +1,29 @@
 from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-
 from rest_framework import serializers
+
+class UserProfile(models.Model):
+    """
+        Billing Profile
+    """
+    user = models.OneToOneField(User, related_name='profile')
+    email = models.EmailField(blank=True, null=True)
+    cnpj = models.CharField(max_length=18)
+    phone = models.CharField(max_length=16, blank=True, null=True)
+    mobile = models.CharField(max_length=16, blank=True, null=True)
+    cep = models.CharField(max_length=11, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
 
 class ConsumerType(models.Model):
     code = models.CharField(max_length=10, blank=False)
     description = models.CharField(max_length=256, blank=True)
+
+    def __str__(self):
+        return "[%s] %s" % (self.code, self.description)
 
 
 class SabespProfile(models.Model):
@@ -17,13 +34,6 @@ class SabespProfile(models.Model):
     # This is from which dam this water supply comes from 
     supply_unit = models.CharField(max_length=140, blank=True)
     consumption_goal = models.FloatField(blank=False)
-
-
-class SabespProfileForm(ModelForm):
-    class Meta:
-        model = SabespProfile
-        fields = ['rgi', 'customer_id', 'consumer_type',
-                'supply_unit', 'consumption_goal']
 
 
 class HidrometroSabesp(models.Model):
