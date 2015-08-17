@@ -6,15 +6,6 @@
 <link href="{% static "website/css/bootstrap-datepicker3.min.css" %}" rel="stylesheet">
 {% endblock style-block %}
 
-{% block body_block %}
-    {% for reading in readings %}
-        <div id="div_reading_{{readings.pk}}">
-            {{reading}}
-        <div>
-    {% endfor %}
-{% endblock %}
-
-
 {% block sidebar-block %}
     {% with active_menu="historic" %}
         {{ block.super }}
@@ -44,42 +35,23 @@
 {% block container-fluid-block %}
 
 <div class="row">
-
-    <!-- Define Goals-->
-    <div class="col-lg-4">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-cogs"></i> Definir Meta</h3>
-            </div>
-            <div class="panel-body">
-                <!-- <form class="form-horizontal"> -->
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <div class="form-group" id="datepicker-container">
-                        <label for="datepicker_div">Selecione o mês:</label>
-                        <div id="datepicker_div"></div>
-                        <input id="datepicker_year_input" name="year" type="hidden">
-                        <input id="datepicker_month_input" name="month" type="hidden">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Goals History -->
+    <!-- Meta History -->
     <div class="col-lg-8">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title"><i class="fa fa-folder"></i> Histórico Sabesp</h3>
             </div>
             <div class="panel-body table-responsive">
+                <div class="form-group">
+                    <label for="sabesp_profile_span">Meta Sabesp:</label>
+                    <span id="sabesp_profile_span" class="uneditable-input">{{ profile.consumption_goal }}</span>
+                </div>
                 <!-- Table -->
                 <table class="table">
                     <thead>
                         <tr class="info">
                             <th>Mês</th>
                             <th>Consumido(m3)</th>
-                            <th>Meta</th>
                         </tr>
                     </thead>
                     <tbody id="records_tboby">
@@ -99,29 +71,6 @@
 
 {% block script-block %}
 
-    <!-- Datepicker -->
-    <script src="{% static "website/js/bootstrap-datepicker.min.js" %}"></script>
-
-    <script language="JavaScript">
-        // http://eternicode.github.io/bootstrap-datepicker/
-        $('#datepicker-container div').datepicker({
-            format: "dd/mm/yy",
-            //clearBtn: true,
-            language: "pt-BR",
-            orientation: "bottom auto",
-            autoclose: true,
-            todayHighlight: true,
-            format: "mm-yyyy",
-            viewMode: "months",
-            minViewMode: "months"
-        }).on('changeMonth', function(ev){
-            console.log(ev); // DEBUG
-            var currMonth = new Date(ev.date).getMonth()+1;
-            var currYear = String(ev.date).split(" ")[3];
-            $("#datepicker_month_input").attr('value', currMonth);
-            $("#datepicker_year_input").attr('value', currYear);
-        });;
-    </script>
 
     <script src="{% static "website/js/goals_table.js" %}"></script>
 
@@ -135,7 +84,8 @@
         function built_readings_panel(data){
             //console.log(data); // DEBUG
             built_paginator(data);
-            built_table_sabesp(data);
+            var meta = {{ profile.consumption_goal}};
+            built_table_sabesp(data, meta);
 
             // Capture the Paginator Click
             $("#ul_paginator li").click(function(ev) {

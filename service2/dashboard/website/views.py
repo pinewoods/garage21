@@ -41,13 +41,11 @@ def goals(request):
 @login_required
 def historic(request):
     user = request.user
-    profile = SabespProfile.objects.filter(user=user)
-    readings = SabespReading.objects.filter(sabesp_profile=profile)
+    profile = SabespProfile.objects.get(user=user)
 
     context = {
         'user': user,
-        'readings': readings,
-        'profile' : profile,
+        'profile': profile,
     }
 
     return render(request,

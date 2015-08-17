@@ -78,27 +78,26 @@ function built_table(data){
 };
 
 //TODO rounding
-function built_table_sabesp(data){
+function built_table_sabesp(data, meta){
 
     $('#records_tboby').empty();
     $.each(data.results, function(i, item) {
 
         // Colors the table
         tr_obj = '<tr>';
-        if((item.reading_m3*0.9) > item.reading_m3){
+        if(item.reading_m3 < meta){
             tr_obj = '<tr class="success">';
         }
-        if(item.reading_m3 > (item.reading_m3*1.1)){
+        if(item.reading_m3 == meta){
             tr_obj = '<tr class="warning">';
         }
-        if(item.reading_m3 > (item.reading_m3*1.2)){
+        if(item.reading_m3 > meta){
             tr_obj = '<tr class="danger">';
         }
 
         // Fill data
         $(tr_obj).append(
             $('<th scope="row">').text(item.reading_competence),
-            $('<td>').text(item.reading_m3),
             $('<td>').text(item.reading_m3)
         ).appendTo('#records_tboby')
     });
