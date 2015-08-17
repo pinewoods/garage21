@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'website',
     'sabesp',
     'bootstrapform',
+    'localflavor',
 )
 
 MIDDLEWARE_CLASSES = (

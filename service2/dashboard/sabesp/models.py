@@ -1,7 +1,21 @@
 from django.db import models
 from django.forms import ModelForm
+
 from django.contrib.auth.models import User
 
+class Profile(models.Model):
+    """
+        Billing Profile
+    """
+    user = models.OneToOneField(User)
+    email = models.EmailField(blank=True, null=True)
+    cnpj = models.CharField(max_length=18)
+    phone = models.CharField(max_length=16, blank=True, null=True)
+    mobile = models.CharField(max_length=16, blank=True, null=True)
+    cep = models.CharField(max_length=11, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
 
 class ConsumerType(models.Model):
     code = models.CharField(max_length=10, blank=False)
@@ -27,7 +41,7 @@ class SabespProfileForm(ModelForm):
                 'supply_unit', 'consumption_goal']
 
         labels = {
-                'rgi': 'RGI',
+                'rgi': 'RGI (Registro Geral de Instalação)',
                 'customer_id': 'Código do Cliente',
                 'consumer_type': 'Tipo de Ligação',
                 'supply_unit': 'Reservatório',
