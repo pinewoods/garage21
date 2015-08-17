@@ -3,11 +3,11 @@ from django.forms import ModelForm
 
 from django.contrib.auth.models import User
 
-class Profile(models.Model):
+class UserProfile(models.Model):
     """
         Billing Profile
     """
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name='profile')
     email = models.EmailField(blank=True, null=True)
     cnpj = models.CharField(max_length=18)
     phone = models.CharField(max_length=16, blank=True, null=True)
@@ -32,21 +32,6 @@ class SabespProfile(models.Model):
     consumer_type = models.ForeignKey(ConsumerType, unique=False)
     supply_unit = models.CharField(max_length=140, blank=True)
     consumption_goal = models.FloatField(blank=False)
-
-
-class SabespProfileForm(ModelForm):
-    class Meta:
-        model = SabespProfile
-        fields = ['rgi', 'customer_id', 'consumer_type',
-                'supply_unit', 'consumption_goal']
-
-        labels = {
-                'rgi': 'RGI (Registro Geral de Instalação)',
-                'customer_id': 'Código do Cliente',
-                'consumer_type': 'Tipo de Ligação',
-                'supply_unit': 'Reservatório',
-                'consumption_goal': 'Meta Sabesp',
-        }
 
 
 class HidrometroSabesp(models.Model):

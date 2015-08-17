@@ -4,9 +4,11 @@ from django.contrib.auth.decorators import login_required
 from water_meter.models import WaterTank
 from water_meter.models import Reading
 
-from sabesp.models import SabespProfile
 from sabesp.models import SabespReading
-from sabesp.models import SabespProfileForm
+from sabesp.models import SabespProfile
+
+from sabesp.forms import UserProfileForm
+from sabesp.forms import SabespProfileForm
 
 @login_required
 def index(request):
@@ -55,15 +57,20 @@ def historic(request):
 def settings(request):
     if request.method == 'GET':
         user = request.user
-        profiles = SabespProfile.objects.filter(user=user)
+        profiles_sabesp = SabespProfile.objects.filter(user=user)
         tanks = WaterTank.objects.filter(user=user)
 
-        print(profiles)
-        profile_forms = [SabespProfileForm(instance=i) for i in profiles]
+        print(type(user.profile))
+        print(user.profile)
+
+        user_profile_form = UserProfileForm(instance=user.profile)
+        sabesp_forms = [SabespProfileForm(instance=instance)
+                for instance in profiles_sabesp]
 
         context = {
             'user': user,
-            'profile_forms': profile_forms,
+            'user_profile_form': user_profile_form,
+            'sabesp_forms': sabesp_forms,
             'tanks': tanks,
         }
 

@@ -10,15 +10,15 @@ admin.site.unregister(User)
 admin.site.unregister(Group)
 
 
-class ProfileAdminInline(admin.StackedInline):
-    model = models.Profile
-    form = forms.ProfileForm
+class UserProfileAdminInline(admin.StackedInline):
+    model = models.UserProfile
+    form = forms.UserProfileForm
     can_delete = False
 
-class ProfileAdmin(UserAdmin):
-    inlines = [ProfileAdminInline]
+class UserProfileAdmin(UserAdmin):
+    inlines = [UserProfileAdminInline]
 
-admin.site.register(User, ProfileAdmin)
+admin.site.register(User, UserProfileAdmin)
 admin.site.register(models.ConsumerType)
 admin.site.register(models.SabespProfile)
 admin.site.register(models.HidrometroSabesp)
