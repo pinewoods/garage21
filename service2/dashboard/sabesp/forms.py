@@ -20,8 +20,7 @@ class UserProfileForm(forms.ModelForm):
 class SabespProfileForm(forms.ModelForm):
     class Meta:
         model = models.SabespProfile
-        fields = ['rgi', 'customer_id', 'consumer_type',
-                'supply_unit', 'consumption_goal']
+        fields = '__all__'
 
         labels = {
                 'rgi': 'RGI (Registro Geral de Instalação)',
