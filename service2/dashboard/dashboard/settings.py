@@ -45,7 +45,6 @@ INSTALLED_APPS = (
     'sabesp',
     'bootstrapform',
     'localflavor',
-    'pinax-notifications',
 )
 
 MIDDLEWARE_CLASSES = (
