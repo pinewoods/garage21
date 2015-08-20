@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.contrib.auth.views import login
 from django.contrib.auth.views import logout
 
+import notifications
+
 urlpatterns = [
     url(r'^sabesp/', include('sabesp.urls')),
     url(r'', include('website.urls')),
@@ -27,4 +29,5 @@ urlpatterns = [
         {'next_page': '/accounts/login'}, name='logout'),
     url(r'^api/', include('water_meter.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^inbox/notifications', include(notifications.urls)),
 ]
