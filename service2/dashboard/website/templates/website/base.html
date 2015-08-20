@@ -111,8 +111,8 @@
                     <li {% if active_menu == "goals" %} class="active" {% endif %}>
                     <a href="{% url 'goals' %}"><i class="fa fa-fw fa-bar-chart-o"></i> Definir Metas</a>
                     </li>
-                    <li {% if active_menu == "support" %} class="active" {% endif %}>
-                        <a href="alerts.html"><i class="fa fa-fw fa-bell"></i> Alertas</a>
+                    <li {% if active_menu == "alerts" %} class="active" {% endif %}>
+                    <a href="{% url 'notifications:all' %}"><i class="fa fa-fw fa-bell"></i> Alertas</a>
                     </li>
                     <!---
                     <li {% if active_menu == "supply" %} class="active" {% endif %}>
