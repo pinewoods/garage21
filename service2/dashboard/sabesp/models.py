@@ -78,4 +78,4 @@ class SabespReadingSerializer(serializers.ModelSerializer):
 class Ticket(models.Model):
     user = models.ForeignKey(User, unique=False)
     support_code = models.CharField(max_length=3, blank=False, unique=False)
-    description = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=False)

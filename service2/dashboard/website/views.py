@@ -88,25 +88,25 @@ def support(request):
     user = request.user
 
     if request.method == 'GET':
-        support_form = SupportForm(instance=user.profile)
+        support_form = SupportForm()
 
         context = {
             'user': user,
             'support_form': support_form,
         }    
     else:
-        form = SupportForm(request.POST)
+        support_form = SupportForm(request.POST)
         # check whether it's valid:
-        if form.is_valid():
-            tipo = form.cleaned_data['tipo']
-            description = form.cleaned_data['description']
+        if support_form.is_valid():
+            tipo = support_form.cleaned_data['support_code']
+            description = support_form.cleaned_data['description']
 
             ticket = Ticket(user=user, support_code=tipo, description=description)
             ticket.save()
 
             context = {
             'user': user,
-            'message': "Seu e-mail foi enviado com sucesso",
+            'message': "Seu ticket foi gerado com sucesso",
             } 
         else:
             context = {
@@ -116,4 +116,4 @@ def support(request):
 
     return render(request,
                   'website/support.html',
-                  context=context, form)
+                  context=context)

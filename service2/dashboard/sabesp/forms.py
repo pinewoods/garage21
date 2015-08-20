@@ -36,18 +36,15 @@ SUPPORT_CHOICES = (
 )
 
 class SupportForm(forms.ModelForm):
-    tipo = forms.ChoiceField(choices=SUPPORT_CHOICES)
-    description = forms.CharField(widget=forms.Textarea,max_length=200)
+    support_code = forms.ChoiceField(choices=SUPPORT_CHOICES)
+    #description = forms.CharField(widget=forms.Textarea,max_length=200)
 
     class Meta:
-        model = models.UserProfile
-        fields = ['user','email','phone','mobile']
+        model = models.Ticket
+        fields = ['user','support_code','description']
 
         labels = {
                 'user': 'Usuário',
-                'email': 'E-mail',
-                'phone': 'Telefone',
-                'mobile': 'Celular',
-                'tipo': 'Tipo',
+                'support_code': 'Tipo',
                 'description': 'Descrição',
         }
