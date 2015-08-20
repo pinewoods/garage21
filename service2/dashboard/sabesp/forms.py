@@ -1,7 +1,6 @@
 from django import forms
 
 from localflavor.br.forms import BRCNPJField
-#from localflavor.br.models import BRCPFField
 from localflavor.br.forms import BRPhoneNumberField
 from localflavor.br.forms import BRZipCodeField
 
@@ -28,4 +27,27 @@ class SabespProfileForm(forms.ModelForm):
                 'consumer_type': 'Tipo de Ligação',
                 'supply_unit': 'Reservatório',
                 'consumption_goal': 'Meta Sabesp',
+        }
+
+SUPPORT_CHOICES = (
+    ('BUG', 'Problema Técnico'),
+    ('SUG', 'Sugestão'),
+    ('REC', 'Reclamação'),
+)
+
+class SupportForm(forms.ModelForm):
+    tipo = forms.ChoiceField(choices=SUPPORT_CHOICES)
+    description = forms.CharField(widget=forms.Textarea,max_length=200)
+
+    class Meta:
+        model = models.UserProfile
+        fields = ['user','email','phone','mobile']
+
+        labels = {
+                'user': 'Usuário',
+                'email': 'E-mail',
+                'phone': 'Telefone',
+                'mobile': 'Celular',
+                'tipo': 'Tipo',
+                'description': 'Descrição',
         }

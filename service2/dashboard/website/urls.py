@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^goals/$', views.goals, name='goals'),
     url(r'^historic/$', views.historic, name='historic'),
     url(r'^settings/$', views.settings, name='settings'),
+    url(r'^support/$', views.support, name='support'),
 ]

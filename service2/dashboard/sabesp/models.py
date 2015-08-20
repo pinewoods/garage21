@@ -73,3 +73,9 @@ class SabespReadingSerializer(serializers.ModelSerializer):
         model = SabespReading
         fields = ('sabesp_profile', 'sensor_id', 'reading_m3',
                   'reading_competence')
+
+
+class Ticket(models.Model):
+    user = models.ForeignKey(User, unique=False)
+    support_code = models.CharField(max_length=3, blank=False, unique=False)
+    description = models.CharField(max_length=200, blank=True)
