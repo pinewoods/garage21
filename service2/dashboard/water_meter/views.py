@@ -11,6 +11,7 @@ from django.http import Http404
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.generics import get_object_or_404
 from rest_framework.renderers import JSONRenderer
@@ -133,6 +134,13 @@ class ViewCurrentTankLevel(RetrieveAPIView):
         self.check_object_permissions(self.request, obj)
 
         return obj
+
+class ViewIntradayTankLevel(ListAPIView):
+    lookup_field = 'water_tank'
+    serializer_class = HCSR04ReadingSerializer
+    queryset = HCSR04Reading.objects.filter(
+            timestamp__gt=datetime.datetime.combine(
+                    datetime.date.today(), datetime.time.min))
 
 
 class ViewMonthlyGoals(APIView):
