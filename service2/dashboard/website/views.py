@@ -6,7 +6,7 @@ from water_meter.models import Reading
 
 from sabesp.models import SabespReading
 from sabesp.models import SabespProfile
-from sabesp.models import Ticket
+from support.models import Ticket
 
 from sabesp.forms import UserProfileForm
 from sabesp.forms import SabespProfileForm
@@ -88,7 +88,7 @@ def support(request):
     user = request.user
 
     if request.method == 'GET':
-        support_form = SupportForm()
+        support_form = SupportForm(initial={'user': user})
 
         context = {
             'user': user,

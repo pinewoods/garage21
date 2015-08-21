@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'bootstrapform',
     'localflavor',
     'notifications',
+    'support',
 )
 
 MIDDLEWARE_CLASSES = (
