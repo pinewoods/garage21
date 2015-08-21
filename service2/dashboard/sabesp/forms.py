@@ -5,6 +5,7 @@ from localflavor.br.forms import BRPhoneNumberField
 from localflavor.br.forms import BRZipCodeField
 
 from . import models
+from support.models import Ticket
 
 class UserProfileForm(forms.ModelForm):
     cnpj = BRCNPJField(label="CNPJ")
@@ -37,10 +38,9 @@ SUPPORT_CHOICES = (
 
 class SupportForm(forms.ModelForm):
     support_code = forms.ChoiceField(choices=SUPPORT_CHOICES)
-    #description = forms.CharField(widget=forms.Textarea,max_length=200)
 
     class Meta:
-        model = models.Ticket
+        model = Ticket
         fields = ['user','support_code','description']
 
         labels = {
