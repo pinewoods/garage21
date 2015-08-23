@@ -34,6 +34,7 @@ class SabespProfile(models.Model):
     # This is from which dam this water supply comes from 
     supply_unit = models.CharField(max_length=140, blank=True)
     consumption_goal = models.FloatField(blank=False)
+    sabesp_read_day = models.FloatField(blank=False)
     
     def __str__(self):
         return "%s" % (self.customer_id)

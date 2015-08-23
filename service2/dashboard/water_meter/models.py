@@ -83,22 +83,18 @@ class HCSR04ReadingSerializer(serializers.ModelSerializer):
 
 
 class ConsumpitionGoal(models.Model):
-    water_tank = models.ForeignKey(WaterTank, unique=False)
-    begin_date = models.DateField()
-    end_date = models.DateField()
+    user = models.ForeignKey(User, unique=False,blank=False)
+    goal_initial = models.DateField(blank=False)
     goal = models.FloatField(blank=False)
-    real_consume = models.FloatField(editable=False, null=True)
-    est_consume = models.FloatField(editable=False, null=True)
 
-    def __str__(self):
-        return "[%s] %s" % (self.end_date, self.goal)
+#    def __str__(self):
+#        return "[%s] %s" % (self.end_date, self.goal)
 
 
 class ConsumpitionGoalSerializer(serializers.ModelSerializer):
-    water_tank = serializers.PrimaryKeyRelatedField(
-            queryset=WaterTank.objects.all())
+    user = serializers.PrimaryKeyRelatedField(
+            queryset=User.objects.all())
 
     class Meta:
         model = ConsumpitionGoal
-        fields = ('water_tank', 'begin_date', 'end_date',
-                  'goal', 'real_consume', 'est_consume')
+        fields = ('user', 'goal_initial', 'goal')

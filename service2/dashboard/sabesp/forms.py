@@ -27,5 +27,6 @@ class SabespProfileForm(forms.ModelForm):
                 'consumer_type': 'Tipo de Ligação',
                 'supply_unit': 'Reservatório',
                 'consumption_goal': 'Meta Sabesp',
+                'sabesp_read_day': 'Dia da Leitura Sabesp',
         }
 

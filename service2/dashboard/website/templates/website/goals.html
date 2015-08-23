@@ -1,5 +1,7 @@
 {% extends "website/base.html" %}
 {% load staticfiles %}
+{% load bootstrap %}
+
 
 {% block style-block %}
 <!-- datepicker id="bsdp-css" -->
@@ -46,6 +48,7 @@
             </div>
             <div class="panel-body">
                 <!-- <form class="form-horizontal"> -->
+                <!--
                 <form id="goals_form" action="{% url 'goals-list' %}" method="POST">
                     {% csrf_token %}
                     <div class="form-group">
@@ -69,6 +72,13 @@
                     <div class="checkbox">
                         <label><input type="checkbox" name="send_alert">Enviar aviso ao final do prazo</label>
                     </div>
+                    <button type="submit" class="btn btn-primary">Definir</button>
+                    <button type="reset" class="btn btn-default">Limpar</button>
+                </form>
+            -->
+                <form id="goals_form" action="{% url 'goals-list' %}" method="POST">
+                    {% csrf_token %}
+                    {{ goals_form|bootstrap }}
                     <button type="submit" class="btn btn-primary">Definir</button>
                     <button type="reset" class="btn btn-default">Limpar</button>
                 </form>

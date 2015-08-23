@@ -3,14 +3,16 @@ from django.contrib.auth.decorators import login_required
 
 from water_meter.models import WaterTank
 from water_meter.models import Reading
-
+from water_meter.models import ConsumpitionGoal
 from sabesp.models import SabespReading
 from sabesp.models import SabespProfile
 from support.models import Ticket
 
+
 from sabesp.forms import UserProfileForm
 from sabesp.forms import SabespProfileForm
 from support.forms import SupportForm
+from water_meter.forms import ConsumptionGoalForm
 
 @login_required
 def index(request):
@@ -28,13 +30,16 @@ def index(request):
 
 @login_required
 def goals(request):
-    user = request.user
-    tanks = WaterTank.objects.filter(user=user)
+    if request.method == 'GET':
+        user = request.user
+        tanks = WaterTank.objects.filter(user=user)
+        goals_form = ConsumptionGoalForm(initial={'user': user})
 
-    context = {
-        'user': user,
-        'tanks': tanks,
-    }
+        context = {
+            'user': user,
+            'tanks': tanks,
+            'goals_form': goals_form,
+        }
 
     return render(request,
                   'website/goals.html',
