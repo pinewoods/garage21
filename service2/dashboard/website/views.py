@@ -10,8 +10,7 @@ from support.models import Ticket
 
 from sabesp.forms import UserProfileForm
 from sabesp.forms import SabespProfileForm
-from sabesp.forms import SupportForm
-
+from support.forms import SupportForm
 
 @login_required
 def index(request):
