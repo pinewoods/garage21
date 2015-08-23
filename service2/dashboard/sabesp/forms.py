@@ -3,6 +3,7 @@ from django import forms
 from localflavor.br.forms import BRCNPJField
 from localflavor.br.forms import BRPhoneNumberField
 from localflavor.br.forms import BRZipCodeField
+from django.utils.translation import gettext as _
 
 from . import models
 from support.models import Ticket
@@ -47,4 +48,8 @@ class SupportForm(forms.ModelForm):
                 'user': 'Usuário',
                 'support_code': 'Tipo',
                 'description': 'Descrição',
+        }
+        error_messages = {
+            'description': {'required': _("Por favor, insira uma descrição.")},
+            'user': {'required': _("Por favor, informe seu usuário.")},
         }

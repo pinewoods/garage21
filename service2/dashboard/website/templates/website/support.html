@@ -44,12 +44,8 @@
                         <!-- dismissable alerts -->
                         <span id="message_span" class="uneditable-input">{{ message }}</span>
                         <span id="stack_trace_span" class="uneditable-input">
-                            {% for error in support_form.errors %}
-                                {{ support_form.errors }}
-                            {% endfor %}
-                        </span>
                     </div>
-                {% else %}
+                {% else %} 
                     <form method="POST" action="/support/">
                         {% csrf_token %}
                         {{ support_form|bootstrap }}
