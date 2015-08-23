@@ -1,0 +1,20 @@
+{% extends "admin/base.html" %}
+{% load i18n %}{% load admin_static bootstrapped_goodies_tags %}
+
+
+{% block title %}Velki Web :: powered by Wolksen{% endblock %}
+
+{% block extrastyle %}
+<style media="screen" type="text/css">
+    .navbar-gray-bg {
+        background-color: #222;
+        /* border-color: rgb(231, 231, 231); */
+    }
+</style>
+{% endblock %}
+
+{% block branding %}
+<a class="navbar-brand" href="{% url 'admin:index' %}">{% if not site_header %}{{ site_header }}{% else %}Velki Web :: powered by Wolksen{% endif %}</a>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
