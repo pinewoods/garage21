@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'localflavor',
     'notifications',
     'support',
+    'alert',
 )
 
 MIDDLEWARE_CLASSES = (
