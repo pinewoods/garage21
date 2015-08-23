@@ -96,6 +96,7 @@ def support(request):
         }    
     else:
         support_form = SupportForm(request.POST)
+        message = ''
         # check whether it's valid:
         if support_form.is_valid():
             tipo = support_form.cleaned_data['support_code']
@@ -104,15 +105,13 @@ def support(request):
             ticket = Ticket(user=user, support_code=tipo, description=description)
             ticket.save()
 
-            context = {
-            'user': user,
-            'message': "Seu ticket foi gerado com sucesso",
-            } 
-        else:
-            context = {
-            'user': user,
-            'message': "Ocorreu entre em contato com nosso telefone (11)99999-9999",
-            }
+            message = "Seu ticket foi gerado com sucesso"
+
+        context = {
+        'user': user,
+        'message': message,
+        'support_form': support_form,
+        }
 
     return render(request,
                   'website/support.html',
