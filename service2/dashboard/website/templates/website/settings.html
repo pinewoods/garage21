@@ -38,7 +38,7 @@
 </div>
 <div class="row">
     <div class="col-lg-4">
-        <div class="panel panel-red">
+        <div class="panel panel-green">
             <div class="panel-heading">
                 <h3 class="panel-title"><i class="fa fa-usd"></i> Informações para Cobrança
             </div>
@@ -68,6 +68,25 @@
             </div>
         </div>
     </div>
+{% endfor %}
+<!-- Alerts -->
+{% for alert in alert_forms %}
+    <div class="col-lg-4">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-usd"></i> Definir Alertas
+            </div>
+            <div class="panel-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{ alert|bootstrap }}
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="reset" class="btn btn-default">Limpar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- endalerts -->
 {% endfor %}
 </div>
 

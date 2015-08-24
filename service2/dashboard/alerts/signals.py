@@ -2,6 +2,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 
 from django.core.mail import send_mail
+from notifications import notify
 
 from .models import LevelAlert
 from water_meter.models import HCSR04Reading
@@ -26,3 +27,8 @@ def levelAlertHandler(sender, instance, created, raw, **kwargs):
         # send_mail('Subject here', 'Here is the message.',
         #       'from@example.com', ['to@example.com'], fail_silently=False)
 
+        msg = u'O nível do reservatório está abaixo de %f.1%%'
+        notify.send(user,
+                recipient=user, verb=u'low_level',
+                action_object=instance,
+                description=msg % instance.level)
