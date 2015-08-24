@@ -103,9 +103,8 @@
 
 {% block script-block %}
 
-    <!-- highcharts.js TODO: download file -->
-    <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="{% static "website/js/highcharts.js" %}"></script>
+    <script src="{% static "website/js/exporting.js" %}"></script>
 
     <!-- Datepicker -->
     <script src="{% static "website/js/bootstrap-datepicker.min.js" %}"></script>
