@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.extras.widgets import SelectDateWidget
 
 from django.utils.translation import gettext as _
 
@@ -9,6 +10,9 @@ from water_meter.models import ConsumpitionGoal
 
 class ConsumptionGoalForm(forms.ModelForm):
 
+    widget=SelectDateWidget(
+                empty_label=("Choose Year", "Choose Month", "Choose Day"))
+
     class Meta:
         model = ConsumpitionGoal
         fields = ['user', 'goal_initial','goal']
@@ -16,10 +20,10 @@ class ConsumptionGoalForm(forms.ModelForm):
         labels = {
                 'user': 'Usuário',
                 'goal_initial': 'Mês inicial',
-                'goal': 'Descrição',
+                'goal': 'Meta',
         }
         widgets = {
-            'goal_initial': forms.DateInput(attrs={'class':'datepicker'}),
+            'goal_initial': forms.DateInput(attrs={'type':'hidden'}),
         }
         error_messages = {
             'goal': {'required': _("Por favor, insira uma meta.")},

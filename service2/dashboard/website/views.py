@@ -30,8 +30,9 @@ def index(request):
 
 @login_required
 def goals(request):
+    user = request.user
+
     if request.method == 'GET':
-        user = request.user
         tanks = WaterTank.objects.filter(user=user)
         goals_form = ConsumptionGoalForm(initial={'user': user})
 
@@ -40,7 +41,25 @@ def goals(request):
             'tanks': tanks,
             'goals_form': goals_form,
         }
+    if request.method == 'POST':
+        goals_form = ConsumptionGoalForm(request.POST)
+        message = ''
+        # check whether it's valid:
+        if goals_form.is_valid():
+            goal_initial = goals_form.cleaned_data['goal_initial']
+            goal = goals_form.cleaned_data['goal']
 
+            consumptionGoal = ConsumpitionGoal(user=user, goal_initial=goal_initial, goal=goal)
+            consumptionGoal.save()
+
+            message = "Sua meta foi inserida com sucesso"
+
+        context = {
+            'user': user,
+            'tanks': tanks,
+            'message': message,
+            'goals_form': goals_form,
+        }
     return render(request,
                   'website/goals.html',
                   context=context)

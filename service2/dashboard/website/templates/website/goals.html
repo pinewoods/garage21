@@ -78,9 +78,22 @@
             -->
                 <form id="goals_form" action="{% url 'goals-list' %}" method="POST">
                     {% csrf_token %}
+                    <div class="form-group" id="datepicker-container">
+                        <label for="datepicker_div">Selecione o mês:</label>
+                        <div id="datepicker_div"></div>
+                        <input id="datepicker_year_input" name="year" type="hidden">
+                        <input id="datepicker_month_input" name="month" type="hidden">
+                    </div>
                     {{ goals_form|bootstrap }}
                     <button type="submit" class="btn btn-primary">Definir</button>
                     <button type="reset" class="btn btn-default">Limpar</button>
+                    {% if message %}
+                    <div id="div_alert">
+                        <!-- dismissable alerts -->
+                        <span id="message_span" class="uneditable-input">{{ message }}</span>
+                        <span id="stack_trace_span" class="uneditable-input">
+                    </div>
+                    {% endif %}
                 </form>
             </div>
         </div>
@@ -126,6 +139,9 @@
             console.log(ev); // DEBUG
             var currMonth = new Date(ev.date).getMonth()+1;
             var currYear = String(ev.date).split(" ")[3];
+            var currData = currYear + "-" + currMonth + "-1"
+            console.log(data);
+            $("#goal_initial").attr('value', currData);
             $("#datepicker_month_input").attr('value', currMonth);
             $("#datepicker_year_input").attr('value', currYear);
         });;
