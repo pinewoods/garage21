@@ -58,6 +58,7 @@ def goals(request):
 
             message = "Sua meta foi inserida com sucesso"
 
+        #from IPython import embed; embed()
         context = {
             'user': user,
             'tanks': tanks,

@@ -19,15 +19,13 @@ class ConsumptionGoalForm(forms.ModelForm):
 
         labels = {
                 'user': 'Usuário',
-                'goal_initial': 'Mês inicial',
                 'goal': 'Meta',
         }
         widgets = {
-            'goal_initial': forms.DateInput(attrs={'type':'hidden'}),
+            'goal_initial': forms.DateInput(attrs={'type':'hidden','required': True}),
         }
         error_messages = {
-            'goal': {'required': _("Por favor, insira uma meta.")},
-            'goal': {'invalid': _("Por favor, insira uma meta válida.")},
+            'goal': {'required': _("Por favor, insira uma meta."),'invalid': _("Por favor, insira uma meta válida.")},
             'user': {'required': _("Por favor, informe seu usuário.")},
             'goal_initial': {'required': _("Por favor, escolha o mesmo para iniciar a meta.")},
         }
