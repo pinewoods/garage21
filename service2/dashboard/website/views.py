@@ -7,12 +7,15 @@ from water_meter.models import ConsumpitionGoal
 from sabesp.models import SabespReading
 from sabesp.models import SabespProfile
 from support.models import Ticket
+from alerts.models import LevelAlert
 
 
 from sabesp.forms import UserProfileForm
 from sabesp.forms import SabespProfileForm
 from support.forms import SupportForm
 from water_meter.forms import ConsumptionGoalForm
+from alerts.forms import LevelAlertForm
+
 
 @login_required
 def index(request):
@@ -77,7 +80,7 @@ def historic(request):
 
     return render(request,
                   'website/historic.html',
-                  context=context)  
+                  context=context)
 
 @login_required
 def settings(request):
@@ -85,18 +88,20 @@ def settings(request):
         user = request.user
         profiles_sabesp = SabespProfile.objects.filter(user=user)
         tanks = WaterTank.objects.filter(user=user)
-
-        print(type(user.profile))
-        print(user.profile)
+        # TODO get each tank's alert
+        alerts = LevelAlert.objects.filter(user=user).latest('timestamp')
 
         user_profile_form = UserProfileForm(instance=user.profile)
         sabesp_forms = [SabespProfileForm(instance=instance)
                 for instance in profiles_sabesp]
+        # TODO
+        alert_forms = [LevelAlertForm(instance=alerts)]
 
         context = {
             'user': user,
             'user_profile_form': user_profile_form,
             'sabesp_forms': sabesp_forms,
+            'alert_forms': alert_forms,
             'tanks': tanks,
         }
 
@@ -117,7 +122,7 @@ def support(request):
         context = {
             'user': user,
             'support_form': support_form,
-        }    
+        }
     else:
         support_form = SupportForm(request.POST)
         message = ''
