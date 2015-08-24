@@ -76,7 +76,7 @@
                     <button type="reset" class="btn btn-default">Limpar</button>
                 </form>
             -->
-                <form id="goals_form" action="{% url 'goals-list' %}" method="POST">
+                <form id="goals_form" action="/goals/" method="POST">
                     {% csrf_token %}
                     <div class="form-group" id="datepicker-container">
                         <label for="datepicker_div">Selecione o mês:</label>
