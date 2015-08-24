@@ -34,9 +34,10 @@ def index(request):
 @login_required
 def goals(request):
     user = request.user
-
+    tanks = WaterTank.objects.filter(user=user)
+    
     if request.method == 'GET':
-        tanks = WaterTank.objects.filter(user=user)
+
         goals_form = ConsumptionGoalForm(initial={'user': user})
 
         context = {

@@ -171,5 +171,5 @@ class ViewMonthlyGoals(APIView):
 
 
 class GoalsViewSet(viewsets.ModelViewSet):
-    queryset = ConsumpitionGoal.objects.all().order_by('-begin_date')
+    queryset = ConsumpitionGoal.objects.all().order_by('-goal_initial')
     serializer_class = ConsumpitionGoalSerializer
