@@ -14,12 +14,12 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = models.UserProfile
-        fields = '__all__'
+        exclude = ('user',)
 
 class SabespProfileForm(forms.ModelForm):
     class Meta:
         model = models.SabespProfile
-        fields = '__all__'
+        exclude = ('user',)
 
         labels = {
                 'rgi': 'RGI (Registro Geral de Instalação)',
