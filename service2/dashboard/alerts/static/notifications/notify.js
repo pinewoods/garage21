@@ -20,7 +20,9 @@ function fill_notification_list(data) {
         menu.innerHTML = "";
         for (var i=0; i < data.unread_list.length; i++) {
             var item = data.unread_list[i];
-            menu.innerHTML = menu.innerHTML + "<li>"+item.object+" "+item.verb+" "+item.subject+"</li>";
+            // Original line form django-notifications
+            // menu.innerHTML = menu.innerHTML + "<li>"+item.object+" "+item.verb+" "+item.subject+"</li>";
+            menu.innerHTML = menu.innerHTML + "<li>"+item.verb+"</li>";
         }
     }
 }
