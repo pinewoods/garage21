@@ -1,3 +1,4 @@
+import time
 import datetime
 
 from django.db import models
@@ -53,6 +54,10 @@ class Reading(models.Model):
         else:
             return self.timestamp < other.timestamp
 
+    @property
+    def unix_timestamp(self):
+        #TODO: datetime.utcfromtimestamp()
+        return time.mktime(self.timestamp.timetuple())
 
 class YFS201Reading(Reading):
     @property
@@ -79,7 +84,7 @@ class HCSR04ReadingSerializer(serializers.ModelSerializer):
     class Meta:
         model = HCSR04Reading
         fields = ('water_tank', 'sensor_type',
-                  'timestamp', 'level')
+                  'timestamp', 'unix_timestamp', 'level')
 
 
 class ConsumpitionGoal(models.Model):
