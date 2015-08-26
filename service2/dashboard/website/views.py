@@ -35,7 +35,7 @@ def index(request):
 def goals(request):
     user = request.user
     tanks = WaterTank.objects.filter(user=user)
-    
+
     if request.method == 'GET':
 
         goals_form = ConsumptionGoalForm(initial={'user': user})
@@ -84,33 +84,48 @@ def historic(request):
 
 @login_required
 def settings(request):
-    if request.method == 'GET':
-        user = request.user
-        profiles_sabesp = SabespProfile.objects.filter(user=user)
-        tanks = WaterTank.objects.filter(user=user)
-        # TODO get each tank's alert
-        alerts = LevelAlert.objects.filter(user=user).latest('timestamp')
 
-        user_profile_form = UserProfileForm(instance=user.profile)
-        sabesp_forms = [SabespProfileForm(instance=instance)
-                for instance in profiles_sabesp]
-        # TODO
-        alert_forms = [LevelAlertForm(instance=alerts)]
+    user = request.user
+    tanks = WaterTank.objects.filter(user=user)
 
-        context = {
-            'user': user,
-            'user_profile_form': user_profile_form,
-            'sabesp_forms': sabesp_forms,
-            'alert_forms': alert_forms,
-            'tanks': tanks,
-        }
+    profiles_sabesp = SabespProfile.objects.filter(user=user)
+    # TODO get each tank's alert
+    alerts = LevelAlert.objects.filter(user=user).latest('timestamp')
 
-        return render(request,
-                      'website/settings.html',
-                      context=context)
+    user_profile_form = UserProfileForm(instance=user.profile)
+    sabesp_forms = [SabespProfileForm(instance=instance)
+            for instance in profiles_sabesp]
+    # TODO
+    alert_forms = [LevelAlertForm(instance=alerts)]
 
     if request.method == 'POST':
-        from IPython import embed; embed()
+        # TODO: Redirect each submit to its own url action
+        if 'user_profile' in request.POST:
+            form = user_profile_form = UserProfileForm(request.POST)
+        if 'sabesp_profile' in request.POST:
+            form = sabesp_form = SabespProfileForm(request.POST)
+            sabesp_forms = [sabesp_form] # Gambi
+        if 'alert' in request.POST:
+            form = alert_form = LevelAlertForm(request.POST)
+            alert_forms = [alert_form] # Gambi
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+
+    context = {
+        'user': user,
+        'user_profile_form': user_profile_form,
+        'sabesp_forms': sabesp_forms,
+        'alert_forms': alert_forms,
+        'tanks': tanks,
+    }
+
+    return render(request,
+                  'website/settings.html',
+                  context=context)
+
 
 @login_required
 def support(request):

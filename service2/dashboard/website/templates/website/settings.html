@@ -46,7 +46,7 @@
                 <form method="POST" action="">
                     {% csrf_token %}
                     {{ user_profile_form|bootstrap }}
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="submit" name="user_profile" class="btn btn-primary">Salvar</button>
                     <button type="reset" class="btn btn-default">Limpar</button>
                 </form>
             </div>
@@ -62,7 +62,7 @@
                 <form method="POST" action="">
                     {% csrf_token %}
                     {{ profile|bootstrap }}
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="submit"  name="sabesp_profile" class="btn btn-primary">Salvar</button>
                     <button type="reset" class="btn btn-default">Limpar</button>
                 </form>
             </div>
@@ -80,7 +80,7 @@
                 <form method="POST" action="">
                     {% csrf_token %}
                     {{ alert|bootstrap }}
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="submit" name="alert" class="btn btn-primary">Salvar</button>
                     <button type="reset" class="btn btn-default">Limpar</button>
                 </form>
             </div>
