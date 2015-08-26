@@ -121,6 +121,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
+NOTIFICATIONS_SOFT_DELETE = True
+
 try:
     from .local_settings import *
 except ImportError:
