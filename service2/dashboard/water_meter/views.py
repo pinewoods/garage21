@@ -141,8 +141,8 @@ class ViewIntradayTankLevel(ListAPIView):
     serializer_class = HCSR04ReadingSerializer
     queryset = HCSR04Reading.objects.filter(
             timestamp__gt=datetime.datetime.combine(
-                    datetime.date.today(), datetime.time.min))
-
+                    datetime.date.today(), datetime.time.min)
+                        ).order_by('-timestamp')
 
 class ViewMonthlyGoals(APIView):
 
