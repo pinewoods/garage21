@@ -25,4 +25,6 @@ router.register(r'readings', views.SabespReadingViewSet, 'readings')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
+    url(r'^profile/', views.SabesprofileRetrieve.as_view(),
+            name='sabesp-profile'),
 ]
