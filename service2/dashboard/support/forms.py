@@ -20,10 +20,9 @@ class SupportForm(forms.ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ['user','support_code','description']
+        fields = ['support_code','description']
 
         labels = {
-                'user': 'Usuário',
                 'support_code': 'Tipo',
                 'description': 'Descrição',
         }

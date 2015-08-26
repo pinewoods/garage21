@@ -178,7 +178,7 @@ class GoalsViewSet(viewsets.ModelViewSet):
 
 class GoalsListSet(ListAPIView):
     serializer_class = GoalSerializer
-        
+
     def get_queryset(self):
         user = self.request.user
         year = int(self.kwargs['year'])

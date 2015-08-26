@@ -129,7 +129,9 @@ def settings(request):
 
 @login_required
 def support(request):
+
     user = request.user
+    message = ''
 
     if request.method == 'GET':
         support_form = SupportForm(initial={'user': user})
@@ -138,9 +140,10 @@ def support(request):
             'user': user,
             'support_form': support_form,
         }
-    else:
+
+    if request.method == 'POST':
+
         support_form = SupportForm(request.POST)
-        message = ''
         # check whether it's valid:
         if support_form.is_valid():
             tipo = support_form.cleaned_data['support_code']
@@ -151,11 +154,11 @@ def support(request):
 
             message = "Seu ticket foi gerado com sucesso"
 
-        context = {
+    context = {
         'user': user,
         'message': message,
         'support_form': support_form,
-        }
+    }
 
     return render(request,
                   'website/support.html',

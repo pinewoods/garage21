@@ -15,10 +15,9 @@ class ConsumptionGoalForm(forms.ModelForm):
 
     class Meta:
         model = ConsumpitionGoal
-        fields = ['user', 'goal_initial','goal']
+        fields = ['goal_initial','goal']
 
         labels = {
-                'user': 'Usuário',
                 'goal': 'Meta',
         }
         widgets = {
@@ -26,6 +25,5 @@ class ConsumptionGoalForm(forms.ModelForm):
         }
         error_messages = {
             'goal': {'required': _("Por favor, insira uma meta."),'invalid': _("Por favor, insira uma meta válida.")},
-            'user': {'required': _("Por favor, informe seu usuário.")},
             'goal_initial': {'required': _("Por favor, escolha o mesmo para iniciar a meta.")},
         }
