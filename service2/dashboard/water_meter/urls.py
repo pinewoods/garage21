@@ -20,7 +20,6 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'goals', views.GoalsViewSet, 'goals')
-#router.register(r'goals', views.GoalsViewSet.as_view(), 'goals')
 # name='goals-list'
 # name='goals-detail'
 

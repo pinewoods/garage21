@@ -39,6 +39,15 @@ class SabespProfile(models.Model):
     def __str__(self):
         return "%s" % (self.customer_id)
 
+class SabespProfileSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(
+            queryset=UserProfile.objects.all())
+
+    class Meta:
+        model = SabespProfile
+        fields = ('user', 'rgi', 'customer_id',
+                  'consumption_goal','sabesp_read_day')
+
 
 class HidrometroSabesp(models.Model):
     sensor_id = models.CharField(max_length=64, blank=False, unique=True)
