@@ -92,9 +92,6 @@ class ConsumpitionGoal(models.Model):
     goal_initial = models.DateField(blank=False)
     goal = models.FloatField(blank=False)
 
-#    def __str__(self):
-#        return "[%s] %s" % (self.end_date, self.goal)
-
 
 class ConsumpitionGoalSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
@@ -102,4 +99,10 @@ class ConsumpitionGoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ConsumpitionGoal
-        fields = ('user', 'goal_initial', 'goal')
+        fields = ('user','goal_initial', 'goal')
+
+class GoalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ConsumpitionGoal
+        fields = ('goal_initial', 'goal')
