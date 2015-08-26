@@ -25,6 +25,7 @@ from .models import  SensorType
 from .models import  WaterTank
 from .models import  ConsumpitionGoal
 from .models import  ConsumpitionGoalSerializer
+from .models import  GoalSerializer
 
 
 def each_last_reading(readings, first_day, last_day):
@@ -173,3 +174,12 @@ class ViewMonthlyGoals(APIView):
 class GoalsViewSet(viewsets.ModelViewSet):
     queryset = ConsumpitionGoal.objects.all().order_by('-goal_initial')
     serializer_class = ConsumpitionGoalSerializer
+
+
+class GoalsListSet(ListAPIView):
+    serializer_class = GoalSerializer
+        
+    def get_queryset(self):
+        user = self.request.user
+        year = int(self.kwargs['year'])
+        return ConsumpitionGoal.objects.filter(user=user, goal_initial__year=year).order_by('-goal_initial')

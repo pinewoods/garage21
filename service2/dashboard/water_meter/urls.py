@@ -20,6 +20,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'goals', views.GoalsViewSet, 'goals')
+#router.register(r'goals', views.GoalsViewSet.as_view(), 'goals')
 # name='goals-list'
 # name='goals-detail'
 
@@ -35,4 +36,6 @@ urlpatterns = [
     url(r'^tank/(?P<water_tank>[0-9]+)/monthly-goals/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/$',
             views.ViewMonthlyGoals.as_view(),
             name='monthly-goals'),
+    url(r'^goals/year/(?P<year>[0-9]{4})/$', views.GoalsListSet.as_view(),
+            name='user-goals'),
 ]
