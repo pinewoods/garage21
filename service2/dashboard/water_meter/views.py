@@ -21,7 +21,11 @@ from rest_framework.response import Response
 from .models import  YFS201Reading
 from .models import  HCSR04Reading
 from .models import  HCSR04ReadingSerializer
+<<<<<<< HEAD
 from .models import  YFS201ReadingSerializer
+=======
+from .models import  EssentialHCSR04Serializer
+>>>>>>> de47e0afb52a5c97aef57b99d04bfb26b0ee05e2
 from .models import  SensorType
 from .models import  WaterTank
 from .models import  ConsumpitionGoal
@@ -139,7 +143,7 @@ class ViewCurrentTankLevel(RetrieveAPIView):
 
 class ViewIntradayTankLevel(ListAPIView):
     lookup_field = 'water_tank'
-    serializer_class = HCSR04ReadingSerializer
+    serializer_class = EssentialHCSR04Serializer
     queryset = HCSR04Reading.objects.filter(
             timestamp__gt=datetime.datetime.combine(
                     datetime.date.today(), datetime.time.min)

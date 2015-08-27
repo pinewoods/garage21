@@ -18,7 +18,12 @@ function plot_level_timeseries(div_selector, data_points) {
         },
 
         rangeSelector : {
-            enabled:false
+            enabled:false,
+        },
+
+        /* TODO: Please Enable this in future !!! */
+        navigator:{
+            enabled:false,
         },
 
         series : [{

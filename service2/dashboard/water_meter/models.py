@@ -36,6 +36,7 @@ class SensorTypeSerializer(serializers.ModelSerializer):
 
 
 class Reading(models.Model):
+
     class Meta:
         abstract = True
 
@@ -59,13 +60,13 @@ class Reading(models.Model):
         #TODO: datetime.utcfromtimestamp()
         return time.mktime(self.timestamp.timetuple())
 
+
 class YFS201Reading(Reading):
     @property
     def sensor_type(self):
         return 'YF-S201'
 
 class YFS201ReadingSerializer(serializers.ModelSerializer):
-    #sensor_type = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = YFS201Reading
@@ -91,6 +92,11 @@ class HCSR04ReadingSerializer(serializers.ModelSerializer):
         model = HCSR04Reading
         fields = ('water_tank', 'sensor_type',
                   'timestamp', 'unix_timestamp', 'level')
+
+class EssentialHCSR04Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = HCSR04Reading
+        fields = ('unix_timestamp', 'level')
 
 
 class ConsumpitionGoal(models.Model):
