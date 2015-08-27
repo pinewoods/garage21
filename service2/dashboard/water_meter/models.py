@@ -64,6 +64,12 @@ class YFS201Reading(Reading):
     def sensor_type(self):
         return 'YF-S201'
 
+class YFS201ReadingSerializer(serializers.ModelSerializer):
+    #sensor_type = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = YFS201Reading
+        fields = ('timestamp', 'sensor_reading')
 
 class HCSR04Reading(Reading):
     @property
@@ -92,6 +98,9 @@ class ConsumpitionGoal(models.Model):
     goal_initial = models.DateField(blank=False)
     goal = models.FloatField(blank=False)
 
+    def __str__(self):
+        return "%s" % (self.goal_initial)
+
 
 class ConsumpitionGoalSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
@@ -105,4 +114,4 @@ class GoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ConsumpitionGoal
-        fields = ('goal_initial', 'goal')
+        fields = ('goal','goal_initial')

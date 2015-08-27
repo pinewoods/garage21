@@ -29,7 +29,7 @@ function fill_notification_list(data) {
 
 function register_notifier(func) {
     registered_functions.push(func);
-    console.log(registered_functions)
+    //console.log(registered_functions)
 }
 
 function fetch_api_data() {

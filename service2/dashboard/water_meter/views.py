@@ -21,6 +21,7 @@ from rest_framework.response import Response
 from .models import  YFS201Reading
 from .models import  HCSR04Reading
 from .models import  HCSR04ReadingSerializer
+from .models import  YFS201ReadingSerializer
 from .models import  SensorType
 from .models import  WaterTank
 from .models import  ConsumpitionGoal
@@ -170,6 +171,16 @@ class ViewMonthlyGoals(APIView):
 
         return Response(response)
 
+class ViewMonthlyReadings(ListAPIView):
+    serializer_class = YFS201ReadingSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        wt = WaterTank.objects.filter(user=user)
+        year = int(self.kwargs['year'])
+
+        return YFS201Reading.objects.filter(water_tank=wt, timestamp__year=year).order_by('timestamp')
+
 
 class GoalsViewSet(viewsets.ModelViewSet):
     queryset = ConsumpitionGoal.objects.all().order_by('-goal_initial')
@@ -182,4 +193,4 @@ class GoalsListSet(ListAPIView):
     def get_queryset(self):
         user = self.request.user
         year = int(self.kwargs['year'])
-        return ConsumpitionGoal.objects.filter(user=user, goal_initial__year=year).order_by('-goal_initial')
+        return ConsumpitionGoal.objects.filter(user=user, goal_initial__year=year).order_by('goal_initial')

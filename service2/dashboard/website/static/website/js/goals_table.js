@@ -27,7 +27,7 @@ function built_paginator(data){
 
     //n_pages = Math.ceil(data.count / data.results.length);
     //Number of results.length == 1 sometimes
-    n_pages = Math.ceil(data.count / 10);
+    n_pages = Math.ceil(data.count / 12);
     //console.log(activePage);
     for(i=1; i<=n_pages; i++){
         //console.log(activePage, i, activePage==i);

@@ -13,7 +13,6 @@ from water_meter.models import ConsumpitionGoal
 def run():
 
     user = User.objects.get(pk=1)
-    flow_counter = 100.0
     year = timezone.now().year
 
     question = 'All Goals will be DELETED. Are you sure? (yes/no)? '
@@ -26,12 +25,12 @@ def run():
     ConsumpitionGoal.objects.all().delete()
 
     objects = []
-    for month in range(1, 12):
+    for month in range(1, 13):
         goal_initial = datetime.date(day=1, month=month, year=year)
 
         obj = ConsumpitionGoal(user=user,
                                goal_initial=goal_initial,
-                               goal=random.gauss(600, 100))
+                               goal=random.gauss(100, 10))
 
         objects.append(obj)
 

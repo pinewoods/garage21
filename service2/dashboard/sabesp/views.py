@@ -25,7 +25,7 @@ from .models import SabespProfileSerializer
 
 # Create your views here.
 class SabespReadingViewSet(viewsets.ModelViewSet):
-    queryset = SabespReading.objects.all().order_by('-reading_competence')
+    queryset = SabespReading.objects.all().order_by('reading_competence')
     serializer_class = SabespReadingSerializer
 
 class SabesprofileRetrieve(ListAPIView):

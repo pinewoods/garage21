@@ -23,7 +23,7 @@ class ConsumerType(models.Model):
     description = models.CharField(max_length=256, blank=True)
 
     def __str__(self):
-        return "[%s] %s" % (self.code, self.description)
+        return "%s - %s" % (self.code, self.description)
 
 
 class SabespProfile(models.Model):
@@ -37,7 +37,7 @@ class SabespProfile(models.Model):
     sabesp_read_day = models.FloatField(blank=False)
     
     def __str__(self):
-        return "%s" % (self.customer_id)
+        return self.user.username
 
 class SabespProfileSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
@@ -53,12 +53,16 @@ class HidrometroSabesp(models.Model):
     sensor_id = models.CharField(max_length=64, blank=False, unique=True)
     sabesp_profile = models.ForeignKey(SabespProfile, unique=False)
 
+    def __str__(self):
+        return self.sensor_id
 
 class FeePrice(models.Model):
     consumer_type = models.ForeignKey(ConsumerType, unique=False)
     price_m3 = models.FloatField(max_length=64, blank=False, unique=False)
     band = models.FloatField(max_length=64, blank=False, unique=False)
 
+    def __str__(self):
+        return "Tipo %s faixa: %s" % (self.consumer_type.code, self.band)
 
 class Taxe(models.Model):
     code = models.CharField(max_length=64, blank=False, unique=True)
@@ -66,6 +70,8 @@ class Taxe(models.Model):
     rate = models.FloatField(max_length=64, blank=False, unique=False)
     description = models.CharField(max_length=256, blank=True)
 
+    def __str__(self):
+        return self.code
 
 class SabespReading(models.Model):
     sabesp_profile = models.ForeignKey(SabespProfile, unique=False)
@@ -73,14 +79,13 @@ class SabespReading(models.Model):
     reading_m3 = models.FloatField(max_length=64, blank=False, unique=False)
     reading_competence = models.DateField()
 
+    def __str__(self):
+        return "%s : %s" % (self.reading_competence, self.sensor_id)
 
 
 class SabespReadingSerializer(serializers.ModelSerializer):
-    sensor_id = serializers.PrimaryKeyRelatedField(
-            queryset=HidrometroSabesp.objects.all())
 
     class Meta:
         model = SabespReading
-        fields = ('sabesp_profile', 'sensor_id', 'reading_m3',
-                  'reading_competence')
+        fields = ('reading_m3','reading_competence')
 

@@ -30,12 +30,12 @@ def run():
     SabespReading.objects.all().delete()
 
     objects = []
-    for month in range(1, 12):
+    for month in range(1, 13):
         competence = datetime.date(day=1, month=month, year=year)
 
         obj = SabespReading(sabesp_profile=sabesp_profie,
                                sensor_id=hidrometro,
-                               reading_m3=random.gauss(16, 5),
+                               reading_m3=random.gauss(105, 10),
                                reading_competence=competence)
 
         objects.append(obj)

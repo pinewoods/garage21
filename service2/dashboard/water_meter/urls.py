@@ -35,6 +35,8 @@ urlpatterns = [
     url(r'^tank/(?P<water_tank>[0-9]+)/monthly-goals/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/$',
             views.ViewMonthlyGoals.as_view(),
             name='monthly-goals'),
-    url(r'^goals/year/(?P<year>[0-9]{4})/$', views.GoalsListSet.as_view(),
-            name='user-goals'),
+    url(r'^consume-readings/year/(?P<year>[0-9]{4})/$',
+            views.ViewMonthlyReadings.as_view(),
+            name='consume-readings'),
+    url(r'^goals/year/(?P<year>[0-9]{4})/$', views.GoalsListSet.as_view(),name='user-goals'),
 ]
