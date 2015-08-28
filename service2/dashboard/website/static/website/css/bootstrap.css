@@ -4373,6 +4373,15 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin-top: 14px;
   margin-bottom: 14px;
 }
+/* custom class for powered by */
+.navbar-custom {
+  margin-top: 25px;
+  margin-bottom: 5px;
+  margin-right: -10px;
+  font-size: 10px;
+  float: left;
+  color: #777;
+}
 .navbar-text {
   margin-top: 15px;
   margin-bottom: 15px;
