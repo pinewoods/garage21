@@ -51,6 +51,7 @@ class SabespProfileSerializer(serializers.ModelSerializer):
 
 
 class HidrometroSabesp(models.Model):
+    # TOOD sabesp_profile is found on SabespReading
     sensor_id = models.CharField(max_length=64, blank=False, unique=True)
     sabesp_profile = models.ForeignKey(SabespProfile, unique=False)
 
@@ -75,10 +76,12 @@ class Taxe(models.Model):
         return self.code
 
 class SabespReading(models.Model):
+    # TOOD sabesp_profile is found on HidrometroSabesp
     sabesp_profile = models.ForeignKey(SabespProfile, unique=False)
     sensor_id = models.ForeignKey(HidrometroSabesp, unique=False)
     reading_m3 = models.FloatField(max_length=64, blank=False, unique=False)
     reading_competence = models.DateField()
+    datestamp = models.DateField()
 
     def __str__(self):
         return "%s : %s" % (self.reading_competence, self.sensor_id)

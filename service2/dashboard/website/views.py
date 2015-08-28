@@ -13,6 +13,7 @@ from alerts.models import LevelAlert
 from sabesp.forms import UserProfileForm
 from sabesp.forms import SabespProfileForm
 from support.forms import SupportForm
+from sabesp.forms import SabespReadingForm
 from water_meter.forms import ConsumptionGoalForm
 from alerts.forms import LevelAlertForm
 
@@ -72,11 +73,17 @@ def goals(request):
 def historic(request):
     user = request.user
     profile = SabespProfile.objects.get(user=user)
+    sabesp_reading_form = SabespReadingForm()
 
     context = {
         'user': user,
         'profile': profile,
     }
+
+    if request.method == 'POST':
+        sabesp_reading_form = SabespReadingForm(request.POST)
+
+    context['sabesp_reading_form'] = sabesp_reading_form
 
     return render(request,
                   'website/historic.html',

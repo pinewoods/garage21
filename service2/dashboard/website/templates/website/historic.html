@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load staticfiles %}
+{% load bootstrap %}
 
 {% block style-block %}
 <!-- datepicker id="bsdp-css" -->
@@ -34,6 +35,24 @@
 {% block container-fluid-block %}
 
 <div class="row">
+
+    <!-- Add new Sabesp Reading -->
+    <div class="col-lg-4">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-usd"></i> Cadastrar conta Sabesp no Histórico
+            </div>
+            <div class="panel-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{ sabesp_reading_form|bootstrap }}
+                    <button type="submit" name="user_profile" class="btn btn-primary">Salvar</button>
+                    <button type="reset" class="btn btn-default">Limpar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Meta History -->
     <div class="col-lg-8">
         <div class="panel panel-primary">
@@ -74,7 +93,7 @@
     <script src="{% static "website/js/goals_table.js" %}"></script>
 
     <script language="JavaScript">
-       
+
       // Marks the active page on paginator
         var activePage = 1;
         // Paginator link
