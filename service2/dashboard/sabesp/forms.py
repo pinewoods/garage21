@@ -17,6 +17,7 @@ class UserProfileForm(forms.ModelForm):
         exclude = ('user',)
 
 class SabespProfileForm(forms.ModelForm):
+    id = forms.CharField(widget=forms.HiddenInput())
     class Meta:
         model = models.SabespProfile
         exclude = ('user',)

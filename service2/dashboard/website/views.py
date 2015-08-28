@@ -101,9 +101,13 @@ def settings(request):
     if request.method == 'POST':
         # TODO: Redirect each submit to its own url action
         if 'user_profile' in request.POST:
-            form = user_profile_form = UserProfileForm(request.POST)
+            form = user_profile_form = UserProfileForm(request.POST,
+                    instance=user.profile)
         if 'sabesp_profile' in request.POST:
-            form = sabesp_form = SabespProfileForm(request.POST)
+            sabesp_instance = profiles_sabesp.get(
+                    id=int(request.POST['id']))
+            form = sabesp_form = SabespProfileForm(request.POST,
+                    instance=sabesp_instance)
             sabesp_forms = [sabesp_form] # Gambi
         if 'alert' in request.POST:
             form = alert_form = LevelAlertForm(request.POST)
