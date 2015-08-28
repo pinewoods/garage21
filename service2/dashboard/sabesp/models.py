@@ -31,11 +31,12 @@ class SabespProfile(models.Model):
     rgi = models.FloatField(blank=False)
     customer_id = models.FloatField(blank=False)
     consumer_type = models.ForeignKey(ConsumerType, unique=False)
-    # This is from which dam this water supply comes from 
+    # This is from which dam this water supply comes from
     supply_unit = models.CharField(max_length=140, blank=True)
+    # TODO: factor out consumption_goal
     consumption_goal = models.FloatField(blank=False)
     sabesp_read_day = models.FloatField(blank=False)
-    
+
     def __str__(self):
         return self.user.username
 

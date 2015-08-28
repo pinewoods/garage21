@@ -154,9 +154,20 @@ class ViewMonthlyGoals(APIView):
         """
             Return data for the monthly goals burndown chart.
         """
-        goal = 6000. # TODO
         mb = MonthBoundary(year, month)
+
+        # TODO: recover YFS201Reading using Sabesp's RGI
         wt = WaterTank.objects.get(pk=water_tank)
+        user = wt.user
+
+        # TODO: Factor out
+        from sabesp.models import SabespProfile
+        sabesp_goal = SabespProfile.objects.get(
+                user=user).consumption_goal
+
+        # TODO: Match Goal's month
+        pinewoods_goal = ConsumpitionGoal.objects.latest(
+                'goal_initial').goal
 
         readings = YFS201Reading.objects.filter(water_tank=wt,
                 timestamp__range=(mb.first, mb.last)).order_by('timestamp')
@@ -164,9 +175,14 @@ class ViewMonthlyGoals(APIView):
         r = each_last_reading(readings, mb.first, mb.last)
         consumption = [c.read() - readings[0].read() for c in r]
 
+        days_count = mb.last.day
+
         response = {
-                "goal": goal,
-                "days_count": mb.last.day,
+                "sabesp_goal": sabesp_goal,
+                "sabesp_step": sabesp_goal / days_count,
+                "pinewoods_goal": pinewoods_goal,
+                "pinewoods_step": pinewoods_goal / days_count,
+                "days_count": days_count,
                 "consumption": consumption,
          }
 
@@ -194,4 +210,4 @@ class GoalsListSet(ListAPIView):
     def get_queryset(self):
         user = self.request.user
         year = int(self.kwargs['year'])
-        return ConsumpitionGoal.objects.filter(user=user, goal_initial__year=year).order_by('goal_initial')
+        return Cabesp_goalnsumpitionGoal.objects.filter(user=user, goal_initial__year=year).order_by('goal_initial')
