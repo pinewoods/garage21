@@ -13,6 +13,7 @@ from alerts.models import LevelAlert
 from sabesp.forms import UserProfileForm
 from sabesp.forms import SabespProfileForm
 from support.forms import SupportForm
+from sabesp.forms import SabespReadingForm
 from water_meter.forms import ConsumptionGoalForm
 from alerts.forms import LevelAlertForm
 
@@ -72,11 +73,17 @@ def goals(request):
 def historic(request):
     user = request.user
     profile = SabespProfile.objects.get(user=user)
+    sabesp_reading_form = SabespReadingForm()
 
     context = {
         'user': user,
         'profile': profile,
     }
+
+    if request.method == 'POST':
+        sabesp_reading_form = SabespReadingForm(request.POST)
+
+    context['sabesp_reading_form'] = sabesp_reading_form
 
     return render(request,
                   'website/historic.html',
@@ -101,9 +108,13 @@ def settings(request):
     if request.method == 'POST':
         # TODO: Redirect each submit to its own url action
         if 'user_profile' in request.POST:
-            form = user_profile_form = UserProfileForm(request.POST)
+            form = user_profile_form = UserProfileForm(request.POST,
+                    instance=user.profile)
         if 'sabesp_profile' in request.POST:
-            form = sabesp_form = SabespProfileForm(request.POST)
+            sabesp_instance = profiles_sabesp.get(
+                    id=int(request.POST['id']))
+            form = sabesp_form = SabespProfileForm(request.POST,
+                    instance=sabesp_instance)
             sabesp_forms = [sabesp_form] # Gambi
         if 'alert' in request.POST:
             form = alert_form = LevelAlertForm(request.POST)

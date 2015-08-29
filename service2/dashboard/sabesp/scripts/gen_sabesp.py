@@ -19,6 +19,7 @@ def run():
     sabesp_profie = SabespProfile.objects.get(pk=1)
     hidrometro = HidrometroSabesp.objects.get(pk=1)
     year = timezone.now().year
+    month = timezone.now().month
 
     question = 'All Sabesp Stuff will be DELETED. Are you sure? (yes/no)? '
     response = input(question)
@@ -30,13 +31,15 @@ def run():
     SabespReading.objects.all().delete()
 
     objects = []
-    for month in range(1, 13):
-        competence = datetime.date(day=1, month=month, year=year)
+    for m in range(1, month):
+        competence = datetime.date(day=1, month=m, year=year)
+        datestamp = datetime.date(day=15, month=m, year=year)
 
         obj = SabespReading(sabesp_profile=sabesp_profie,
                                sensor_id=hidrometro,
                                reading_m3=random.gauss(105, 10),
-                               reading_competence=competence)
+                               reading_competence=competence,
+                               datestamp=datestamp)
 
         objects.append(obj)
 

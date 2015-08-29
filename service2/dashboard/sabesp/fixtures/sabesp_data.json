@@ -16,7 +16,8 @@
         "consumption_goal": 10.0,
         "consumer_type": 1,
         "supply_unit": "Guarapiranga",
-        "rgi": 187827726.0
+        "rgi": 187827726.0,
+        "sabesp_read_day": 17
     }
 },
 {

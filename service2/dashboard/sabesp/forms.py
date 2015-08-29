@@ -17,6 +17,7 @@ class UserProfileForm(forms.ModelForm):
         exclude = ('user',)
 
 class SabespProfileForm(forms.ModelForm):
+    id = forms.CharField(widget=forms.HiddenInput())
     class Meta:
         model = models.SabespProfile
         exclude = ('user',)
@@ -28,5 +29,17 @@ class SabespProfileForm(forms.ModelForm):
                 'supply_unit': 'Reservatório',
                 'consumption_goal': 'Meta Sabesp',
                 'sabesp_read_day': 'Dia da Leitura Sabesp',
+        }
+
+class SabespReadingForm(forms.ModelForm):
+    class Meta:
+        model = models.SabespReading
+        fields = '__all__'
+        labels = {
+            'sabesp_profile': 'RGI (Registro Geral de Instalação)',
+            'sensor_id': 'Código Hidrometro Sabesp',
+            'reading_m3': 'Leitura Atual',
+            'reading_competence': 'Mês de Competência',
+            'datestamp': 'Dia da Leitura',
         }
 

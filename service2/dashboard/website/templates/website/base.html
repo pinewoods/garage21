@@ -123,9 +123,10 @@
                     <li {% if active_menu == "historic" %} class="active" {% endif %}>
                         <a href="{% url 'historic' %}"><i class="fa fa-fw fa-file"></i> Histórico Sabesp</a>
                     </li>
-                    <!--li {% if active_menu == "data" %} class="active" {% endif %}>
-                        <a href="data.html"><i class="fa fa-fw fa-table"></i> Exportar Dados</a>
-                    </li-->
+                    <li {% if active_menu == "data" %} class="active" {% endif %}>
+                    <a href="{% static 'website/relatorio.xls' %}"><i class="fa fa-fw fa-table"></i> Exportar Dados</a>
+                    <!-- TODO: Make a page for reports -->
+                    </li>
                     <li {% if active_menu == "support" %} class="active" {% endif %}>
                         <a href="{% url 'support' %}"><i class="fa fa-fw fa-wrench"></i> Suporte Técnico</a>
                     </li>

@@ -132,18 +132,30 @@
     <script language="JavaScript">
 
     function plot_burndown(data) {
-        step = data.goal / data.days_count;
-        goal_array = [Math.floor(data.goal - step)];
-        consumed_array = [Math.floor(data.goal - data.consumption[0])];
 
-        for(i=0; i < data.days_count; i++)
-            goal_array.push(Math.floor(goal_array[i] - step));
+        pinewoods_array = [Math.floor(
+            data.pinewoods_goal - data.pinewoods_step)];
+
+        sabesp_array = [Math.floor(
+            data.sabesp_goal - data.sabesp_step)];
+
+        consumed_array = [Math.floor(
+            data.pinewoods_goal - data.consumption[0])];
+
+        for(i=0; i < data.days_count; i++){
+            sabesp_array.push(Math.floor(
+                sabesp_array[i] - data.sabesp_step));
+            pinewoods_array.push(Math.floor(
+                pinewoods_array[i] - data.pinewoods_step));
+        }
 
         for(i=0; i < data.consumption.length; i++){
             consumed_array.push(Math.floor(
-                consumed_array[i] - data.consumption[i]));
+            consumed_array[0] - data.consumption[i]));
         }
-        water_goal_graph(goal_array, consumed_array);
+
+        burndownChart('#container',
+             consumed_array, sabesp_array, pinewoods_array);
     }
 
     {% now "Y" as year_ %}{% now "m" as month_ %}

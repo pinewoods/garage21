@@ -14,6 +14,7 @@ def run():
 
     user = User.objects.get(pk=1)
     year = timezone.now().year
+    month = timezone.now().month
 
     question = 'All Goals will be DELETED. Are you sure? (yes/no)? '
     response = input(question)
@@ -25,8 +26,8 @@ def run():
     ConsumpitionGoal.objects.all().delete()
 
     objects = []
-    for month in range(1, 13):
-        goal_initial = datetime.date(day=1, month=month, year=year)
+    for m in range(1, month+1):
+        goal_initial = datetime.date(day=1, month=m, year=year)
 
         obj = ConsumpitionGoal(user=user,
                                goal_initial=goal_initial,

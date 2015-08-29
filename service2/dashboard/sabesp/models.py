@@ -31,11 +31,12 @@ class SabespProfile(models.Model):
     rgi = models.FloatField(blank=False)
     customer_id = models.FloatField(blank=False)
     consumer_type = models.ForeignKey(ConsumerType, unique=False)
-    # This is from which dam this water supply comes from 
+    # This is from which dam this water supply comes from
     supply_unit = models.CharField(max_length=140, blank=True)
+    # TODO: factor out consumption_goal
     consumption_goal = models.FloatField(blank=False)
     sabesp_read_day = models.FloatField(blank=False)
-    
+
     def __str__(self):
         return self.user.username
 
@@ -50,6 +51,7 @@ class SabespProfileSerializer(serializers.ModelSerializer):
 
 
 class HidrometroSabesp(models.Model):
+    # TOOD sabesp_profile is found on SabespReading
     sensor_id = models.CharField(max_length=64, blank=False, unique=True)
     sabesp_profile = models.ForeignKey(SabespProfile, unique=False)
 
@@ -74,10 +76,12 @@ class Taxe(models.Model):
         return self.code
 
 class SabespReading(models.Model):
+    # TOOD sabesp_profile is found on HidrometroSabesp
     sabesp_profile = models.ForeignKey(SabespProfile, unique=False)
     sensor_id = models.ForeignKey(HidrometroSabesp, unique=False)
     reading_m3 = models.FloatField(max_length=64, blank=False, unique=False)
     reading_competence = models.DateField()
+    datestamp = models.DateField()
 
     def __str__(self):
         return "%s : %s" % (self.reading_competence, self.sensor_id)
