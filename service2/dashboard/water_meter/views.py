@@ -6,6 +6,7 @@ from bisect import bisect_left
 import pytz
 
 from django.db.models.query import QuerySet
+from django.db.models import Max
 from django.http import Http404
 
 from rest_framework import status
@@ -180,7 +181,18 @@ class ViewMonthlyReadings(ListAPIView):
         wt = WaterTank.objects.filter(user=user)
         year = int(self.kwargs['year'])
 
-        return YFS201Reading.objects.filter(water_tank=wt, timestamp__year=year).order_by('timestamp')
+        year_records= YFS201Reading.objects.filter(
+            water_tank=wt, timestamp__year=year).order_by('timestamp')
+
+        months =  year_records.filter(timestamp__month=7).order_by('-sensor_reading')
+
+        last_readings = []
+
+        for month in (1,12):
+            month_records = year_records.filter(timestamp__month=month)#.aggregate(Max('timestamp'))
+            last_readings.append(month_records)
+
+        return months #YFS201Reading.objects.filter(water_tank=wt, timestamp__year=year).order_by('timestamp')
 
 
 class GoalsViewSet(viewsets.ModelViewSet):

@@ -87,7 +87,7 @@ function goalsBarChart(goals_chart_selector,services) {
             backgroundColor: '#FFFFFF' 
         },
         series: [{
-            name: 'Meta SABESP',
+            name: 'Meta Sabesp',
             color: '#00A5FF',
             type: 'spline',
             zIndex: 4,
@@ -95,7 +95,7 @@ function goalsBarChart(goals_chart_selector,services) {
                 enabled: false
             },
         }, {
-            name: 'Meta Pinewoods',
+            name: 'Meta Wolksen',
             color: '#FF9933',
             type: 'spline',
             zIndex: 3,
@@ -103,12 +103,12 @@ function goalsBarChart(goals_chart_selector,services) {
                 enabled: false
             },
         }, {
-            name: 'Leitura SABESP',
+            name: 'Leitura Sabesp',
             color: '#6699CC',
             type: 'column',
             zIndex: 2
         }, {
-            name: 'Leitura Pinewoods',
+            name: 'Leitura Wolksen',
             color: '#66CC99',
             type: 'column',
             zIndex: 1
