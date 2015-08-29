@@ -3,15 +3,30 @@
     run: python manage.py runscript dev_data
 """
 
-from water_meter.scripts import gen_goals
-from water_meter.scripts import gen_hcsr04
-from water_meter.scripts import gen_yfs201
+from django.core import management
 
-from sabesp.scripts import gen_sabesp
+#from water_meter.scripts import gen_goals
+#from water_meter.scripts import gen_hcsr04
+#from water_meter.scripts import gen_yfs201
+#from sabesp.scripts import gen_sabesp
 
 
 def run():
-    gen_yfs201.run()
-    gen_hcsr04.run()
-    gen_goals.run()
-    gen_sabesp.run()
+
+    management.call_command(
+            "loaddata", "water_meter/fixtures/some_data.json")
+
+    management.call_command(
+            "loaddata", "sabesp/fixtures/sabesp_data.json")
+
+    management.call_command(
+            "runscript", "gen_yfs201")
+
+    management.call_command(
+            "runscript", "gen_hcsr04")
+
+    management.call_command(
+            "runscript", "gen_goals")
+
+    management.call_command(
+            "runscript", "gen_sabesp")
