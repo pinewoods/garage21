@@ -60,7 +60,7 @@ def each_last_reading(readings, first, last, delta):
         index = bisect_left(readings, current)
         if index:
             closing_dict[index-1] = readings[index-1]
-        print(last, current)
+
         if current > last:
             break
         current += delta
@@ -94,7 +94,7 @@ class TimeseriesQuerySet(QuerySet):
                 )
             ).order_by('timestamp')
 
-    property
+    @property
     def daily_closing(self):
         delta = relativedelta(days=+1)
         first = ts_min(self.earliest('timestamp').timestamp)

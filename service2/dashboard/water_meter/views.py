@@ -29,27 +29,7 @@ from .models import ConsumpitionGoal
 from .models import ConsumpitionGoalSerializer
 from .models import GoalSerializer
 
-from .queryset import each_last_reading
-from .queryset import MonthBoundary
-
-def last_reading_month(readings, last_day):
-    """
-        Returns the last reading of each month in range.
-
-        * This functions uses the bisection algorithm,
-        so `readings` must be sorted!
-        * Each object in `readings` must support __lt__
-    """
-    list(readings).sort(key=lambda x: x.timestamp)
-
-    days_set = collections.OrderedDict()
-
-    # Get the last value
-    index = bisect_left(readings, last_day)
-    if index:
-        days_set[index-1] = readings[index-1]
-
-    return days_set[index-1]
+from .querysets import MonthBoundary
 
 
 class ViewReadings(APIView):
@@ -120,10 +100,8 @@ class ViewCurrentTankLevel(RetrieveAPIView):
 class ViewIntradayTankLevel(ListAPIView):
     lookup_field = 'water_tank'
     serializer_class = EssentialHCSR04Serializer
-    queryset = HCSR04Reading.objects.filter(
-            timestamp__gt=datetime.datetime.combine(
-                    datetime.date.today(), datetime.time.min)
-                        ).order_by('-timestamp')
+    queryset = HCSR04Reading.timeseries.day(
+            datetime.date.today()).order_by('-timestamp')
 
 class ViewMonthlyGoals(APIView):
 
@@ -133,7 +111,9 @@ class ViewMonthlyGoals(APIView):
         """
             Return data for the monthly goals burndown chart.
         """
+        year, month = int(year), int(month)
         mb = MonthBoundary(year, month)
+        days_count = mb.last.day
 
         # TODO: recover YFS201Reading using Sabesp's RGI
         wt = WaterTank.objects.get(pk=water_tank)
@@ -148,14 +128,13 @@ class ViewMonthlyGoals(APIView):
         pinewoods_goal = ConsumpitionGoal.objects.latest(
                 'goal_initial').goal
 
-        readings = YFS201Reading.objects.filter(water_tank=wt,
-                timestamp__range=(mb.first, mb.last)).order_by('timestamp')
+        readings = list(YFS201Reading.timeseries.filter(
+                water_tank=wt).month(datetime.date(year,month, 1)
+                        ).daily_closing)
 
-        r = each_last_reading(readings, mb.first, mb.last)
         # 1m^3 = 1000 liters
-        consumption = [(c.read() - readings[0].read()) / 1000. for c in r]
-
-        days_count = mb.last.day
+        consumption = [(c.read() - readings[0].read()) / 1000.
+                for c in readings]
 
         response = {
                 "sabesp_goal": sabesp_goal,
@@ -169,31 +148,25 @@ class ViewMonthlyGoals(APIView):
         return Response(response)
 
 class ViewMonthlyReadings(APIView):
+
     renderer_classes = (JSONRenderer, )
 
     def get(self, request, year):
         user = self.request.user
         wt = WaterTank.objects.filter(user=user)
-        year = int(self.kwargs['year'])
+        year = datetime.date(int(year), 1, 1)
 
-        year_records = YFS201Reading.objects.filter(
-            water_tank=wt, timestamp__year=year).order_by('-timestamp')
+        sensor_reading= YFS201Reading.timeseries.filter(
+            water_tank=wt).year(year).monthly_closing
 
-        readings = []
-
-        for i in  range(1,12):
-            mb = MonthBoundary(year, i)
-            month =  year_records.filter(timestamp__month=i).order_by('timestamp')
-            if month:
-                last_read =  last_reading_month(month, mb.last)
-                readings.append((last_read.read() - month[0].read())/1000)
-            else:
-                readings.append(0)
-
+        # 1m^3 = 1000 liters
+        month_dict = {r.timestamp.month: r.read() / 1000.
+                for r in sensor_reading}
 
         response = {
-                "sensor_reading": readings,
-         }
+            "sensor_reading": [month_dict.get(m, None)
+                for m in range(1, 13)],
+        }
 
         return Response(response)
 
