@@ -133,25 +133,19 @@
 
     function plot_burndown(data) {
 
-        pinewoods_array = [Math.floor(
-            data.pinewoods_goal - data.pinewoods_step)];
+        pinewoods_array = [data.pinewoods_goal - data.pinewoods_step];
 
-        sabesp_array = [Math.floor(
-            data.sabesp_goal - data.sabesp_step)];
+        sabesp_array = [data.sabesp_goal - data.sabesp_step];
 
-        consumed_array = [Math.floor(
-            data.pinewoods_goal - data.consumption[0])];
+        consumed_array = [data.pinewoods_goal - data.consumption[0]];
 
         for(i=0; i < data.days_count; i++){
-            sabesp_array.push(Math.floor(
-                sabesp_array[i] - data.sabesp_step));
-            pinewoods_array.push(Math.floor(
-                pinewoods_array[i] - data.pinewoods_step));
+            sabesp_array.push(sabesp_array[i] - data.sabesp_step);
+            pinewoods_array.push(pinewoods_array[i] - data.pinewoods_step);
         }
 
         for(i=0; i < data.consumption.length; i++){
-            consumed_array.push(Math.floor(
-            consumed_array[0] - data.consumption[i]));
+            consumed_array.push(consumed_array[0] - data.consumption[i]);
         }
 
         burndownChart('#container',

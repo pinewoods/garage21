@@ -20,21 +20,6 @@ class WaterTank(models.Model):
         return "[%s] %s" % (self.user.username, self.description)
 
 
-class SensorType(models.Model):
-    code = models.CharField(max_length=64, blank=True, unique=True)
-    description = models.CharField(max_length=256, blank=True)
-    unit = models.CharField(max_length=16, blank=False)
-
-    def __str__(self):
-        return self.code
-
-
-class SensorTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SensorType
-        fields = ('code', 'unit', 'description')
-
-
 class Reading(models.Model):
 
     class Meta:
@@ -66,16 +51,26 @@ class YFS201Reading(Reading):
     def sensor_type(self):
         return 'YF-S201'
 
+    @property
+    def unit(self):
+        return 'liters'
+
+
 class YFS201ReadingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = YFS201Reading
         fields = ('timestamp', 'sensor_reading')
 
+
 class HCSR04Reading(Reading):
     @property
     def sensor_type(self):
         return 'HC-SR04'
+
+    @property
+    def unit(self):
+        return 'cm'
 
     @property
     def level(self):
@@ -92,6 +87,7 @@ class HCSR04ReadingSerializer(serializers.ModelSerializer):
         model = HCSR04Reading
         fields = ('water_tank', 'sensor_type',
                   'timestamp', 'unix_timestamp', 'level')
+
 
 class EssentialHCSR04Serializer(serializers.ModelSerializer):
     class Meta:
@@ -115,6 +111,7 @@ class ConsumpitionGoalSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConsumpitionGoal
         fields = ('user','goal_initial', 'goal')
+
 
 class GoalSerializer(serializers.ModelSerializer):
 

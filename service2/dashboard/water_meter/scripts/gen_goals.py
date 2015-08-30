@@ -31,7 +31,7 @@ def run():
 
         obj = ConsumpitionGoal(user=user,
                                goal_initial=goal_initial,
-                               goal=random.gauss(100, 10))
+                               goal=random.gauss(12, 1))
 
         objects.append(obj)
 

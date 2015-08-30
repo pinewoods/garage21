@@ -21,7 +21,7 @@
     }
 },
 {
-    "model": "sabesp.hidrometrosabesp",
+    "model": "sabesp.sabespwatermeter",
     "pk": 1,
     "fields": {
         "sabesp_profile": 1,
@@ -65,7 +65,7 @@
     }
 },
 {
-    "model": "sabesp.taxe",
+    "model": "sabesp.tax",
     "pk": 1,
     "fields": {
         "code": "Pis/PASEP e Confins",
