@@ -9,7 +9,6 @@ import datetime
 from django.utils import timezone
 
 from water_meter.models import WaterTank
-from water_meter.models import SensorType
 from water_meter.models import YFS201Reading
 
 def run():
