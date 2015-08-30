@@ -225,8 +225,7 @@ class ViewMonthlyReadings(APIView):
             month =  year_records.filter(timestamp__month=i).order_by('timestamp')
             if month:
                 last_read =  last_reading_month(month, mb.last)
-                #readings.append([(c.read() - month[0].read())/1000 for c in last_read])
-                readings.append(last_read.read() - month[0].read()/1000)
+                readings.append((last_read.read() - month[0].read())/1000)
 
 
         response = {
