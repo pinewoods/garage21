@@ -13,7 +13,7 @@
     "fields": {
         "customer_id": 3235063.0,
         "user": 1,
-        "consumption_goal": 10.0,
+        "consumption_goal": 6000.0,
         "consumer_type": 1,
         "supply_unit": "Guarapiranga",
         "rgi": 187827726.0,
@@ -21,7 +21,7 @@
     }
 },
 {
-    "model": "sabesp.hidrometrosabesp",
+    "model": "sabesp.sabespwatermeter",
     "pk": 1,
     "fields": {
         "sabesp_profile": 1,
@@ -65,7 +65,7 @@
     }
 },
 {
-    "model": "sabesp.taxe",
+    "model": "sabesp.tax",
     "pk": 1,
     "fields": {
         "code": "Pis/PASEP e Confins",

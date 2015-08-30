@@ -3,6 +3,8 @@ from django.forms import ModelForm
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
+
+# TODO: Factor out
 class UserProfile(models.Model):
     """
         Billing Profile
@@ -38,7 +40,8 @@ class SabespProfile(models.Model):
     sabesp_read_day = models.FloatField(blank=False)
 
     def __str__(self):
-        return self.user.username
+        return "[%s] %s" % (self.rgi, self.user.username)
+
 
 class SabespProfileSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
@@ -50,13 +53,13 @@ class SabespProfileSerializer(serializers.ModelSerializer):
                   'consumption_goal','sabesp_read_day')
 
 
-class HidrometroSabesp(models.Model):
-    # TOOD sabesp_profile is found on SabespReading
+class SabespWatermeter(models.Model):
     sensor_id = models.CharField(max_length=64, blank=False, unique=True)
     sabesp_profile = models.ForeignKey(SabespProfile, unique=False)
 
     def __str__(self):
         return self.sensor_id
+
 
 class FeePrice(models.Model):
     consumer_type = models.ForeignKey(ConsumerType, unique=False)
@@ -66,7 +69,12 @@ class FeePrice(models.Model):
     def __str__(self):
         return "Tipo %s faixa: %s" % (self.consumer_type.code, self.band)
 
-class Taxe(models.Model):
+
+class Tax(models.Model):
+
+    class Meta:
+        verbose_name_plural = 'taxes'
+
     code = models.CharField(max_length=64, blank=False, unique=True)
     consumer_type = models.ForeignKey(ConsumerType, unique=False)
     rate = models.FloatField(max_length=64, blank=False, unique=False)
@@ -75,21 +83,26 @@ class Taxe(models.Model):
     def __str__(self):
         return self.code
 
+
 class SabespReading(models.Model):
-    # TOOD sabesp_profile is found on HidrometroSabesp
-    sabesp_profile = models.ForeignKey(SabespProfile, unique=False)
-    sensor_id = models.ForeignKey(HidrometroSabesp, unique=False)
-    reading_m3 = models.FloatField(max_length=64, blank=False, unique=False)
+
+    class Meta:
+        unique_together = ('reading_competence', 'watermeter')
+
     reading_competence = models.DateField()
+    watermeter = models.ForeignKey(SabespWatermeter, unique=False)
     datestamp = models.DateField()
+    reading_m3 = models.FloatField()
 
     def __str__(self):
-        return "%s : %s" % (self.reading_competence, self.sensor_id)
+        return '%s : %s' % (self.reading_competence, self.watermeter)
 
+    @property
+    def unit(self):
+        return 'm^3'
 
 class SabespReadingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SabespReading
         fields = ('reading_m3','reading_competence')
-

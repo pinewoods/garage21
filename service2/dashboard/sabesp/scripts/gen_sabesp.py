@@ -10,14 +10,13 @@ from django.utils import timezone
 
 from sabesp.models import ConsumerType
 from sabesp.models import SabespProfile
-from sabesp.models import HidrometroSabesp
+from sabesp.models import SabespWatermeter
 from sabesp.models import SabespReading
 
 
 def run():
 
-    sabesp_profie = SabespProfile.objects.get(pk=1)
-    hidrometro = HidrometroSabesp.objects.get(pk=1)
+    watermeter = SabespWatermeter.objects.get(pk=1)
     year = timezone.now().year
     month = timezone.now().month
 
@@ -35,11 +34,10 @@ def run():
         competence = datetime.date(day=1, month=m, year=year)
         datestamp = datetime.date(day=15, month=m, year=year)
 
-        obj = SabespReading(sabesp_profile=sabesp_profie,
-                               sensor_id=hidrometro,
-                               reading_m3=random.gauss(105, 10),
-                               reading_competence=competence,
-                               datestamp=datestamp)
+        obj = SabespReading(watermeter=watermeter,
+                            reading_m3=random.gauss(105, 10),
+                            reading_competence=competence,
+                            datestamp=datestamp)
 
         objects.append(obj)
 
