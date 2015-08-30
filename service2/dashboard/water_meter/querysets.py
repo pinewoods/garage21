@@ -67,7 +67,12 @@ def each_last_reading(readings, first, last, delta):
 
     return closing_dict.values()
 
+
 class TimeseriesQuerySet(QuerySet):
+
+    @property
+    def _ts_field(self):
+        return self.model.Extra.ts_field
 
     def year(self, timestamp):
         year = timestamp.year
@@ -77,14 +82,14 @@ class TimeseriesQuerySet(QuerySet):
 
         return self.filter(
             timestamp__range=(
-                jan_1st, dec_31st)).order_by('timestamp')
+                jan_1st, dec_31st)).order_by(self.ts_field)
 
     def month(self, timestamp):
         year, month = timestamp.year, timestamp.month
         mb = MonthBoundary(year, month)
         return self.filter(
                 timestamp__range=(
-                    mb.first, mb.last)).order_by('timestamp')
+                    mb.first, mb.last)).order_by(self._ts_field)
 
     def day(self, timestamp):
         return self.filter(
@@ -92,19 +97,19 @@ class TimeseriesQuerySet(QuerySet):
                     ts_min(timestamp),
                     ts_max(timestamp)
                 )
-            ).order_by('timestamp')
+            ).order_by(self._ts_field)
 
     @property
     def daily_closing(self):
         delta = relativedelta(days=+1)
-        first = ts_min(self.earliest('timestamp').timestamp)
-        last = ts_max(self.latest('timestamp').timestamp)
+        first = ts_min(self.earliest(self._ts_field).timestamp)
+        last = ts_max(self.latest(self._ts_field).timestamp)
         return each_last_reading(self, first, last, delta)
 
     @property
     def monthly_closing(self):
-        first = ts_min(self.earliest('timestamp').timestamp)
+        first = ts_min(self.earliest(self._ts_field).timestamp)
         mb = MonthBoundary(first.year, first.month)
-        last = ts_max(self.latest('timestamp').timestamp)
+        last = ts_max(self.latest(self._ts_field).timestamp)
         delta = relativedelta(months=+1)
         return each_last_reading(self, mb.first, last, delta)

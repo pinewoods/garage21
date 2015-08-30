@@ -31,6 +31,10 @@ class Reading(models.Model):
     class Meta:
         abstract = True
 
+    class Extra:
+        # Required for TimeseriesQuerySet
+        ts_field = 'timestamp'
+
     water_tank = models.ForeignKey(WaterTank, unique=False)
     timestamp = models.DateTimeField(
                 default=timezone.now, editable=False)
@@ -101,7 +105,16 @@ class EssentialHCSR04Serializer(serializers.ModelSerializer):
         fields = ('unix_timestamp', 'level')
 
 
+
 class ConsumpitionGoal(models.Model):
+
+    objects = models.QuerySet().as_manager()
+    timeseries = TimeseriesQuerySet().as_manager()
+
+    class Extra:
+        # Required for TimeseriesQuerySet
+        ts_field = 'goal_initial'
+
     user = models.ForeignKey(User, unique=False,blank=False)
     goal_initial = models.DateField(blank=False)
     goal = models.FloatField(blank=False)
