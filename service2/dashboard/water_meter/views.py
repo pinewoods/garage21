@@ -19,39 +19,19 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 # from rest_framework import authentication, permissions
 
-from .models import  YFS201Reading
-from .models import  HCSR04Reading
-from .models import  HCSR04ReadingSerializer
-from .models import  YFS201ReadingSerializer
-from .models import  EssentialHCSR04Serializer
-from .models import  WaterTank
-from .models import  ConsumpitionGoal
-from .models import  ConsumpitionGoalSerializer
-from .models import  GoalSerializer
+from .models import YFS201Reading
+from .models import HCSR04Reading
+from .models import HCSR04ReadingSerializer
+from .models import YFS201ReadingSerializer
+from .models import EssentialHCSR04Serializer
+from .models import WaterTank
+from .models import ConsumpitionGoal
+from .models import ConsumpitionGoalSerializer
+from .models import GoalSerializer
 
+from .queryset import each_last_reading
+from .queryset import MonthBoundary
 
-def each_last_reading(readings, first_day, last_day):
-    """
-        Returns the last reading of each day in range.
-
-        * This functions uses the bisection algorithm,
-        so `readings` must be sorted!
-        * Each object in `readings` must support __lt__
-        * Only on Python 3.6 bisect will support key=
-    """
-    list(readings).sort(key=lambda x: x.timestamp)
-    current_day = first_day
-    one_day = datetime.timedelta(days=1)
-
-    days_set = collections.OrderedDict()
-    while last_day > current_day:
-        # Get the first value before current_day
-        index = bisect_left(readings, current_day)
-        if index:
-            days_set[index-1] = readings[index-1]
-        current_day += one_day
-
-    return days_set.values()
 def last_reading_month(readings, last_day):
     """
         Returns the last reading of each month in range.
@@ -71,25 +51,6 @@ def last_reading_month(readings, last_day):
 
     return days_set[index-1]
 
-def MonthBoundary(year, month):
-    """
-        Returns the first and the last datatime.datetime
-        from a given month.
-    """
-    y, m = int(year), int(month)
-    days = calendar.monthrange(y, m)
-
-    first = datetime.date(year=y, month=m, day=1)
-    last = datetime.date(year=y, month=m, day=days[-1])
-
-    ti = datetime.datetime.combine(first, datetime.time.min)
-    tf = datetime.datetime.combine(last, datetime.time.max)
-
-    month_boundaries = collections.namedtuple('MonthBoundary',
-            ['first', 'last'])
-
-    return month_boundaries(pytz.utc.localize(ti),
-                            pytz.utc.localize(tf))
 
 class ViewReadings(APIView):
     #authentication_classes = (authentication.TokenAuthentication,)

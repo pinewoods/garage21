@@ -1,9 +1,5 @@
 import time
-import pytz
 import datetime
-import calendar
-import collections
-from bisect import bisect_left
 
 from django.db import models
 from django.db.models import QuerySet
@@ -12,61 +8,8 @@ from django.contrib.auth.models import User
 
 from rest_framework import serializers
 
+from .querysets import TimeseriesQuerySet
 
-# Useful functions.
-
-def MonthBoundary(year, month):
-    """
-        Returns the first and the last datatime.datetime
-        from a given month.
-    """
-    y, m = int(year), int(month)
-    days = calendar.monthrange(y, m)
-
-    first = datetime.date(year=y, month=m, day=1)
-    last = datetime.date(year=y, month=m, day=days[-1])
-
-    ti = datetime.datetime.combine(first, datetime.time.min)
-    tf = datetime.datetime.combine(last, datetime.time.max)
-
-    month_boundaries = collections.namedtuple('MonthBoundary',
-            ['first', 'last'])
-
-    return month_boundaries(pytz.utc.localize(ti),
-                            pytz.utc.localize(tf))
-
-
-class TimeseriesQuerySet(QuerySet):
-
-    def year(self, timestamp):
-        year = timestamp.year
-
-        jan_1st = datetime.datetime.combine(
-                datetime.datetime(year, 1, 1), datetime.time.min)
-
-        dec_31st = datetime.datetime.combine(
-                datetime.datetime(year, 12, 31), datetime.time.max)
-
-        return self.filter(
-            timestamp__range=(
-                jan_1st, dec_31st)).order_by('timestamp')
-
-    def month(self, timestamp):
-        year, month = timestamp.year, timestamp.year
-        mb = MonthBoundary(year, month)
-        return self.filter(
-                timestamp__range=(
-                    mb.first, mb.last)).order_by('timestamp')
-
-    def day(self, timestamp):
-        return self.filter(
-            timestamp__range=(
-                datetime.datetime.combine(timestamp, datetime.time.min),
-                datetime.datetime.combine(timestamp, datetime.time.max))
-            ).order_by('timestamp')
-
-
-# Models start here.
 
 class WaterTank(models.Model):
     device_key = models.CharField(
