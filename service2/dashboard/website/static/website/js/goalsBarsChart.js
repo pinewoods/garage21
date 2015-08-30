@@ -126,6 +126,6 @@ function goalsBarChart(goals_chart_selector,services) {
         $("#goals_chart_div").highcharts().series[2].setData(removeDate(data.results, "reading_m3"));
     });
     $.getJSON(services[3],function(data){
-        $("#goals_chart_div").highcharts().series[3].setData(removeDate(data.results, "sensor_reading"));
+        $("#goals_chart_div").highcharts().series[3].setData(data.sensor_reading);
     });
 }

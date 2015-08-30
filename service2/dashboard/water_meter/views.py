@@ -53,6 +53,24 @@ def each_last_reading(readings, first_day, last_day):
         current_day += one_day
 
     return days_set.values()
+def last_reading_month(readings, last_day):
+    """
+        Returns the last reading of each month in range.
+
+        * This functions uses the bisection algorithm,
+        so `readings` must be sorted!
+        * Each object in `readings` must support __lt__
+    """
+    list(readings).sort(key=lambda x: x.timestamp)
+
+    days_set = collections.OrderedDict()
+
+    # Get the last value
+    index = bisect_left(readings, last_day)
+    if index:
+        days_set[index-1] = readings[index-1]
+
+    return days_set[index-1]
 
 def MonthBoundary(year, month):
     """
@@ -189,26 +207,33 @@ class ViewMonthlyGoals(APIView):
 
         return Response(response)
 
-class ViewMonthlyReadings(ListAPIView):
-    serializer_class = YFS201ReadingSerializer
+class ViewMonthlyReadings(APIView):
+    renderer_classes = (JSONRenderer, )
 
-    def get_queryset(self):
+    def get(self, request, year):
         user = self.request.user
         wt = WaterTank.objects.filter(user=user)
         year = int(self.kwargs['year'])
 
-        year_records= YFS201Reading.objects.filter(
-            water_tank=wt, timestamp__year=year).order_by('timestamp')
+        year_records = YFS201Reading.objects.filter(
+            water_tank=wt, timestamp__year=year).order_by('-timestamp')
 
-        months =  year_records.filter(timestamp__month=7).order_by('-sensor_reading')
+        readings = []
 
-        last_readings = []
+        for i in  range(1,12):
+            mb = MonthBoundary(year, i)
+            month =  year_records.filter(timestamp__month=i).order_by('timestamp')
+            if month:
+                last_read =  last_reading_month(month, mb.last)
+                #readings.append([(c.read() - month[0].read())/1000 for c in last_read])
+                readings.append(last_read.read() - month[0].read()/1000)
 
-        for month in (1,12):
-            month_records = year_records.filter(timestamp__month=month)#.aggregate(Max('timestamp'))
-            last_readings.append(month_records)
 
-        return months #YFS201Reading.objects.filter(water_tank=wt, timestamp__year=year).order_by('timestamp')
+        response = {
+                "sensor_reading": readings,
+         }
+
+        return Response(response)
 
 
 class GoalsViewSet(viewsets.ModelViewSet):
@@ -222,4 +247,4 @@ class GoalsListSet(ListAPIView):
     def get_queryset(self):
         user = self.request.user
         year = int(self.kwargs['year'])
-        return Cabesp_goalnsumpitionGoal.objects.filter(user=user, goal_initial__year=year).order_by('goal_initial')
+        return ConsumpitionGoal.objects.filter(user=user, goal_initial__year=year).order_by('goal_initial')
