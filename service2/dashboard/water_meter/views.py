@@ -226,6 +226,8 @@ class ViewMonthlyReadings(APIView):
             if month:
                 last_read =  last_reading_month(month, mb.last)
                 readings.append((last_read.read() - month[0].read())/1000)
+            else:
+                readings.append(0)
 
 
         response = {
