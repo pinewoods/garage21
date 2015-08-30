@@ -35,7 +35,7 @@ def run():
         datestamp = datetime.date(day=15, month=m, year=year)
 
         obj = SabespReading(watermeter=watermeter,
-                            reading_m3=random.gauss(105, 10),
+                            reading_m3=random.gauss(6, 1),
                             reading_competence=competence,
                             datestamp=datestamp)
 

@@ -38,6 +38,6 @@ def run():
 
         objects.append(obj)
         timestamp += fifteen_minuts
-        flow_counter += random.gauss(0.2, 3)
+        flow_counter += random.gauss(4.5, 6)
 
     YFS201Reading.objects.bulk_create(objects)

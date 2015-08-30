@@ -23,7 +23,6 @@ from .models import  HCSR04Reading
 from .models import  HCSR04ReadingSerializer
 from .models import  YFS201ReadingSerializer
 from .models import  EssentialHCSR04Serializer
-from .models import  SensorType
 from .models import  WaterTank
 from .models import  ConsumpitionGoal
 from .models import  ConsumpitionGoalSerializer
@@ -173,7 +172,8 @@ class ViewMonthlyGoals(APIView):
                 timestamp__range=(mb.first, mb.last)).order_by('timestamp')
 
         r = each_last_reading(readings, mb.first, mb.last)
-        consumption = [c.read() - readings[0].read() for c in r]
+        # 1m^3 = 1000 liters
+        consumption = [(c.read() - readings[0].read()) / 1000. for c in r]
 
         days_count = mb.last.day
 

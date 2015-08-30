@@ -17,7 +17,7 @@ function burndownChart(selector, consumo, meta_sabesp, meta_pinewoods){
             },
             yAxis: {
                 title: {
-                    text: 'Volume de Água (L)'
+                    text: 'Volume de Água (M³)'
                 },
                 min:0,
                 plotLines: [{
@@ -27,7 +27,9 @@ function burndownChart(selector, consumo, meta_sabesp, meta_pinewoods){
                 }]
             },
             tooltip: {
-                valueSuffix: ' L'
+                valueSuffix: ' M³',
+                shared: true,
+                valueDecimals: 2
             },
             legend: {
                 //layout: 'vertical',
@@ -35,7 +37,7 @@ function burndownChart(selector, consumo, meta_sabesp, meta_pinewoods){
                 floating: true,
                 verticalAlign: 'bottom',
                 align: 'left',
-                y:-20,
+                y:-30,
                 x: 45
             },
             credits: {

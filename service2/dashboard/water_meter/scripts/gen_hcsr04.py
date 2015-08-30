@@ -38,7 +38,7 @@ def run():
 
         objects.append(obj)
         timestamp += fifteen_minuts
-        level += random.gauss(0, 1)
+        level += random.gauss(0, 5)
         level = min(tank.total_height, max(level, tank.air_gap))
 
     HCSR04Reading.objects.bulk_create(objects)
