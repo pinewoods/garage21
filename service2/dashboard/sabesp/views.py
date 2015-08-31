@@ -30,7 +30,7 @@ class SabespReadingViewSet(viewsets.ModelViewSet):
 
 class SabesprofileRetrieve(ListAPIView):
     serializer_class = SabespProfileSerializer
-        
+
     def get_queryset(self):
         user = self.request.user
         return SabespProfile.objects.filter(user=user)

@@ -179,10 +179,24 @@ class GoalsViewSet(viewsets.ModelViewSet):
     serializer_class = ConsumpitionGoalSerializer
 
 
-class GoalsListSet(ListAPIView):
-    serializer_class = GoalSerializer
+class GoalsListSet(APIView):
 
-    def get_queryset(self):
+    renderer_classes = (JSONRenderer, )
+
+    def get(self, request, year):
         user = self.request.user
-        year = int(self.kwargs['year'])
-        return ConsumpitionGoal.objects.filter(user=user, goal_initial__year=year).order_by('goal_initial')
+        year = datetime.date(int(year), 1, 1)
+
+        goal = ConsumpitionGoal.timeseries.filter(
+            user=user).year(year).monthly_closing
+
+        # 1m^3 = 1000 liters
+        month_dict = {g.goal_initial.month: g.goal
+                for g in goal}
+
+        response = {
+            "sensor_reading": [month_dict.get(m, None)
+                for m in range(1, 13)],
+        }
+
+        return Response(response)

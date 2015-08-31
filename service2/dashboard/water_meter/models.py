@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from .querysets import TimeseriesQuerySet
+from .querysets import ts_min
 
 
 class WaterTank(models.Model):
@@ -105,7 +106,6 @@ class EssentialHCSR04Serializer(serializers.ModelSerializer):
         fields = ('unix_timestamp', 'level')
 
 
-
 class ConsumpitionGoal(models.Model):
 
     objects = models.QuerySet().as_manager()
@@ -118,6 +118,12 @@ class ConsumpitionGoal(models.Model):
     user = models.ForeignKey(User, unique=False,blank=False)
     goal_initial = models.DateField(blank=False)
     goal = models.FloatField(blank=False)
+
+    def __lt__(self, other):
+        if isinstance(other, datetime.datetime):
+            return ts_min(self.goal_initial) < other
+        else:
+            return self.goal_initial < other.goal_initial
 
     def __str__(self):
         return "%s" % (self.goal_initial)

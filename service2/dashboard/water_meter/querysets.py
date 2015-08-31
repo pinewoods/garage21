@@ -39,7 +39,7 @@ def MonthBoundary(year, month):
         return month_boundaries(ts_min(first), ts_max(last))
 
 
-def each_last_reading(readings, first, last, delta):
+def each_last_reading(readings, first, last, delta, ts_field):
     """
         Returns the last reading of each period in range.
         - Range is representd by first and last
@@ -51,7 +51,7 @@ def each_last_reading(readings, first, last, delta):
         * Only on Python 3.6 bisect will support key=
     """
 
-    list(readings).sort(key=lambda x: x.timestamp)
+    list(readings).sort(key=lambda x: getattr(x, ts_field))
     closing_dict = collections.OrderedDict()
     current = first
 
@@ -80,36 +80,33 @@ class TimeseriesQuerySet(QuerySet):
         jan_1st = ts_min(datetime.datetime(year, 1, 1))
         dec_31st = ts_max(datetime.datetime(year, 12, 31))
 
-        return self.filter(
-            timestamp__range=(
-                jan_1st, dec_31st)).order_by(self.ts_field)
+        kwargs = {'%s__range' % self._ts_field: (jan_1st, dec_31st)}
+        return self.filter(**kwargs).order_by(self._ts_field)
 
     def month(self, timestamp):
         year, month = timestamp.year, timestamp.month
         mb = MonthBoundary(year, month)
-        return self.filter(
-                timestamp__range=(
-                    mb.first, mb.last)).order_by(self._ts_field)
+        kwargs = {'%s__range' % self._ts_field: (mb.first, mb.last)}
+        return self.filter(**kwargs).order_by(self._ts_field)
 
     def day(self, timestamp):
-        return self.filter(
-                timestamp__range=(
-                    ts_min(timestamp),
-                    ts_max(timestamp)
-                )
-            ).order_by(self._ts_field)
+        kwargs = {'%s__range' % self._ts_field:
+                (ts_min(timestamp), ts_max(timestamp))}
+        return self.filter(**kwargs).order_by(self._ts_field)
 
     @property
     def daily_closing(self):
         delta = relativedelta(days=+1)
-        first = ts_min(self.earliest(self._ts_field).timestamp)
-        last = ts_max(self.latest(self._ts_field).timestamp)
-        return each_last_reading(self, first, last, delta)
+        get_ts = lambda x: getattr(x, self._ts_field)
+        first = ts_min(get_ts(self.earliest(self._ts_field)))
+        last = ts_max(get_ts(self.latest(self._ts_field)))
+        return each_last_reading(self, first, last, delta, self._ts_field)
 
     @property
     def monthly_closing(self):
-        first = ts_min(self.earliest(self._ts_field).timestamp)
+        get_ts = lambda x: getattr(x, self._ts_field)
+        first = ts_min(get_ts(self.earliest(self._ts_field)))
+        last = ts_max(get_ts(self.latest(self._ts_field)))
         mb = MonthBoundary(first.year, first.month)
-        last = ts_max(self.latest(self._ts_field).timestamp)
         delta = relativedelta(months=+1)
-        return each_last_reading(self, mb.first, last, delta)
+        return each_last_reading(self, mb.first, last, delta, self._ts_field)
