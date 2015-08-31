@@ -195,7 +195,7 @@ class GoalsListSet(APIView):
                 for g in goal}
 
         response = {
-            "sensor_reading": [month_dict.get(m, None)
+            "wolksen_goals": [month_dict.get(m, None)
                 for m in range(1, 13)],
         }
 

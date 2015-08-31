@@ -120,7 +120,7 @@ function goalsBarChart(goals_chart_selector,services) {
         $("#goals_chart_div").highcharts().series[0].setData(goals);
     });
     $.getJSON(services[1],function(data){
-        $("#goals_chart_div").highcharts().series[1].setData(removeDate(data.results, "goal"));
+        $("#goals_chart_div").highcharts().series[1].setData(data.wolksen_goals);
     });
     $.getJSON(services[2],function(data){
         $("#goals_chart_div").highcharts().series[2].setData(removeDate(data.results, "reading_m3"));
