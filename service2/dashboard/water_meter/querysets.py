@@ -98,15 +98,23 @@ class TimeseriesQuerySet(QuerySet):
     def daily_closing(self):
         delta = relativedelta(days=+1)
         get_ts = lambda x: getattr(x, self._ts_field)
-        first = ts_min(get_ts(self.earliest(self._ts_field)))
-        last = ts_max(get_ts(self.latest(self._ts_field)))
-        return each_last_reading(self, first, last, delta, self._ts_field)
+        # This check if the queryset is empty to avoid exception
+        if self:
+            first = ts_min(get_ts(self.earliest(self._ts_field)))
+            last = ts_max(get_ts(self.latest(self._ts_field)))
+            return each_last_reading(self, first, last, delta, self._ts_field)
+        else:
+            return self
 
     @property
     def monthly_closing(self):
         get_ts = lambda x: getattr(x, self._ts_field)
-        first = ts_min(get_ts(self.earliest(self._ts_field)))
-        last = ts_max(get_ts(self.latest(self._ts_field)))
-        mb = MonthBoundary(first.year, first.month)
-        delta = relativedelta(months=+1)
-        return each_last_reading(self, mb.first, last, delta, self._ts_field)
+        # This check if the queryset is empty to avoid exception
+        if self:
+            first = ts_min(get_ts(self.earliest(self._ts_field)))
+            last = ts_max(get_ts(self.latest(self._ts_field)))
+            mb = MonthBoundary(first.year, first.month)
+            delta = relativedelta(months=+1)
+            return each_last_reading(self, mb.first, last, delta, self._ts_field)
+        else:
+            return self

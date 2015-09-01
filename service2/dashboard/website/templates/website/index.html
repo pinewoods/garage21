@@ -153,11 +153,11 @@
     }
 
     {% now "Y" as year_ %}{% now "m" as month_ %}
-    url_tank_level = "{% url 'monthly-goals' water_tank=tank.pk year=year_ month=month_ %}"
-
+    url_monthy_goals = "{% url 'monthly-goals' water_tank=tank.pk year=year_ month=month_ %}"
+    
     $.ajax({
         dataType: "json",
-        url: url_tank_level,
+        url: url_monthy_goals,
         cache: false,
         success: plot_burndown
     });
@@ -176,7 +176,7 @@
             url: intraday_level + get_param,
             cache: false,
             success: function (data){
-                console.log(data);
+                //console.log(data);
 
                 clean_data = [];
                 for(i=0; i < data.results.length; i++){
