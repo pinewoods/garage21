@@ -45,7 +45,19 @@
             <div class="panel-body">
                 <form method="POST" action="">
                     {% csrf_token %}
+
+                    <div class="form-group" id="datepicker-container">
+                        <label for="datepicker_div">Mês de competência:</label>
+                        <div id="datepicker_div"></div>
+                        {% for error in goals_form.errors %}
+                            {% if "goal_initial" in error %}
+                                <span id="span-datapicker" class="help-block has-error" style="color: #a94442;" >Por favor, insira uma data.</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
                     {{ sabesp_reading_form|bootstrap }}
+
                     <button type="submit" name="user_profile" class="btn btn-primary">Salvar</button>
                     <button type="reset" class="btn btn-default">Limpar</button>
                 </form>
@@ -120,5 +132,16 @@
             var data = $.getJSON("{% url 'readings-list' %}", built_readings_panel)
         });
     </script>
+
+    <script src="{% static "website/js/bootstrap-datepicker.min.js" %}"></script>
+    <script src="{% static "website/js/month-picker.js" %}"></script>
+
+    <script language="JavaScript">
+        var container = '#datepicker-container div'
+        var span = '#span-datapicker'
+        var input = '#id_goal_initial'
+        $(monthPicker(container, span, input));
+    </script>
+
 
 {% endblock script-block %}

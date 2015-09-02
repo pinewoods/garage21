@@ -154,7 +154,7 @@
 
     {% now "Y" as year_ %}{% now "m" as month_ %}
     url_monthy_goals = "{% url 'monthly-goals' water_tank=tank.pk year=year_ month=month_ %}"
-    
+
     $.ajax({
         dataType: "json",
         url: url_monthy_goals,

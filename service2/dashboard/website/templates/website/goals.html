@@ -48,7 +48,9 @@
             </div>
             <div class="panel-body">
                 <form id="goals_form" action="{% url 'goals' %}" method="POST">
+
                     {% csrf_token %}
+
                     <div class="form-group" id="datepicker-container">
                         <label for="datepicker_div">Selecione o mês:</label>
                         <div id="datepicker_div"></div>
@@ -58,8 +60,9 @@
                             {% endif %}
                         {% endfor %}
                     </div>
-                    
+
                     {{ goals_form|bootstrap }}
+
                     <button type="submit" class="btn btn-primary">Definir</button>
                     <button id="btn-reset" type="reset" class="btn btn-default">Limpar</button>
                     {% if message %}
@@ -116,38 +119,23 @@
 
     <!-- Datepicker -->
     <script src="{% static "website/js/bootstrap-datepicker.min.js" %}"></script>
+    <script src="{% static "website/js/month-picker.js" %}"></script>
 
     <script language="JavaScript">
-        // http://eternicode.github.io/bootstrap-datepicker/
-        $('#datepicker-container div').datepicker({
-            format: "dd/mm/yy",
-            //clearBtn: true,
-            language: "pt-BR",
-            orientation: "bottom auto",
-            autoclose: true,
-            todayHighlight: true,
-            format: "mm-yyyy",
-            viewMode: "months",
-            minViewMode: "months"
-        }).on('changeMonth', function(ev){
-            //console.log(ev); // DEBUG
-            var currMonth = new Date(ev.date).getMonth()+1;
-            var currYear = String(ev.date).split(" ")[3];
-            var currData = currYear + "-" + currMonth + "-1"
-            //console.log(data);
-            $("#span-datapicker").attr('style', 'display:none');
-            $("#id_goal_initial").attr('value', currData);
-        });;
+        var container = '#datepicker-container div'
+        var span = '#span-datapicker'
+        var input = '#id_goal_initial'
+        $(monthPicker(container, span, input));
     </script>
 
     <script language="JavaScript">
-    // TODO: Move to file 
+    // TODO: Move to file
         function cleaner(){
                 if ( $( "#div-success" ).length ){
                     $("#id_goal").attr('value', ' ');
                 }
             }
-        $(document).ready(cleaner);    
+        $(document).ready(cleaner);
     </script>
 
     <script src="{% static "website/js/goalsBarsChart.js" %}"></script>
