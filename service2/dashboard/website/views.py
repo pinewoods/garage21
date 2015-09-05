@@ -58,9 +58,9 @@ def goals(request):
 
             message = "Sua meta foi inserida com sucesso"
 
-        # post request context
-        context['dismissable_alert'] = 'Dados cadastrados com sucesso.'
-        context['dismissable_alert_level'] = 'success'
+            # post request, if valid,  context
+            context['dismissable_alert'] = 'Dados cadastrados com sucesso.'
+            context['dismissable_alert_level'] = 'success'
 
     # function context
     context['goals_form'] =  goals_form
@@ -108,8 +108,13 @@ def settings(request):
     user_profile_form = UserProfileForm(instance=user.profile)
     sabesp_forms = [SabespProfileForm(instance=instance)
             for instance in profiles_sabesp]
-    # TODO
+
     alert_forms = [LevelAlertForm(instance=alerts)]
+
+    context = {
+        'user': user,
+        'tanks': tanks,
+    }
 
     if request.method == 'POST':
         # TODO: Redirect each submit to its own url action
@@ -131,16 +136,12 @@ def settings(request):
             instance.user = request.user
             instance.save()
 
-            #context['dismissable_alert'] = 'Sua atualização foi recebida com sucesso'
-            #context['dismissable_alert_level'] = 'success'
+            context['dismissable_alert'] = 'Sua atualização foi recebida com sucesso'
+            context['dismissable_alert_level'] = 'success'
 
-    context = {
-        'user': user,
-        'user_profile_form': user_profile_form,
-        'sabesp_forms': sabesp_forms,
-        'alert_forms': alert_forms,
-        'tanks': tanks,
-    }
+    context['user_profile_form'] = user_profile_form
+    context['sabesp_forms'] = sabesp_forms
+    context['alert_forms'] = alert_forms
 
     return render(request,
                   'website/settings.html',

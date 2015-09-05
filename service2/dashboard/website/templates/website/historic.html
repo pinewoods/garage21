@@ -33,7 +33,6 @@
 {% endblock page-header-block %}
 
 {% block container-fluid-block %}
-
 <div class="row">
 
     <!-- Add new Sabesp Reading -->
@@ -49,8 +48,8 @@
                     <div class="form-group" id="datepicker-container">
                         <label for="datepicker_div">Mês de competência:</label>
                         <div id="datepicker_div"></div>
-                        {% for error in goals_form.errors %}
-                            {% if "goal_initial" in error %}
+                        {% for error in sabesp_reading_form.errors %}
+                            {% if "reading_competence" in error %}
                                 <span id="span-datapicker" class="help-block has-error" style="color: #a94442;" >Por favor, insira uma data.</span>
                             {% endif %}
                         {% endfor %}
@@ -139,9 +138,14 @@
     <script language="JavaScript">
         var container = '#datepicker-container div'
         var span = '#span-datapicker'
-        var input = '#id_goal_initial'
+        var input = '#id_reading_competence'
         $(monthPicker(container, span, input));
     </script>
 
-
+    <script language="JavaScript">
+        $('#id_datestamp').datepicker({
+            language: "pt-BR",
+            todayHighlight: true
+        });
+    </script>
 {% endblock script-block %}

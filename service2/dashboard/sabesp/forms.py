@@ -46,9 +46,9 @@ class SabespReadingForm(forms.ModelForm):
 
         widgets = {
             'reading_competence': forms.DateInput(attrs={'type':'hidden','required': True}),
-            'datestamp': forms.DateInput(attrs={'required': True}),
         }
 
         error_messages = {
             'reading_competence': {'required': ("Por favor, escolha o mesmo para iniciar a meta.")},
+            'datestamp': {'required': ("Por favor, escolha o mesmo para iniciar a meta.")},
         }
