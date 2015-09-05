@@ -168,6 +168,23 @@
                     </div>
                 </div>
                 {% endblock page-header-block %}
+
+                {% block dismissable-alerts-block %}
+                <div id="div_alert">
+                    <!-- dismissable alerts -->
+                    {% if dismissable_alert %}
+                     <div class="row">
+                         <div class="col-lg-12">
+                             <div class="alert alert-{{ dismissable_alert_level }} alert-dismissable">
+                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                 <i class="fa fa-info-circle"></i> {{ dismissable_alert }}
+                             </div>
+                         </div>
+                     </div>
+                    {% endif %}
+                </div>
+                {% endblock dismissable-alerts-block %}
+
                 {% block container-fluid-block %}
                 <!-- container-fluid-block -->
                 {% endblock container-fluid-block %}

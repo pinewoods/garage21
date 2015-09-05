@@ -37,15 +37,14 @@ def goals(request):
     user = request.user
     tanks = WaterTank.objects.filter(user=user)
 
-    if request.method == 'GET':
+    context = {
+        'user': user,
+        'tanks': tanks,
+    }
 
+    if request.method == 'GET':
         goals_form = ConsumptionGoalForm(initial={'user': user})
 
-        context = {
-            'user': user,
-            'tanks': tanks,
-            'goals_form': goals_form,
-        }
     if request.method == 'POST':
         goals_form = ConsumptionGoalForm(request.POST)
         message = ''
@@ -59,12 +58,13 @@ def goals(request):
 
             message = "Sua meta foi inserida com sucesso"
 
-        context = {
-            'user': user,
-            'tanks': tanks,
-            'message': message,
-            'goals_form': goals_form,
-        }
+        # post request context
+        context['dismissable_alert'] = 'Dados cadastrados com sucesso.'
+        context['dismissable_alert_level'] = 'success'
+
+    # function context
+    context['goals_form'] =  goals_form
+
     return render(request,
                   'website/goals.html',
                   context=context)
@@ -81,7 +81,13 @@ def historic(request):
     }
 
     if request.method == 'POST':
+        #from IPython import embed; embed()
         sabesp_reading_form = SabespReadingForm(request.POST)
+        if sabesp_reading_form.is_valid():
+            sabesp_reading_form.save()
+
+            context['dismissable_alert'] = 'Dados cadastrados com sucesso.'
+            context['dismissable_alert_level'] = 'success'
 
     context['sabesp_reading_form'] = sabesp_reading_form
 
@@ -125,6 +131,9 @@ def settings(request):
             instance.user = request.user
             instance.save()
 
+            #context['dismissable_alert'] = 'Sua atualização foi recebida com sucesso'
+            #context['dismissable_alert_level'] = 'success'
+
     context = {
         'user': user,
         'user_profile_form': user_profile_form,
@@ -142,18 +151,14 @@ def settings(request):
 def support(request):
 
     user = request.user
-    message = ''
+    context = {
+        'user': user,
+    }
 
     if request.method == 'GET':
         support_form = SupportForm(initial={'user': user})
 
-        context = {
-            'user': user,
-            'support_form': support_form,
-        }
-
     if request.method == 'POST':
-
         support_form = SupportForm(request.POST)
         # check whether it's valid:
         if support_form.is_valid():
@@ -163,13 +168,10 @@ def support(request):
             ticket = Ticket(user=user, support_code=tipo, description=description)
             ticket.save()
 
-            message = "Seu ticket foi gerado com sucesso"
+            context['dismissable_alert'] = 'Seu ticket foi gerado com sucesso'
+            context['dismissable_alert_level'] = 'success'
 
-    context = {
-        'user': user,
-        'message': message,
-        'support_form': support_form,
-    }
+    context['support_form'] = support_form
 
     return render(request,
                   'website/support.html',

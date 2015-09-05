@@ -65,33 +65,6 @@
 
                     <button type="submit" class="btn btn-primary">Definir</button>
                     <button id="btn-reset" type="reset" class="btn btn-default">Limpar</button>
-                    {% if message %}
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <br/>
-                                <div id="div_alert">
-                                    <!-- dismissable alerts -->
-                                    <div id="div-success"class="alert alert-success alert-dismissable">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                        <i class="fa fa-info-circle"></i> <strong>{{ message }}</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% else  %}
-                        {% for error in Form.non_field_errors %}
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <br/>
-                                    <div class="alert alert-danger alert-dismissable">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                        <i class="fa fa-info-circle"></i> <strong>{{ error }}</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-
-                    {% endif %}
                 </form>
             </div>
         </div>

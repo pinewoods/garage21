@@ -38,39 +38,23 @@
                 <h3 class="panel-title"><i class="fa fa-wrench"></i> Suporte Técnico
             </div>
             <div class="panel-body">
-                    
-                {% if message %}
+               <form method="POST" action="/support/">
+                    {% csrf_token %}
+                    {{ support_form|bootstrap }}
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <button type="reset" class="btn btn-default">Limpar</button>
+                    {% for error in Form.non_field_errors %}
                         <div class="row">
                             <div class="col-lg-12">
                                 <br/>
-                                <div id="div_alert">
-                                    <!-- dismissable alerts -->
-                                    <div id="div-success"class="alert alert-success alert-dismissable">
-                                        <a class="close" href="{% url 'dashboard' %}">&times;</a>
-                                        <i class="fa fa-info-circle"></i> <strong>{{ message }}</strong>
-                                    </div>
+                                <div class="alert alert-danger alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="fa fa-info-circle"></i> <strong>{{ error }}</strong>
                                 </div>
                             </div>
                         </div>
-                {% else  %}
-                    <form method="POST" action="/support/">
-                        {% csrf_token %}
-                        {{ support_form|bootstrap }}
-                        <button type="submit" class="btn btn-primary">Enviar</button>
-                        <button type="reset" class="btn btn-default">Limpar</button>                    
-                        {% for error in Form.non_field_errors %}
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <br/>
-                                    <div class="alert alert-danger alert-dismissable">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                        <i class="fa fa-info-circle"></i> <strong>{{ error }}</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </form>
-                {% endif %}
+                    {% endfor %}
+                </form>
             </div>
         </div>
     </div>
