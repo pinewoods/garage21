@@ -17,7 +17,7 @@ function burndownChart(selector, consumo, meta_sabesp, meta_pinewoods){
             },
             yAxis: {
                 title: {
-                    text: 'Volume de Água (M³)'
+                    text: 'Volume de Água (m³)'
                 },
                 min:0,
                 plotLines: [{
@@ -27,7 +27,7 @@ function burndownChart(selector, consumo, meta_sabesp, meta_pinewoods){
                 }]
             },
             tooltip: {
-                valueSuffix: ' M³',
+                valueSuffix: ' m³',
                 shared: true,
                 valueDecimals: 2
             },
@@ -53,7 +53,7 @@ function burndownChart(selector, consumo, meta_sabesp, meta_pinewoods){
                 data: consumo
             },
             {
-                name: 'Meta Pinewoods',
+                name: 'Meta Wolksen',
                 color: '#99CC33',
                 data: meta_pinewoods
             }

@@ -24,7 +24,7 @@ function removeDate(data, property)
     var list = [];
 
     for (var i = 0; i < data.length; i++) {
-        list.push(data[i][property]); 
+        list.push(data[i][property]);
     }
     return list;
 }
@@ -36,7 +36,7 @@ function goalsBarChart(goals_chart_selector,services) {
     var sabesp_sample = [7.9, 8.6, 9.5, 8.4, 12.5, 11.0, 8.6, 7.9, 9.3, 9.0, 10.9, 12.0];
     var pinewoods_sample = [9.3, 8.2, 7.5, 8.5, 10.9, 10.5, 8.0, 9.6, 9.0, 10.3, 9.6, 11.4];
 
-    
+
     $(goals_chart_selector).highcharts({
         credits: {
             enabled: false
@@ -66,7 +66,9 @@ function goalsBarChart(goals_chart_selector,services) {
             }]
         },
         tooltip: {
-            shared: true
+            valueSuffix: ' m³',
+            shared: true,
+            valueDecimals: 2
         },
         /*
         legend: {
@@ -84,7 +86,7 @@ function goalsBarChart(goals_chart_selector,services) {
             align: 'left',
             y:-30,
             x: 85,
-            backgroundColor: '#FFFFFF' 
+            backgroundColor: '#FFFFFF'
         },
         series: [{
             name: 'Meta Sabesp',
@@ -114,7 +116,7 @@ function goalsBarChart(goals_chart_selector,services) {
             zIndex: 1
         }]
     });
-    
+
     $.getJSON(services[0],function(data){
         goals = getSabespGoal(data.results[0].consumption_goal);
         $("#goals_chart_div").highcharts().series[0].setData(goals);

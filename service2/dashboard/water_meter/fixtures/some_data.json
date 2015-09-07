@@ -27,5 +27,15 @@
     },
     "pk": 1,
     "model": "water_meter.watertank"
+},
+{
+    "fields": {
+        "user": 1,
+        "timestamp": "2015-09-07T00:34:39.324Z",
+        "active": true,
+        "level": 50.0
+    },
+    "model": "alerts.levelalert",
+    "pk": 1
 }
 ]
