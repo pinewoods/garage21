@@ -11,7 +11,7 @@
 
 # Configurando e fazendo Deploy
 - Entra na pasta do repositorio
-- git remote add live dokku@cineme.com.br:wolksen_static
+- git remote add live dokku@cineme.com.br:dashboard
 - git add .
 - git commit -m "comentario"
 - git push live master
