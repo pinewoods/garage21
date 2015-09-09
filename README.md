@@ -9,6 +9,7 @@
 - python manage.py runscript `populate_db`
 - cp `dashboard/local_settings.py.prod` `dashboard/local_settings.py`
 
+
 # Configurando e fazendo Deploy
 - Entra na pasta do repositorio
 - git remote add live dokku@cineme.com.br:dashboard
