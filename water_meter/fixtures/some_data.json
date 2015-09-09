@@ -37,5 +37,17 @@
     },
     "model": "alerts.levelalert",
     "pk": 1
+},
+{
+    "fields": {
+        "mobile": "",
+        "cep": "",
+        "email": "",
+        "phone": "",
+        "cnpj": "43.776.517/0001-80",
+        "user": 1
+    },
+    "model": "sabesp.userprofile"
+    "pk": 1,
 }
 ]
