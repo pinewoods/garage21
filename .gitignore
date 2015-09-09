@@ -64,3 +64,6 @@ target/
 
 # 3rd Part Packages
 packages/
+
+# Local settings
+local_settings.py
