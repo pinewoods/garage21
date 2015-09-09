@@ -8,3 +8,12 @@
 - pytohn manage.py migrate
 - python manage.py runscript `populate_db`
 - cp `dashboard/local_settings.py.prod` `dashboard/local_settings.py`
+
+# Configurando e fazendo Deploy
+- Entra na pasta do repositorio
+- git remote add live dokku@cineme.com.br:wolksen_static
+- git add .
+- git commit -m "comentario"
+- git push live master
+- Para publicar no bitbucket: git push origin master
+- Para publicar no live: git push live master
