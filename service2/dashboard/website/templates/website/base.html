@@ -124,7 +124,7 @@
                         <a href="{% url 'historic' %}"><i class="fa fa-fw fa-file"></i> Histórico Sabesp</a>
                     </li>
                     <li {% if active_menu == "data" %} class="active" {% endif %}>
-                    <a href="{% static 'website/relatorio.xls' %}"><i class="fa fa-fw fa-table"></i> Exportar Dados</a>
+                    <a href="{% url 'reports' %}"><i class="fa fa-fw fa-table"></i> Exportar Dados</a>
                     <!-- TODO: Make a page for reports -->
                     </li>
                     <li {% if active_menu == "support" %} class="active" {% endif %}>
