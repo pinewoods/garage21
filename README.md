@@ -6,4 +6,5 @@ cd django-notifications/
 python setup.py install
 cd ..
 pytohn manage.py migrate
-python manage.py runscript populate_db
+python manage.py runscript `populate_db`
+cp `dashboard/local_settings.py.prod` `dashboard/local_settings.py`
