@@ -27,8 +27,8 @@ def levelAlertHandler(sender, instance, created, raw, **kwargs):
         # send_mail('Subject here', 'Here is the message.',
         #       'from@example.com', ['to@example.com'], fail_silently=False)
 
-        msg = u'O nível do reservatório está abaixo de %.1f%%'
+        msg = u'O nivel do reservatorio esta abaixo de %.1f%%'
         notify.send(user,
-                recipient=user, verb=u'O nível está baixo!',
+                recipient=user, verb=u'O nivel esta baixo!',
                 action_object=instance,
                 description=msg % instance.level)
