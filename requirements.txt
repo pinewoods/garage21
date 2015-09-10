@@ -13,7 +13,5 @@ python-dateutil==2.4.2
 pytz==2015.4
 six==1.9.0
 dj-database-url==0.3.0
-dj-static==0.0.6
 gunicorn==19.1.1
 psycopg2==2.6.1
-static==0.4
