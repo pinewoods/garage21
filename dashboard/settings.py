@@ -126,35 +126,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     )
-
-LOGGING_CONFIG = None
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(message)s'
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        # root logger
-        '': {
-            'handlers': ['console'],
-        },
-        #'django.request': {
-        #    'handlers': ['console'],
-        #    'level': 'DEBUG',
-        #    'propagate': False,
-        #},
-    }
-}
-import logging.config
-logging.config.dictConfig(LOGGING)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dashboard.settings")
