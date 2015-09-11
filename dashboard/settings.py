@@ -22,9 +22,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '4soby131awem$2y-%m6c4d!2=d^a6xg5zzte7&umg!4o575v$-'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = ['*']
 
 
@@ -129,3 +126,34 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     )
+
+LOGGING_CONFIG = None
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        # root logger
+        '': {
+            'handlers': ['console'],
+        },
+        #'django.request': {
+        #    'handlers': ['console'],
+        #    'level': 'DEBUG',
+        #    'propagate': False,
+        #},
+    }
+}
+import logging.config
+logging.config.dictConfig(LOGGING)
