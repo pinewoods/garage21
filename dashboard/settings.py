@@ -157,3 +157,4 @@ LOGGING = {
 }
 import logging.config
 logging.config.dictConfig(LOGGING)
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dashboard.settings")
