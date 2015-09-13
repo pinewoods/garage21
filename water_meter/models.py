@@ -36,7 +36,6 @@ class Reading(models.Model):
         # Required for TimeseriesQuerySet
         ts_field = 'timestamp'
 
-    water_tank = models.ForeignKey(WaterTank, unique=False)
     timestamp = models.DateTimeField(
                 default=timezone.now, editable=False)
     sensor_reading = models.FloatField(blank=False)
@@ -58,6 +57,9 @@ class Reading(models.Model):
 
 
 class YFS201Reading(Reading):
+
+    water_tank = models.ForeignKey(WaterTank, unique=False)
+
     @property
     def sensor_type(self):
         return 'YF-S201'
@@ -75,6 +77,9 @@ class YFS201ReadingSerializer(serializers.ModelSerializer):
 
 
 class HCSR04Reading(Reading):
+
+    water_tank = models.ForeignKey(WaterTank, unique=False)
+
     @property
     def sensor_type(self):
         return 'HC-SR04'

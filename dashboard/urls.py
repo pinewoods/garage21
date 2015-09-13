@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^accounts/logout/', logout,
         {'next_page': '/accounts/login'}, name='logout'),
     url(r'^api/', include('water_meter.urls')),
+    url(r'^api2/', include('pressure.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^inbox/', include(notifications.urls)),
 ]

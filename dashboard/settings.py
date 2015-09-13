@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'notifications',
     'support',
     'alerts',
+    'pressure',
 )
 
 MIDDLEWARE_CLASSES = (
