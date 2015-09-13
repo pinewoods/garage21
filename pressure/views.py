@@ -22,6 +22,8 @@ from rest_framework.response import Response
 
 from .models import LD9PressureReading
 from .models import LD9TemperatureReading
+from .models import TemperatureReadingSerializer
+from .models import PressureReadingSerializer
 
 
 class ViewReadings(APIView):
@@ -49,46 +51,64 @@ class ViewReadings(APIView):
 class ViewCurrentTemperature(APIView):
 
     renderer_classes = (JSONRenderer, )
+    permission_classes = (rest_framework.permissions.AllowAny,)
 
-    def get(self, request, year):
-        year = datetime.date(int(year), 1, 1)
-
-        sensor_reading = YFS201Reading.timeseries.year(
-                year).monthly_closing
-
-        # 1m^3 = 1000 liters
-        month_dict = {r.timestamp.month: r.read() / 1000.
-                for r in sensor_reading}
-
-        response = {
-            "sensor_reading": [month_dict.get(m, None)
-                for m in range(1, 13)],
-        }
-
-        return Response(response)
+    def get(self, request):
+        temp_reading = LD9TemperatureReading.objects.all().latest('timestamp')
+        serializer = TemperatureReadingSerializer(temp_reading)
+        return Response(serializer.data)
 
 
 class ViewCurrentPressure(APIView):
 
     renderer_classes = (JSONRenderer, )
+    permission_classes = (rest_framework.permissions.AllowAny,)
 
-    def get(self, request, year):
-        response = {}
+    def get(self, request):
+        temp_reading = LD9PressureReading.objects.all().latest('timestamp')
+        serializer = PressureReadingSerializer(temp_reading)
+        return Response(serializer.data)
+
+
+class ViewIntradayTemperature(APIView):
+
+    renderer_classes = (JSONRenderer, )
+    permission_classes = (rest_framework.permissions.AllowAny,)
+
+    def get(self, request):
+        temp_reading = LD9TemperatureReading.objects.all()
+
+        ts_list = []
+        r_list = []
+        for t in temp_reading:
+            ts_list.append(t.timestamp)
+            r_list.append(t.read())
+
+        response = {
+            "ts_list": ts_list,
+            "r_list": r_list,
+        }
+
         return Response(response)
 
 
 class ViewIntradayPressure(APIView):
 
     renderer_classes = (JSONRenderer, )
+    permission_classes = (rest_framework.permissions.AllowAny,)
 
-    def get(self, request, year):
-        response = {}
-        return Response(response)
+    def get(self, request):
+        temp_reading = LD9PressureReading.objects.all()
 
-class ViewIntradayTemperature(APIView):
+        ts_list = []
+        r_list = []
+        for t in temp_reading:
+            ts_list.append(t.timestamp)
+            r_list.append(t.read())
 
-    renderer_classes = (JSONRenderer, )
+        response = {
+            "ts_list": ts_list,
+            "r_list": r_list,
+        }
 
-    def get(self, request, year):
-        response = {}
         return Response(response)
