@@ -16,11 +16,11 @@ def run():
     year = timezone.now().year
     month = timezone.now().month
 
-    question = 'All Goals will be DELETED. Are you sure? (yes/no)? '
-    response = input(question)
+    #question = 'All Goals will be DELETED. Are you sure? (yes/no)? '
+    #response = input(question)
 
-    if response != 'yes':
-        return
+    #if response != 'yes':
+    #    return
 
     # Kill them all
     ConsumpitionGoal.objects.all().delete()

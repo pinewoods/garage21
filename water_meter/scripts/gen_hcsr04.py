@@ -21,11 +21,11 @@ def run():
     fifteen_minuts = datetime.timedelta(minutes=15)
     timestamp = yesterday
 
-    question = 'All Readings will be DELETED. Are you sure? (yes/no)? '
-    response = input(question)
+    #question = 'All Readings will be DELETED. Are you sure? (yes/no)? '
+    #response = input(question)
 
-    if response != 'yes':
-        return
+    #if response != 'yes':
+    #    return
 
     # Kill them all
     HCSR04Reading.objects.all().delete()

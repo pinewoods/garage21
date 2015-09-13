@@ -20,11 +20,11 @@ def run():
     year = timezone.now().year
     month = timezone.now().month
 
-    question = 'All Sabesp Stuff will be DELETED. Are you sure? (yes/no)? '
-    response = input(question)
+    #question = 'All Sabesp Stuff will be DELETED. Are you sure? (yes/no)? '
+    #response = input(question)
 
-    if response != 'yes':
-        return
+    #if response != 'yes':
+    #    return
 
     # Kill them all
     SabespReading.objects.all().delete()
