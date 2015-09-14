@@ -23,6 +23,7 @@ import notifications
 urlpatterns = [
     url(r'^sabesp/', include('sabesp.urls')),
     url(r'', include('website.urls')),
+    url(r'', include('show_case.urls')),
     url(r'^accounts/login/', login,
         {'template_name': 'admin/login.html'}, name='login'),
     url(r'^accounts/logout/', logout,

@@ -1,0 +1,104 @@
+{% extends "show_case/base.html" %}
+{% load staticfiles %}
+
+{% block sidebar-block %}
+    {% with active_menu="dashboard" %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock sidebar-block %}
+
+{% block page-header-block %}
+<!-- Page Heading -->
+<div id="div_breadcrumb" class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Dashboard
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i> <a href="{% url 'dashboard' %}">Início</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-file"></i> Dashboard
+            </li>
+        </ol>
+    </div>
+</div>
+{% endblock page-header-block %}
+
+{% block container-fluid-block %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-8">
+            <div class="big-box">image</div>
+        </div>
+        <div class="col-xs-4">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div id="container-rpm" style="width: 300px; height: 200px; float: left"></div>
+                </div>
+                <div class="col-xs-12">
+                    <div id="container-rpm" style="width: 300px; height: 200px; float: left"></div>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Nível da Caixa</h3>
+            </div>
+            <div class="panel-body">
+                <div id="level_chart" style="min-width: 310px; height: 250px; margin: 0 auto"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock container-fluid-block %}
+
+{% block script-block %}
+
+    <!--
+        highstock.js import highcharts.js
+        script src="{% static "website/js/highcharts.js" %}"
+    -->
+    <script src="{% static "website/js/highstock.js" %}"></script>
+    <script src="{% static "website/js/exporting.js"  %}"></script>
+
+    <!-- pressureGauge.js -->
+    <script src="{% static "show_case/js/highcharts-more.js" %}"></script>
+    <script src="{% static "show_case/js/solid-gauge.js" %}"></script>
+    <script src="{% static "show_case/js/pressureGauge.js" %}"></script>
+
+    <script language="JavaScript">
+
+        function plot_gauge(data){
+            var config = liquidFillGaugeDefaultSettings();
+            config.waveAnimateTime = 3500;
+            config.waveHeight = 0.05;
+            config.waveCount = 2.7;
+
+            // level = Math.floor(Math.random() * 100); // Debug
+            level = Math.floor(data.level);
+
+            // TODO: Mult-tank plot support
+            var gauge1 = loadLiquidFillGauge("fillgauge1", level, config);
+        }
+
+        url_tank_level = "#"
+
+        $.ajax({
+            dataType: "json",
+            url: url_tank_level,
+            cache: false,
+            success: plot_gauge
+        });
+
+    </script>
+
+{% endblock script-block %}

@@ -1,0 +1,63 @@
+{% extends "show_case/base.html" %}
+{% load staticfiles %}
+{% load bootstrap %}
+
+{% block sidebar-block %}
+    {% with active_menu="support" %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock sidebar-block %}
+
+{% block page-header-block %}
+<!-- Page Heading -->
+<div id="div_breadcrumb" class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Suporte Técnico
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i> <a href="{% url 'dashboard' %}">Início</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-file"></i> Suporte Técnico
+            </li>
+        </ol>
+    </div>
+</div>
+{% endblock page-header-block %}
+
+{% block container-fluid-block %}
+<div id="div_alert">
+    <!-- dismissable alerts -->
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-wrench"></i> Suporte Técnico
+            </div>
+            <div class="panel-body">
+               <form method="POST" action="/support/">
+                    {% csrf_token %}
+                    {{ support_form|bootstrap }}
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <button type="reset" class="btn btn-default">Limpar</button>
+                    {% for error in Form.non_field_errors %}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <br/>
+                                <div class="alert alert-danger alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="fa fa-info-circle"></i> <strong>{{ error }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock container-fluid-block %}
