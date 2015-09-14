@@ -9,6 +9,9 @@ $(function () {
         },
         xAxis: [{
             type: 'datetime',
+            dateTimeLabelFormat : {
+                day: '%S'
+            },
             crosshair: true
         }],
         yAxis: [{ // Primary yAxis

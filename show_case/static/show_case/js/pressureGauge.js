@@ -1,6 +1,7 @@
 $(function () {
 
     var gaugeOptions = {
+        credits: 'disabled',
 
         chart: {
             type: 'solidgauge'

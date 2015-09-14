@@ -98,16 +98,20 @@
                 data.pressure_list);
         }
 
-        url_pressure = "{% url 'intraday-pressure-temperature' %}"
+       function main_chart(){
+            url_pressure = "{% url 'intraday-pressure-temperature' %}"
 
-        $.ajax({
-            dataType: "json",
-            url: url_pressure,
-            cache: false,
-            success: plot_tp_chart
-        });
+            $.ajax({
+                dataType: "json",
+                url: url_pressure,
+                cache: false,
+                success: plot_tp_chart
+            });
+        };
 
-    </script>
+       setInterval(main_chart, 2600);
+
+   </script>
 
     <script language="JavaScript">
 
@@ -116,33 +120,31 @@
                 [data.sensor_reading]);
         }
 
-        url_pressure = "{% url 'current-pressure' %}"
-
-        $.ajax({
-            dataType: "json",
-            url: url_pressure,
-            cache: false,
-            success: plot_pressure_gauge
-        });
-
-    </script>
-
-
-    <script language="JavaScript">
-
-        function plot_temp_chart(data){
+       function plot_temp_chart(data){
             $("#container-speed").highcharts().series[0].setData(
                 [data.sensor_reading]);
         }
 
-        url_temp = "{% url 'current-temperature' %}"
+        function main_gauge(){
+            url_pressure = "{% url 'current-pressure' %}"
+            url_temp = "{% url 'current-temperature' %}"
 
-        $.ajax({
-            dataType: "json",
-            url: url_temp,
-            cache: false,
-            success: plot_temp_chart
-        });
+            $.ajax({
+                dataType: "json",
+                url: url_pressure,
+                cache: false,
+                success: plot_pressure_gauge
+            });
+
+            $.ajax({
+                dataType: "json",
+                url: url_temp,
+                cache: false,
+                success: plot_temp_chart
+            });
+        };
+
+       setInterval(main_gauge, 2400);
 
     </script>
 
