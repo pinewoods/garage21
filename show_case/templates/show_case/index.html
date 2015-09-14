@@ -91,28 +91,60 @@
 
     <script language="JavaScript">
 
-        function plot_gauge(data){
-            var config = liquidFillGaugeDefaultSettings();
-            config.waveAnimateTime = 3500;
-            config.waveHeight = 0.05;
-            config.waveCount = 2.7;
-
-            // level = Math.floor(Math.random() * 100); // Debug
-            level = Math.floor(data.level);
-
-            // TODO: Mult-tank plot support
-            var gauge1 = loadLiquidFillGauge("fillgauge1", level, config);
+        function plot_tp_chart(data){
+            $("#container").highcharts().series[0].setData(
+                data.temp_list);
+            $("#container").highcharts().series[1].setData(
+                data.pressure_list);
         }
 
-        url_tank_level = "#"
+        url_pressure = "{% url 'intraday-pressure-temperature' %}"
 
         $.ajax({
             dataType: "json",
-            url: url_tank_level,
+            url: url_pressure,
             cache: false,
-            success: plot_gauge
+            success: plot_tp_chart
         });
 
     </script>
+
+    <script language="JavaScript">
+
+        function plot_pressure_gauge(data){
+            $("#container-rpm").highcharts().series[0].setData(
+                [data.sensor_reading]);
+        }
+
+        url_pressure = "{% url 'current-pressure' %}"
+
+        $.ajax({
+            dataType: "json",
+            url: url_pressure,
+            cache: false,
+            success: plot_pressure_gauge
+        });
+
+    </script>
+
+
+    <script language="JavaScript">
+
+        function plot_temp_chart(data){
+            $("#container-speed").highcharts().series[0].setData(
+                [data.sensor_reading]);
+        }
+
+        url_temp = "{% url 'current-temperature' %}"
+
+        $.ajax({
+            dataType: "json",
+            url: url_temp,
+            cache: false,
+            success: plot_temp_chart
+        });
+
+    </script>
+
 
 {% endblock script-block %}

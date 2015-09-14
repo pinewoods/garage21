@@ -59,9 +59,9 @@ $(function () {
     $('#container-speed').highcharts(Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
-            max: 200,
+            max: 60,
             title: {
-                text: 'Speed'
+                text: 'Pressão'
             }
         },
 
@@ -70,15 +70,15 @@ $(function () {
         },
 
         series: [{
-            name: 'Speed',
+            name: 'Pressão',
             data: [80],
             dataLabels: {
                 format: '<div style="text-align:center"><span style="font-size:25px;color:' +
                     ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
-                       '<span style="font-size:12px;color:silver">km/h</span></div>'
+                       '<span style="font-size:12px;color:silver">bar</span></div>'
             },
             tooltip: {
-                valueSuffix: ' km/h'
+                valueSuffix: ' bar'
             }
         }]
 
@@ -88,27 +88,27 @@ $(function () {
     $('#container-rpm').highcharts(Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
-            max: 5,
+            max: 200,
             title: {
-                text: 'RPM'
+                text: 'Temperatura'
             }
         },
 
         series: [{
-            name: 'RPM',
+            name: 'Temperatura',
             data: [1],
             dataLabels: {
                 format: '<div style="text-align:center"><span style="font-size:25px;color:' +
                     ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.1f}</span><br/>' +
-                       '<span style="font-size:12px;color:silver">* 1000 / min</span></div>'
+                       '<span style="font-size:12px;color:silver"> ºC</span></div>'
             },
             tooltip: {
-                valueSuffix: ' revolutions/min'
+                valueSuffix: ' ºC'
             }
         }]
 
     }));
-
+/*
     // Bring life to the dials
     setInterval(function () {
         // Speed
@@ -143,6 +143,6 @@ $(function () {
             point.update(newVal);
         }
     }, 2000);
-
+*/
 
 });

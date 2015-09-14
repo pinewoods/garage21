@@ -19,4 +19,9 @@ urlpatterns = [
     url(r'^intraday-temperature/$',
         views.ViewIntradayTemperature.as_view(),
         name='intraday-temperature'),
+
+    url(r'^intraday-pressure-temperature/$',
+        views.ViewIntradayPressureTemperature.as_view(),
+        name='intraday-pressure-temperature'),
+
 ]

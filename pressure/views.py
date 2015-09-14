@@ -91,7 +91,6 @@ class ViewIntradayTemperature(APIView):
 
         return Response(response)
 
-
 class ViewIntradayPressure(APIView):
 
     renderer_classes = (JSONRenderer, )
@@ -109,6 +108,26 @@ class ViewIntradayPressure(APIView):
         response = {
             "ts_list": ts_list,
             "r_list": r_list,
+        }
+
+        return Response(response)
+
+
+class ViewIntradayPressureTemperature(APIView):
+
+    renderer_classes = (JSONRenderer, )
+    permission_classes = (rest_framework.permissions.AllowAny,)
+
+    def get(self, request):
+        pressure_reading = LD9PressureReading.objects.all()
+        temp_reading = LD9TemperatureReading.objects.all()
+
+        t_list = [[t.timestamp, t.read()] for t in temp_reading]
+        p_list = [[p.timestamp, p.read()] for p in pressure_reading]
+
+        response = {
+            "temp_list": t_list,
+            "pressure_list": p_list,
         }
 
         return Response(response)
