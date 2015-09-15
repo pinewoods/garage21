@@ -147,12 +147,12 @@ class ViewIntradayPressureTemperature(APIView):
                     timestamp__lt=tts).delete()
 
             temp_reading = LD9PressureReading.objects.all(
-                ).order_by('-timestamp')
+                ).order_by('timestamp')
             pressure_reading = LD9TemperatureReading.objects.all(
-                ).order_by('-timestamp')
+                ).order_by('timestamp')
 
-        t_list = [[t.timestamp, t.read()] for t in temp_reading[:200]]
-        p_list = [[p.timestamp, p.read()] for p in pressure_reading[:200]]
+        t_list = [[t.timestamp, t.read()] for t in temp_reading[200:]]
+        p_list = [[p.timestamp, p.read()] for p in pressure_reading[200:]]
 
         response = {
             "temp_list": t_list,

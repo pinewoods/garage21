@@ -60,7 +60,7 @@ $(function () {
     $('#container-speed').highcharts(Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
-            max: 50,
+            max: 10,
             title: {
                 text: 'Pressão'
             }
@@ -89,7 +89,7 @@ $(function () {
     $('#container-rpm').highcharts(Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
-            max: 200,
+            max: 50,
             title: {
                 text: 'Temperatura'
             }

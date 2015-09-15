@@ -109,19 +109,19 @@
             });
         };
 
-       setInterval(main_chart, 1550);
+       setInterval(main_chart, 2000);
 
    </script>
 
     <script language="JavaScript">
 
         function plot_pressure_gauge(data){
-            $("#container-rpm").highcharts().series[0].setData(
+            $("#container-speed").highcharts().series[0].setData(
                 [data.sensor_reading]);
         }
 
        function plot_temp_chart(data){
-            $("#container-speed").highcharts().series[0].setData(
+            $("#container-rpm").highcharts().series[0].setData(
                 [data.sensor_reading]);
         }
 
@@ -144,7 +144,7 @@
             });
         };
 
-       setInterval(main_gauge, 1000);
+       setInterval(main_gauge, 400);
 
     </script>
 
