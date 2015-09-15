@@ -119,11 +119,30 @@ class ViewIntradayPressureTemperature(APIView):
     permission_classes = (rest_framework.permissions.AllowAny,)
 
     def get(self, request):
-        pressure_reading = LD9PressureReading.objects.all()
-        temp_reading = LD9TemperatureReading.objects.all()
 
-        t_list = [[t.timestamp, t.read()] for t in temp_reading]
-        p_list = [[p.timestamp, p.read()] for p in pressure_reading]
+        temp_reading = LD9PressureReading.objects.all(
+                ).order_by('-timestamp')
+        pressure_reading = LD9TemperatureReading.objects.all(
+                ).order_by('-timestamp')
+
+        print("LEN", len(pressure_reading))
+        if len(pressure_reading) > 1000:
+            print("DELETED")
+            pts = pressure_reading[200].timestamp
+            tts = temp_reading[200].timestamp
+
+            temp_reading = LD9PressureReading.objects.filter(
+                    timestamp__lt=pts).delete()
+            pressure_reading = LD9TemperatureReading.objects.filter(
+                    timestamp__lt=tts).delete()
+
+            temp_reading = LD9PressureReading.objects.all(
+                ).order_by('-timestamp')
+            pressure_reading = LD9TemperatureReading.objects.all(
+                ).order_by('-timestamp')
+
+        t_list = [[t.timestamp, t.read()] for t in temp_reading[:200]]
+        p_list = [[p.timestamp, p.read()] for p in pressure_reading[:200]]
 
         response = {
             "temp_list": t_list,
