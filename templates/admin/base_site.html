@@ -5,7 +5,7 @@
 {% block title %}Velki Web :: powered by Wolksen{% endblock %}
 
 {% block branding %}
-<a class="navbar-brand" href="#">{% if site_header %}{{ site_header }}{% else %}Velki Web :: powered by Wolksen{% endif %}</a>
+<a class="navbar-brand" href="#">{% if site_header %}{{ site_header }}{% else %}<img class="img-responsive" src="{% static "website/images/logo.png" %}" style="height:50px;margin-top:-15px;" />{% endif %}</a>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
