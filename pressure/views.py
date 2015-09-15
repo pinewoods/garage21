@@ -54,7 +54,12 @@ class ViewCurrentTemperature(APIView):
     permission_classes = (rest_framework.permissions.AllowAny,)
 
     def get(self, request):
-        temp_reading = LD9TemperatureReading.objects.all().latest('timestamp')
+        try:
+            temp_reading = LD9TemperatureReading.objects.all(
+                    ).latest('timestamp')
+        except Exception as e:
+            temp_reading = LD9TemperatureReading.objects.all()
+
         serializer = TemperatureReadingSerializer(temp_reading)
         return Response(serializer.data)
 
@@ -65,7 +70,12 @@ class ViewCurrentPressure(APIView):
     permission_classes = (rest_framework.permissions.AllowAny,)
 
     def get(self, request):
-        temp_reading = LD9PressureReading.objects.all().latest('timestamp')
+        try:
+            temp_reading = LD9PressureReading.objects.all(
+                    ).latest('timestamp')
+        except Exception as e:
+            temp_reading = LD9PressureReading.objects.all()
+
         serializer = PressureReadingSerializer(temp_reading)
         return Response(serializer.data)
 
