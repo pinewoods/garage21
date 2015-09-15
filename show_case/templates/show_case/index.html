@@ -92,8 +92,10 @@
     <script language="JavaScript">
 
         function plot_tp_chart(data){
+            $("#container").highcharts().series[0].setData([]);
             $("#container").highcharts().series[0].setData(
                 data.temp_list);
+            $("#container").highcharts().series[1].setData([]);
             $("#container").highcharts().series[1].setData(
                 data.pressure_list);
         }
