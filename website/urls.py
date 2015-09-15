@@ -5,8 +5,8 @@ from django.views.generic import TemplateView
 from . import views
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(
-        pattern_name='dashboard', permanent=False)),
+    #url(r'^$', RedirectView.as_view(
+    #    pattern_name='dashboard', permanent=False)),
 
     # TODO: Fake reports
     url(r'^reports/$',
