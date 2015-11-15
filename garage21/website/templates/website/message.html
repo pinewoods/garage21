@@ -1,0 +1,44 @@
+{% extends "website/base.html" %}
+{% load staticfiles %}
+{% load bootstrap %}
+
+{% block sidebar-block %}
+    {% with active_menu="" %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock sidebar-block %}
+
+{% block page-header-block %}
+<!-- Page Heading -->
+<div id="div_breadcrumb" class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Suporte Técnico
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i> <a href="/dashboard">Início</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-file"></i> Suporte Técnico
+            </li>
+        </ol>
+    </div>
+</div>
+{% endblock page-header-block %}
+
+{% block container-fluid-block %}
+<div id="div_alert">
+    <!-- dismissable alerts -->
+    <span id="message_span" class="uneditable-input">{{ message }}</span>
+</div>
+<div class="row">
+    <div class="col-lg-4">
+
+                <span id="message_span" class="uneditable-input">{{ message }}</span>
+
+
+    </div>
+</div>
+
+{% endblock container-fluid-block %}

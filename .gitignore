@@ -4,6 +4,9 @@
 __pycache__/
 *.py[cod]
 
+django-notifications/
+*/*db.sqlite3
+
 # C extensions
 *.so
 
