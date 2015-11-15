@@ -13,7 +13,7 @@ gnureadline==6.3.3
 gunicorn==19.1.1
 ipython==3.2.1
 jsonfield==1.0.3
-psycopg2==2.6.1
+#psycopg2==2.6.1
 python-dateutil==2.4.2
 pytz==2015.4
 six==1.9.0
