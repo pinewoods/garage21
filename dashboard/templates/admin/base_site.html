@@ -2,10 +2,13 @@
 {% load i18n %}{% load admin_static bootstrapped_goodies_tags %}
 
 
-{% block title %}Velki Web :: powered by Wolksen{% endblock %}
+{% block title %}DEC :: powered by Pinewoods{% endblock %}
 
 {% block branding %}
-<a class="navbar-brand" href="#">{% if site_header %}{{ site_header }}{% else %}<img class="img-responsive" src="{% static "website/images/logo.png" %}" style="height:50px;margin-top:-15px;" />{% endif %}</a>
+<a class="navbar-brand" href="#">{% if site_header %}{{ site_header }}{% else %}Pinewoods{% endif %}</a>
+<!--
+<a class="navbar-brand" href="#">{% if site_header %}{{ site_header }}{% else %}<img class="img-responsive" src="{% static "website/images/logo.png" %}" style="height:50px;margin-top:-15px;" />{% endif %}</a> -->
+
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
