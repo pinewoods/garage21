@@ -8,3 +8,7 @@ ifconfig usb0 down
 ifconfig wlan0 up
 ifconfig usb0 up
 
+#Utilize a IDE do Arduino para subir o código device.ino no intel edison
+#para rodar o código python rode o script
+./monitor-arduino.sh
+
