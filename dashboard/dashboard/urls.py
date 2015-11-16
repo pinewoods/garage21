@@ -19,6 +19,8 @@ from django.contrib.auth.views import login
 from django.contrib.auth.views import logout
 
 import notifications
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^sabesp/', include('sabesp.urls')),
@@ -30,4 +32,4 @@ urlpatterns = [
     url(r'^api/', include('water_meter.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^inbox/', include(notifications.urls)),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
