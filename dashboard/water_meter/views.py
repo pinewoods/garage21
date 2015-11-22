@@ -17,7 +17,7 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.generics import get_object_or_404
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-# from rest_framework import authentication, permissions
+from rest_framework import authentication, permissions
 
 from .models import YFS201Reading
 from .models import HCSR04Reading
