@@ -34,7 +34,7 @@ from .querysets import MonthBoundary
 
 class ViewReadings(APIView):
     #authentication_classes = (authentication.TokenAuthentication,)
-    #permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
         """

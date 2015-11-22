@@ -90,8 +90,8 @@ class HCSR04Reading(Reading):
 
     @property
     def level(self):
-        n = self.water_tank.total_height - self.sensor_reading
-        d = self.water_tank.total_height - self.water_tank.air_gap
+        n = self.water_tank.total_height - float(self.sensor_reading)
+        d = self.water_tank.total_height - float(self.water_tank.air_gap)
         return 100.0 * (n/d)
 
 
