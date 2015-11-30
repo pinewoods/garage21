@@ -1,0 +1,196 @@
+{% extends "website/base.html" %}
+{% load staticfiles %}
+
+{% block style-block %}
+
+{% endblock style-block %}
+
+{% block body_block %}
+    {% for tank in tanks %}
+        <div id="div_tank_{{tank.pk}}">
+            {{tank}}
+        <div>
+    {% endfor %}
+{% endblock %}
+
+
+{% block sidebar-block %}
+    {% with active_menu="dashboard" %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock sidebar-block %}
+
+{% block page-header-block %}
+<!-- Page Heading -->
+<div id="div_breadcrumb" class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Dashboard
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i> <a href="{% url 'dashboard' %}">Início</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-file"></i> Dashboard
+            </li>
+        </ol>
+    </div>
+</div>
+{% endblock page-header-block %}
+
+{% block container-fluid-block %}
+
+<div class="row">
+    <div class="col-lg-4">
+        <!-- Water Level Graphics -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Nível da Caixa</h3>
+            </div>
+            <div class="panel-body">
+                <svg id="fillgauge1" width="97%" height="300"></svg>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Metas de Consumo</h3>
+            </div>
+            <div class="panel-body">
+                <div id="container" style="min-width: 310px; height: 300px; margin: 0 auto"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Nível da Caixa</h3>
+            </div>
+            <div class="panel-body">
+                <div id="level_chart" style="min-width: 310px; height: 250px; margin: 0 auto"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock container-fluid-block %}
+
+{% block script-block %}
+
+    <!-- D3.JS -->
+    <script src="{% static "website/js/d3.v3.min.js" %}"></script>
+
+    <!-- liquidFillGauge http://bl.ocks.org/brattonc/5e5ce9beee483220e2f6 -->
+    <script src="{% static "website/js/liquidFillGauge.js" %}"></script>
+
+    <!--
+        highstock.js import highcharts.js
+        script src="{% static "website/js/highcharts.js" %}"
+    -->
+    <script src="{% static "website/js/highstock.js" %}"></script>
+    <script src="{% static "website/js/exporting.js"  %}"></script>
+
+    <!-- burndownChart.js -->
+    <script src="{% static "website/js/burndownChart.js" %}"></script>
+
+    <!-- tankLevel*.js -->
+    <script src="{% static "website/js/tankLevelTimeSeries.js" %}"></script>
+
+    {% for tank in tanks %}
+    <!-- Ajax request for {{ tank.description }}-->
+    <script language="JavaScript">
+
+        function plot_gauge(data){
+            var config = liquidFillGaugeDefaultSettings();
+            config.waveAnimateTime = 3500;
+            config.waveHeight = 0.05;
+            config.waveCount = 2.7;
+
+            // level = Math.floor(Math.random() * 100); // Debug
+            level = Math.floor(data.level);
+
+            // TODO: Mult-tank plot support
+            var gauge1 = loadLiquidFillGauge("fillgauge1", level, config);
+        }
+
+        url_tank_level = "{% url 'current-level' water_tank=tank.pk %}"
+
+        $.ajax({
+            dataType: "json",
+            url: url_tank_level,
+            cache: false,
+            success: plot_gauge
+        });
+
+    </script>
+
+    <!-- Ajax request for {{ tank.description }}-->
+    <script language="JavaScript">
+
+    function plot_burndown(data) {
+
+        pinewoods_array = [data.pinewoods_goal - data.pinewoods_step];
+
+        sabesp_array = [data.sabesp_goal - data.sabesp_step];
+
+        consumed_array = [data.pinewoods_goal - data.consumption[0]];
+
+        for(i=0; i < data.days_count; i++){
+            sabesp_array.push(sabesp_array[i] - data.sabesp_step);
+            pinewoods_array.push(pinewoods_array[i] - data.pinewoods_step);
+        }
+
+        for(i=0; i < data.consumption.length; i++){
+            consumed_array.push(consumed_array[0] - data.consumption[i]);
+        }
+
+        burndownChart('#container',
+             consumed_array, sabesp_array, pinewoods_array);
+    }
+
+    {% now "Y" as year_ %}{% now "m" as month_ %}
+    url_monthy_goals = "{% url 'monthly-goals' water_tank=tank.pk year=year_ month=month_ %}"
+
+    $.ajax({
+        dataType: "json",
+        url: url_monthy_goals,
+        cache: false,
+        success: plot_burndown
+    });
+
+    </script>
+
+    <script language="JavaScript">
+
+        var level_chart_div = '#level_chart';
+
+        get_param = '?page_size=96'
+        intraday_level = "{% url 'intraday-level' water_tank=tank.pk %}"
+
+        $.ajax({
+            dataType: "json",
+            url: intraday_level + get_param,
+            cache: false,
+            success: function (data){
+                //console.log(data);
+
+                clean_data = [];
+                for(i=0; i < data.results.length; i++){
+                    clean_data.push([
+                        data.results[i].unix_timestamp * 1000,
+                        data.results[i].level
+                    ]);
+                }
+
+                plot_level_timeseries(level_chart_div, clean_data);
+            }
+        });
+
+    </script>
+    {% endfor %}
+
+{% endblock script-block %}

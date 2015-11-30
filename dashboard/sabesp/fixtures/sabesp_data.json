@@ -1,0 +1,77 @@
+[
+{
+    "model": "sabesp.consumertype",
+    "pk": 1,
+    "fields": {
+        "code": "B1",
+        "description": "Consumidor Residencial"
+    }
+},
+{
+    "model": "sabesp.sabespprofile",
+    "pk": 1,
+    "fields": {
+        "customer_id": 3235063.0,
+        "user": 1,
+        "consumption_goal": 10.0,
+        "consumer_type": 1,
+        "supply_unit": "Guarapiranga",
+        "rgi": 187827726.0,
+        "sabesp_read_day": 17
+    }
+},
+{
+    "model": "sabesp.sabespwatermeter",
+    "pk": 1,
+    "fields": {
+        "sabesp_profile": 1,
+        "sensor_id": "Y09F091035"
+    }
+},
+{
+    "model": "sabesp.feeprice",
+    "pk": 1,
+    "fields": {
+        "band": 10.0,
+        "consumer_type": 1,
+        "price_m3": 16.82
+    }
+},
+{
+    "model": "sabesp.feeprice",
+    "pk": 2,
+    "fields": {
+        "band": 20.0,
+        "consumer_type": 1,
+        "price_m3": 2.63
+    }
+},
+{
+    "model": "sabesp.feeprice",
+    "pk": 3,
+    "fields": {
+        "band": 50.0,
+        "consumer_type": 1,
+        "price_m3": 6.57
+    }
+},
+{
+    "model": "sabesp.feeprice",
+    "pk": 4,
+    "fields": {
+        "band": 51.0,
+        "consumer_type": 1,
+        "price_m3": 7.24
+    }
+},
+{
+    "model": "sabesp.tax",
+    "pk": 1,
+    "fields": {
+        "code": "Pis/PASEP e Confins",
+        "rate": 7.3,
+        "consumer_type": 1,
+        "description": "Imposto sobre consumidores residenciais"
+    }
+}
+]

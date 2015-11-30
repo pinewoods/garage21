@@ -1,0 +1,213 @@
+{% load staticfiles %}
+{% load notifications_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Esta é uma aplicação para controle de consumo de água.">
+    <meta name="author" content="Pinewoods">
+    <link rel="icon" href="{% static "website/images/favicon.ico" %}">
+
+    <!--title>Pinewoods - Dashboard</title-->
+    <title>DEC - Pinewoods</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static "website/css/bootstrap.css" %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static "website/css/sb-admin.css" %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static "website/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+
+    <!-- Django Notifications-->
+    <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+    {% register_notify_callbacks callbacks='fill_notification_list,fill_notification_badge' %}
+
+    <!-- Custom Fix -->
+    <style media="screen" type="text/css">
+        .row {
+            margin-bottom: 0;
+        }
+    </style>
+
+    {% block style-block %}
+    {% endblock style-block %}
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!--
+                <a class="navbar-brand" href="{% url 'dashboard' %}"><img class="img-responsive" src="{% static "website/images/logo.png" %}" style="height:50px;margin-top:-15px;" /></a> -->
+
+                <a class="navbar-brand" href="{% url 'dashboard' %}" style="color: #fff; font-size: 22px;">Pinewoods</a>
+
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                {% block alerts-block %}
+                {% notifications_unread as unread_count %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu alert-dropdown">
+                        {% if unread_count %}
+                        <li><a href="{% url 'notifications:all' %}">Você tem {{ unread_count }} Alerta(s)</a></li>
+                        <li class="divider"></li>
+                        {% live_notify_list %}
+                        {% else %}
+                        <li><a href="{% url 'notifications:all' %}">Nenhum Alerta</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                {% endblock alerts-block %}
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle"
+                        data-toggle="dropdown"><i class="fa fa-user"></i> {{ user.username }} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{% url 'settings' %}"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                        </li>
+                        {% if user.is_staff %}
+                        <li>
+                            <a href="{% url 'admin:index' %}"><i class="fa fa-fw fa-umbrella"></i> Admin</a>
+                        </li>
+                        {% endif %}
+                        <li class="divider"></li>
+                        <li>
+                            <a href={% url 'logout' %}><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            {% with active_menu="" %}
+            {% block sidebar-block %}
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li {% if active_menu == "dashboard" %} class="active" {% endif %}>
+                    <a href="{% url 'dashboard' %}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    <li {% if active_menu == "goals" %} class="active" {% endif %}>
+                    <a href="{% url 'goals' %}"><i class="fa fa-fw fa-bar-chart-o"></i> Definir Metas</a>
+                    </li>
+                    <li {% if active_menu == "alerts" %} class="active" {% endif %}>
+                    <a href="{% url 'notifications:all' %}"><i class="fa fa-fw fa-bell"></i> Alertas</a>
+                    </li>
+                    <!---
+                    <li {% if active_menu == "supply" %} class="active" {% endif %}>
+                        <a href="supply.html"><i class="fa fa-fw fa-edit"></i> Fornecedores</a>
+                    </li>
+                    -->
+                    <li {% if active_menu == "historic" %} class="active" {% endif %}>
+                        <a href="{% url 'historic' %}"><i class="fa fa-fw fa-file"></i> Histórico Sabesp</a>
+                    </li>
+                    <li {% if active_menu == "data" %} class="active" {% endif %}>
+                    <a href="{% url 'reports' %}"><i class="fa fa-fw fa-table"></i> Exportar Dados</a>
+                    <!-- TODO: Make a page for reports -->
+                    </li>
+                    <li {% if active_menu == "support" %} class="active" {% endif %}>
+                        <a href="{% url 'support' %}"><i class="fa fa-fw fa-wrench"></i> Suporte Técnico</a>
+                    </li>
+                </ul>
+            </div>
+            {% endblock sidebar-block %}
+            <!--{% comment %}
+                To extend this template, and highlight the menu:
+
+                {% block sidebar-block %}
+                    {% with active_menu="dashboard" %}
+                        {{ block.super }}
+                    {% endwith %}
+                {% endblock sidebar-block %}
+
+            {% endcomment %}-->
+            {% endwith %}
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                {% block page-header-block %}
+                <!-- Page Heading -->
+                <div id="div_breadcrum" class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Blank Page
+                            <small>Subheading</small>
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i>  <a href="/dashboard/">Dashboard</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-file"></i> Blank Page
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                {% endblock page-header-block %}
+
+                {% block dismissable-alerts-block %}
+                <div id="div_alert">
+                    <!-- dismissable alerts -->
+                    {% if dismissable_alert %}
+                     <div class="row">
+                         <div class="col-lg-12">
+                             <div class="alert alert-{{ dismissable_alert_level }} alert-dismissable">
+                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                 <i class="fa fa-info-circle"></i> {{ dismissable_alert }}
+                             </div>
+                         </div>
+                     </div>
+                    {% endif %}
+                </div>
+                {% endblock dismissable-alerts-block %}
+
+                {% block container-fluid-block %}
+                <!-- container-fluid-block -->
+                {% endblock container-fluid-block %}
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static "website/js/jquery.js" %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static "website/js/bootstrap.min.js" %}"></script>
+
+    {% block script-block %}
+    {% endblock script-block %}
+
+</body>
+
+</html>

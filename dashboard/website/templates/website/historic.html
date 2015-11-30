@@ -1,0 +1,151 @@
+{% extends "website/base.html" %}
+{% load staticfiles %}
+{% load bootstrap %}
+
+{% block style-block %}
+<!-- datepicker id="bsdp-css" -->
+<link href="{% static "website/css/bootstrap-datepicker3.min.css" %}" rel="stylesheet">
+{% endblock style-block %}
+
+{% block sidebar-block %}
+    {% with active_menu="historic" %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock sidebar-block %}
+
+{% block page-header-block %}
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Histórico Sabesp
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i> <a href="{% url 'dashboard' %}">Início</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-file"></i> Histórico Sabesp
+            </li>
+        </ol>
+    </div>
+</div>
+{% endblock page-header-block %}
+
+{% block container-fluid-block %}
+<div class="row">
+
+    <!-- Add new Sabesp Reading -->
+    <div class="col-lg-4">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-usd"></i> Cadastrar conta Sabesp no Histórico
+            </div>
+            <div class="panel-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+
+                    <div class="form-group" id="datepicker-container">
+                        <label for="datepicker_div">Mês de competência:</label>
+                        <div id="datepicker_div"></div>
+                        {% for error in sabesp_reading_form.errors %}
+                            {% if "reading_competence" in error %}
+                                <span id="span-datapicker" class="help-block has-error" style="color: #a94442;" >Por favor, insira uma data.</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    {{ sabesp_reading_form|bootstrap }}
+
+                    <button type="submit" name="user_profile" class="btn btn-primary">Salvar</button>
+                    <button type="reset" class="btn btn-default">Limpar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meta History -->
+    <div class="col-lg-8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-folder"></i> Histórico Sabesp</h3>
+            </div>
+            <div class="panel-body table-responsive">
+                <div class="form-group">
+                    <label for="sabesp_profile_span">Meta Sabesp:</label>
+                    <span id="sabesp_profile_span" class="uneditable-input">{{ profile.consumption_goal }}</span>
+                </div>
+                <!-- Table -->
+                <table class="table">
+                    <thead>
+                        <tr class="info">
+                            <th>Mês</th>
+                            <th>Consumido(m3)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="records_tboby">
+                    </tbody>
+                </table>
+                <!-- Paginator -->
+                <ul id="ul_paginator" class="pagination">
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock container-fluid-block %}
+
+{% block script-block %}
+
+
+    <script src="{% static "website/js/goals_table.js" %}"></script>
+
+    <script language="JavaScript">
+
+      // Marks the active page on paginator
+        var activePage = 1;
+        // Paginator link
+        var base_url = "{% url 'readings-list' %}?page="
+
+        function built_readings_panel(data){
+            //console.log(data); // DEBUG
+            built_paginator(data);
+            var meta = {{ profile.consumption_goal}};
+            built_table_sabesp(data, meta);
+
+            // Capture the Paginator Click
+            $("#ul_paginator li").click(function(ev) {
+                //console.log(ev); // DEBUG
+                ev.preventDefault();
+                if(ev.target.href.search("page")){
+                    activePage = ev.target.href.split("=")[1];
+                }
+                var data = $.getJSON(ev.target.href, built_readings_panel);
+            });
+        }
+
+        $(document).ready(function(){
+            var data = $.getJSON("{% url 'readings-list' %}", built_readings_panel)
+        });
+    </script>
+
+    <script src="{% static "website/js/bootstrap-datepicker.min.js" %}"></script>
+    <script src="{% static "website/js/month-picker.js" %}"></script>
+
+    <script language="JavaScript">
+        var container = '#datepicker-container div'
+        var span = '#span-datapicker'
+        var input = '#id_reading_competence'
+        $(monthPicker(container, span, input));
+    </script>
+
+    <script language="JavaScript">
+        $('#id_datestamp').datepicker({
+            language: "pt-BR",
+            todayHighlight: true
+        });
+    </script>
+{% endblock script-block %}
