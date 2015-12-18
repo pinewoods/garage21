@@ -32,14 +32,14 @@ from .models import GoalSerializer
 from .querysets import MonthBoundary
 
 
-class ViewReadings(APIView):
-    #authentication_classes = (authentication.TokenAuthentication,)
-    permission_classes = (permissions.AllowAny,)
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
-    def post(self, request, format=None):
-        """
-        Recives data from sensors.
-        """
+@api_view(('post',))
+def root_endpoint(request, format=None):
+
+    try:
         wt = WaterTank.objects.get(pk=1)
 
         level_reading = HCSR04Reading(
@@ -52,9 +52,40 @@ class ViewReadings(APIView):
 
         level_reading.save()
         flow_reading.save()
+    except:
+        pass
+        from IPython import embed; embed()
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+"""
+class ViewReadings(APIView):
+    #authentication_classes = (authentication.TokenAuthentication,)
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format=None):
+        " ""
+        Recives data from sensors.
+        " ""
+        try:
+            wt = WaterTank.objects.get(pk=1)
+
+            level_reading = HCSR04Reading(
+                    sensor_reading=request.data['echo'],
+                    water_tank=wt)
+
+            flow_reading = YFS201Reading(
+                    sensor_reading=request.data['total_liters'],
+                    water_tank=wt)
+
+            level_reading.save()
+            flow_reading.save()
+        except:
+            #pass
+            from IPython import embed; embed()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
-
+"""
 
 class ViewCurrentTankLevel(RetrieveAPIView):
     lookup_field = 'water_tank'

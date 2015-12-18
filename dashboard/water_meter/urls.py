@@ -24,7 +24,8 @@ router.register(r'goals', views.GoalsViewSet, 'goals')
 # name='goals-detail'
 
 urlpatterns = [
-    url(r'^$', views.ViewReadings.as_view(), name='endpoint'),
+    #url(r'^$', views.ViewReadings.as_view(), name='endpoint'),
+    url(r'^$', views.root_endpoint, name='endpoint'),
     url(r'^', include(router.urls)),
     url(r'^tank/(?P<water_tank>[0-9]+)/current-level/$',
             views.ViewCurrentTankLevel.as_view(),

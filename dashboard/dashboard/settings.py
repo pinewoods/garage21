@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '4soby131awem$2y-%m6c4d!2=d^a6xg5zzte7&umg!4o575v$-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -109,6 +109,7 @@ REST_FRAMEWORK = {
     'PAGINATE_BY': 12,
     'PAGINATE_BY_PARAM': 'page_size',
     'MAX_PAGINATE_BY': 96,
+    'EXCEPTION_HANDLER': 'dashboard.water_meter.utils.custom_exception_handler',
 }
 
 NOTIFICATIONS_SOFT_DELETE = True
