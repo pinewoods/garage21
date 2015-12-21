@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^api/', include('water_meter.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^inbox/', include(notifications.urls)),
+    url(r'^api2/', include('pinewoods_timeseries.urls')),
 ]
