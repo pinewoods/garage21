@@ -1,7 +1,7 @@
 - pyvenv env
 - source env/bin/activate
 - pip install -r requirements.txt
-- git clone https://github.com/django-notifications/django-notifications.git
+- git clone https://github.com/django-notifications/django-notifications.git --branch 0.7.1
 - cd django-notifications/
 - python setup.py install
 - cd ..
@@ -9,13 +9,10 @@
 - python manage.py migrate
 - python manage.py runscript `populate_db`
 - cp `dashboard/local_settings.py.prod` `dashboard/local_settings.py`
+- python manage.py createsuperuser
 
 
-# Configurando e fazendo Deploy
-- Entra na pasta do repositorio
-- git remote add live dokku@cineme.com.br:dashboard
-- git add .
-- git commit -m "comentario"
-- git push live master
-- Para publicar no bitbucket: git push origin master
-- Para publicar no live: git push live master
+
+#troubleshoot for fucking PG
+apt-get install libpq-dev python-dev
+apt-get install libncurses5-dev
