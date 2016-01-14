@@ -14,7 +14,7 @@ urlpatterns = [
         TemplateView.as_view(template_name='website/reports.html'),
         name='reports'),
 
-    url(r'^dashboard/$', views.index, name='dashboard'),
+    url(r'^$', views.index, name='dashboard'),
     url(r'^goals/$', views.goals, name='goals'),
     url(r'^historic/$', views.historic, name='historic'),
     url(r'^settings/$', views.settings, name='settings'),
