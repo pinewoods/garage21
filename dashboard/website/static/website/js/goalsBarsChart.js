@@ -97,7 +97,7 @@ function goalsBarChart(goals_chart_selector,services) {
                 enabled: false
             },
         }, {
-            name: 'Meta Wolksen',
+            name: 'Meta Cliente',
             color: '#FF9933',
             type: 'spline',
             zIndex: 3,
@@ -110,7 +110,7 @@ function goalsBarChart(goals_chart_selector,services) {
             type: 'column',
             zIndex: 2
         }, {
-            name: 'Leitura Wolksen',
+            name: 'Leitura Sensor',
             color: '#66CC99',
             type: 'column',
             zIndex: 1
@@ -122,7 +122,7 @@ function goalsBarChart(goals_chart_selector,services) {
         $("#goals_chart_div").highcharts().series[0].setData(goals);
     });
     $.getJSON(services[1],function(data){
-        $("#goals_chart_div").highcharts().series[1].setData(data.wolksen_goals);
+        $("#goals_chart_div").highcharts().series[1].setData(data.customer_goals);
     });
     $.getJSON(services[2],function(data){
         $("#goals_chart_div").highcharts().series[2].setData(removeDate(data.results, "reading_m3"));

@@ -53,7 +53,7 @@ function burndownChart(selector, consumo, meta_sabesp, meta_pinewoods){
                 data: consumo
             },
             {
-                name: 'Meta Wolksen',
+                name: 'Meta Cliente',
                 color: '#99CC33',
                 data: meta_pinewoods
             }

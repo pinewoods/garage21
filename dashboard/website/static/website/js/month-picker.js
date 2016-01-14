@@ -1,5 +1,5 @@
 /*
- * WOLKSEN - Month only Datepicker
+ * RV Metron - Month only Datepicker
  *
  * Requires : bootstrap-datepicker.min.js
  *
