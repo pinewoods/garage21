@@ -1,13 +1,32 @@
 import time
 import datetime
+from random import random
 
 from django.db import models
 from django.db.models import QuerySet
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
 from .querysets import TimeseriesQuerySet
 from .querysets import ts_min
+
+
+class Channel(models.Model):
+    token = Models.CharField(max_length=8,
+            default=lambda: make_password(random()).split('$')[3][:8])
+    user = models.ForeignKey(User, unique=False)
+
+    def is_token_valid(self, token):
+        return token == self.token
+
+
+class ChannelAssociatedMixin(models.Model):
+
+    class Meta:
+        abstract = True
+
+    channel = models.ForeignKey(Channel, unique=False)
 
 
 class Reading(models.Model):
@@ -43,6 +62,9 @@ class Reading(models.Model):
 
 
 class SparceReading(Reading):
+
+    class Meta:
+        abstract = True
 
     class Extra:
         # Required for TimeseriesQuerySet
