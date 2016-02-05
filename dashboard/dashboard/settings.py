@@ -109,12 +109,13 @@ REST_FRAMEWORK = {
     'PAGINATE_BY': 12,
     'PAGINATE_BY_PARAM': 'page_size',
     'MAX_PAGINATE_BY': 96,
-    'EXCEPTION_HANDLER': 'dashboard.water_meter.utils.custom_exception_handler',
 }
 
 NOTIFICATIONS_SOFT_DELETE = True
 
 try:
+
+    # A lard example -> Refactor
     if BASE_DIR == '/app':
         from .prod_settings import *
     else:
