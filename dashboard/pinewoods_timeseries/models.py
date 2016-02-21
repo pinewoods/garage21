@@ -13,7 +13,7 @@ from .querysets import ts_min
 
 
 class Channel(models.Model):
-    token = Models.CharField(max_length=8,
+    token = models.CharField(max_length=8,
             default=lambda: make_password(random()).split('$')[3][:8])
     user = models.ForeignKey(User, unique=False)
 
@@ -76,6 +76,6 @@ class SparceReading(Reading):
         last_reading = 0 # TODO
         drift = abs(last_reading - self.sensor_reading)
         if drift > self.Extra.deviation:
-            super(Model, self).save(*args, **kwargs)
+            super(Reading, self).save(*args, **kwargs)
         else:
             pass # TODO
