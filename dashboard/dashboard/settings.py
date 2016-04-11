@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'support',
     'alerts',
     'pinewoods_timeseries',
+    'gas',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -20,7 +20,7 @@ class Channel(models.Model):
     def is_token_valid(self, token):
         return token == self.token
 
-
+# TODO: Not worth the trouble
 class ChannelAssociatedMixin(models.Model):
 
     class Meta:
