@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'^historic/$', views.historic, name='historic'),
     url(r'^settings/$', views.settings, name='settings'),
     url(r'^support/$', views.support, name='support'),
+    url(r'^robots\.txt$', TemplateView.as_view(template_name='website/robots.txt')),
 ]
