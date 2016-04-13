@@ -23,13 +23,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^sabesp/', include('sabesp.urls')),
     url(r'', include('website.urls')),
     url(r'^accounts/login/', login,
         {'template_name': 'admin/login.html'}, name='login'),
     url(r'^accounts/logout/', logout,
         {'next_page': '/accounts/login'}, name='logout'),
     url(r'^api/', include('water_meter.urls')),
+    url(r'^gas/', include('gas.urls')),
+    url(r'^sabesp/', include('sabesp.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^inbox/', include(notifications.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
