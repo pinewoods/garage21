@@ -1,0 +1,20 @@
+[
+{
+    "fields": {
+        "email": "admin@cc.cc",
+        "last_login": "2016-04-11T12:27:16.972Z",
+        "username": "admin",
+        "first_name": "",
+        "groups": [],
+        "password": "pbkdf2_sha256$20000$0GHzvk03SLOb$ghH+M/4NG9KnB6x1PIFeI2Ua7grW3Jc/ceOHbe2TazY=",
+        "is_staff": true,
+        "last_name": "",
+        "date_joined": "2016-04-11T12:27:08.437Z",
+        "user_permissions": [],
+        "is_active": true,
+        "is_superuser": true
+    },
+    "pk": 1,
+    "model": "auth.user"
+}
+]

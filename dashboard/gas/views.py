@@ -24,7 +24,7 @@ class ViewGasEndpoint(APIView):
 
             weight_reading = CylinderWeight(
                     sensor_reading=request.data['weight'],
-                    gas_cylinder=gc)
+                    channel=gc)
 
             weight_reading.save()
 
