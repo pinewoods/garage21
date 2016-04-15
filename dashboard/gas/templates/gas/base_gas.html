@@ -1,0 +1,60 @@
+{% extends "website/base.html" %}
+{% load staticfiles %}
+
+{% block style-block %}
+
+{% endblock style-block %}
+
+{% block body_block %}
+    {% for tank in tanks %}
+        <div id="div_tank_{{tank.pk}}">
+            {{tank}}
+        <div>
+    {% endfor %}
+{% endblock %}
+
+{% block sidebar-block %}
+<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav side-nav">
+        <li {% if active_menu == "dashboard" %} class="active" {% endif %}>
+        <a href="{% url 'dashboard' %}"><i class="fa fa-fw fa-dashboard"></i> Dashboard Gas </a>
+        <li {% if active_menu == "alerts" %} class="active" {% endif %}>
+        <a href="{% url 'notifications:all' %}"><i class="fa fa-fw fa-bell"></i> Alertas</a>
+        </li>
+        <li {% if active_menu == "supply" %} class="active" {% endif %}>
+            <a href="supply.html"><i class="fa fa-fw fa-edit"></i> Fornecedores</a>
+        </li>
+        <li {% if active_menu == "data" %} class="active" {% endif %}>
+        <a href="{% url 'reports' %}"><i class="fa fa-fw fa-table"></i> Exportar Dados</a>
+        <!-- TODO: Make a page for reports -->
+        </li>
+        <li {% if active_menu == "support" %} class="active" {% endif %}>
+            <a href="{% url 'support' %}"><i class="fa fa-fw fa-wrench"></i> Suporte Técnico</a>
+        </li>
+    </ul>
+</div>
+{% endblock sidebar-block %}
+
+{% block page-header-block %}
+<!-- Page Heading -->
+<div id="div_breadcrumb" class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Dashboard
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i> <a href="{% url 'dashboard' %}">Início</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-file"></i> Dashboard
+            </li>
+        </ol>
+    </div>
+</div>
+{% endblock page-header-block %}
+
+{% block container-fluid-block %}
+{% endblock container-fluid-block %}
+
