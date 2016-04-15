@@ -14,7 +14,7 @@ class GasCylinderListView(ListView):
         context['module_context'] = 'gas'
         return context
 
-   def get_queryset(self):
+    def get_queryset(self):
         return GasCylinder.objects.filter(user=self.request.user)
 
     @method_decorator(login_required)
