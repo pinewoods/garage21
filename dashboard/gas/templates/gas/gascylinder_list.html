@@ -5,15 +5,6 @@
 
 {% endblock style-block %}
 
-{% block body_block %}
-    {% for tank in tanks %}
-        <div id="div_tank_{{tank.pk}}">
-            {{tank}}
-        <div>
-    {% endfor %}
-{% endblock %}
-
-
 {% block sidebar-block %}
     {% with active_menu="dashboard" %}
         {{ block.super }}
@@ -48,7 +39,7 @@
                     <h3 class="panel-title"><i class="fa fa-bar-chart"></i> Cilindro: {{ gas_cylinder.pk }}</h3>
                 </div>
                 <div class="panel-body">
-                    foobar
+                    <svg id="fillgauge{{ gas_cylinder.pk }}" width="97%" height="100"></svg>
                 </div>
             </div>
         </div>
@@ -56,3 +47,37 @@
     {% endfor %}
 {% endblock container-fluid-block %}
 
+{% block script-block %}
+
+    <!-- D3.JS -->
+    <script src="{% static "website/js/d3.v3.min.js" %}"></script>
+
+    <!-- liquidFillGauge http://bl.ocks.org/brattonc/5e5ce9beee483220e2f6 -->
+    <script src="{% static "website/js/liquidFillGauge.js" %}"></script>
+
+    {% for gas_cylinder in object_list %}
+    <!-- Ajax request for gas_cylinder {{ gas_cylinder.pk }}-->
+    <script language="JavaScript">
+        function plot_gauge(data){
+            
+            // TODO: Chance the looks
+            var config = liquidFillGaugeDefaultSettings();
+            config.waveAnimateTime = 3500;
+            config.waveHeight = 0.05;
+            config.waveCount = 2.7;
+            // level = Math.floor(Math.random() * 100); // Debug
+            level = Math.floor(data.level);
+            // TODO: Mult-tank plot support
+            var gauge1 = loadLiquidFillGauge("fillgauge{{ gas_cylinder.pk }}", level, config);
+        }
+
+        url_tank_level = "{% url 'current-level' gas_cylinder=gas_cylinder.pk %}"
+
+        $.ajax({
+            dataType: "json",
+            url: url_tank_level,
+            cache: false,
+            success: plot_gauge
+        });
+    </script>
+    {% endfor %}
