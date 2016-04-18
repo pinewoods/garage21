@@ -59,25 +59,34 @@
     <!-- Ajax request for gas_cylinder {{ gas_cylinder.pk }}-->
     <script language="JavaScript">
         function plot_gauge(data){
-            
+
             // TODO: Chance the looks
             var config = liquidFillGaugeDefaultSettings();
-            config.waveAnimateTime = 3500;
-            config.waveHeight = 0.05;
-            config.waveCount = 2.7;
+
+            config.circleThickness = 0.35;
+            config.circleColor = "#6DA398";
+            config.textColor = "#0E5144";
+            config.waveTextColor = "#6DA398";
+            config.waveColor = "#246D5F";
+            config.textVertPosition = 0.52;
+            config.waveAnimateTime = 5000;
+            config.waveHeight = 0;
+            config.waveAnimate = false;
+
             // level = Math.floor(Math.random() * 100); // Debug
-            level = Math.floor(data.level);
-            // TODO: Mult-tank plot support
+            level = Math.floor(data.sensor_reading);
             var gauge1 = loadLiquidFillGauge("fillgauge{{ gas_cylinder.pk }}", level, config);
         }
 
-        url_tank_level = "{% url 'current-level' gas_cylinder=gas_cylinder.pk %}"
+        url_cylinder_weight = "{% url 'current-weight' channel=gas_cylinder.pk %}"
 
         $.ajax({
             dataType: "json",
-            url: url_tank_level,
+            url: url_cylinder_weight,
             cache: false,
             success: plot_gauge
         });
     </script>
     {% endfor %}
+
+{% endblock script-block %}

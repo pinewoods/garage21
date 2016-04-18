@@ -6,6 +6,9 @@ from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.renderers import JSONRenderer
 
+from pinewoods_timeseries.views import GenericViewCurrentReading
+from .serializers import CylinderWeightSerializer
+
 from .models import GasCylinder
 from .models import CylinderWeight
 
@@ -32,3 +35,9 @@ class ViewGasEndpoint(APIView):
             raise
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ViewCurrentWeight(GenericViewCurrentReading):
+    lookup_field = 'channel'
+    model_class = CylinderWeight
+    serializer_class = CylinderWeightSerializer

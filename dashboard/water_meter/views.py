@@ -87,6 +87,7 @@ class ViewReadings(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 """
 
+# TODO: converter em GenericViewCurrentReading
 class ViewCurrentTankLevel(RetrieveAPIView):
     lookup_field = 'water_tank'
     serializer_class = HCSR04ReadingSerializer
