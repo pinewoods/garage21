@@ -39,7 +39,16 @@
                     <h3 class="panel-title"><i class="fa fa-bar-chart"></i> Cilindro: {{ gas_cylinder.pk }}</h3>
                 </div>
                 <div class="panel-body">
-                    <svg id="fillgauge{{ gas_cylinder.pk }}" width="97%" height="100"></svg>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <svg id="fillgauge{{ gas_cylinder.pk }}" width="97%" height="100"></svg>
+                        </div>
+                        <div class="col-lg-2">
+                            <i class="fa fa-search"></i> <a href="#">Detalhes</a>
+                        </div>
+                        <div class="col-lg-8">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
