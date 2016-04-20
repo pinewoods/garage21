@@ -1,4 +1,4 @@
-// http://jsfiddle.net/nate439j/3/
+// http://jsfiddle.net/nate439j/4/
 
 function sparkline_timeseries(div_selector, data_points) {
     $(div_selector).highcharts({
@@ -46,6 +46,7 @@ function sparkline_timeseries(div_selector, data_points) {
         },
         series : [{
             type: 'area',
+            color: '#6DA398',
             data : data_points,
             tooltip: {
                 valueDecimals: 0,
