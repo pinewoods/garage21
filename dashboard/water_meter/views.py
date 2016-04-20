@@ -98,7 +98,7 @@ class ViewIntradayTankLevel(ListAPIView):
     lookup_field = 'water_tank'
     serializer_class = EssentialHCSR04Serializer
     queryset = HCSR04Reading.timeseries.day(
-            datetime.date.today()).order_by('-timestamp')
+            datetime.date.today()).order_by('timestamp')
 
 
 class ViewMonthlyGoals(APIView):

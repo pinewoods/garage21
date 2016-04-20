@@ -36,7 +36,8 @@
         <div class="col-lg-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-bar-chart"></i> Cilindro: {{ gas_cylinder.pk }}</h3>
+                    <h3 class="panel-title"><i class="fa fa-bar-chart"></i>
+                        Cilindro: {{ gas_cylinder.pk }} {{ gas_cylinder.cyclinder_type }}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -44,9 +45,17 @@
                             <svg id="fillgauge{{ gas_cylinder.pk }}" width="97%" height="100"></svg>
                         </div>
                         <div class="col-lg-2">
-                            <i class="fa fa-search"></i> <a href="#">Detalhes</a>
+                            <ul>
+                                <li>
+                                    <i class="fa fa-search"></i> <a href="#">Detalhes</a></li>
+                                <li>
+                                    <i class="fa fa-search"></i> <a href="#">Alertas</a></li>
+                                <li>
+                                    <i class="fa fa-search"></i> <a href="#">Fornecedores</a></li>
+                            </ul>
                         </div>
                         <div class="col-lg-8">
+                            <div id="level_chart{{ gas_cylinder.pk }}" style="min-width: 310px; height: 100px; margin:0 auto"></div>
                         </div>
                     </div>
                 </div>
@@ -60,9 +69,12 @@
 
     <!-- D3.JS -->
     <script src="{% static "website/js/d3.v3.min.js" %}"></script>
-
     <!-- liquidFillGauge http://bl.ocks.org/brattonc/5e5ce9beee483220e2f6 -->
     <script src="{% static "website/js/liquidFillGauge.js" %}"></script>
+
+    <script src="{% static "website/js/highcharts.js" %}"></script>
+    <!-- SparkLineTimeSeries.js -->
+    <script src="{% static "website/js/sparkLineTimeSeries.js" %}"></script>
 
     {% for gas_cylinder in object_list %}
     <!-- Ajax request for gas_cylinder {{ gas_cylinder.pk }}-->
@@ -86,6 +98,9 @@
             level = Math.floor(data.sensor_reading);
             var gauge1 = loadLiquidFillGauge("fillgauge{{ gas_cylinder.pk }}", level, config);
         }
+    </script>
+
+    <script language="JavaScript">
 
         url_cylinder_weight = "{% url 'current-weight' channel=gas_cylinder.pk %}"
 
@@ -95,7 +110,33 @@
             cache: false,
             success: plot_gauge
         });
+
+        level_chart_div = '#level_chart{{ gas_cylinder.pk }}';
+
+        get_param = '?page_size=96'
+        intraday_level = "{% url 'intraday-level' 1 %}"
+
+        $.ajax({
+            dataType: "json",
+            url: intraday_level + get_param,
+            cache: false,
+            success: function (data){
+                //console.log(data);
+
+                clean_data = [];
+                for(i=0; i < data.results.length; i++){
+                    clean_data.push([
+                        data.results[i].unix_timestamp * 1000,
+                        data.results[i].level
+                    ]);
+                }
+
+                sparkline_timeseries(level_chart_div, clean_data);
+            }
+        });
+
     </script>
+
     {% endfor %}
 
 {% endblock script-block %}
